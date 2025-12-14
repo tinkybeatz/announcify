@@ -1,24 +1,36 @@
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
-interface BirthdaySimpleData {
+type BirthdayData = {
   to: string;
-  message: string;
   from: string;
+  message: string;
   presentEnabled?: boolean;
   presentText?: string;
-}
+};
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+function isBirthdayData(x: unknown): x is BirthdayData {
+  if (!x || typeof x !== "object") return false;
+  const o = x as Record<string, unknown>;
+  return (
+    typeof o.to === "string" &&
+    typeof o.from === "string" &&
+    typeof o.message === "string"
+  );
+}
 
 export default async function AnnouncementPage({ params }: { params: { id: string } }) {
   const ann = await prisma.announcement.findUnique({ where: { id: params.id } });
   if (!ann) return notFound();
 
-  // Example: birthday_simple template
   if (ann.type === "birthday_simple") {
-    const d = (ann.data ?? {}) as BirthdaySimpleData;
+    const d = isBirthdayData(ann.data)
+      ? ann.data
+      : { to: "friend", from: "someone", message: "" };
+
     return (
       <main style={{ padding: 24, fontFamily: "system-ui" }}>
         <h1 style={{ fontSize: 40, marginBottom: 12 }}>🎂 Happy Birthday {d.to}!</h1>
@@ -34,7 +46,6 @@ export default async function AnnouncementPage({ params }: { params: { id: strin
     );
   }
 
-  // Fallback
   return (
     <main style={{ padding: 24 }}>
       <h1>Announcement</h1>
