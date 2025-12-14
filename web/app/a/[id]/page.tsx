@@ -1,7 +1,8 @@
-import { PrismaClient } from "@prisma/client";
 import { notFound } from "next/navigation";
+import { prisma } from "@/lib/prisma";
 
-const prisma = new PrismaClient();
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
 
 export default async function AnnouncementPage({ params }: { params: { id: string } }) {
   const ann = await prisma.announcement.findUnique({ where: { id: params.id } });
