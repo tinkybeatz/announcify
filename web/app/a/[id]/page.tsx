@@ -1,6 +1,14 @@
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
+interface BirthdaySimpleData {
+  to: string;
+  message: string;
+  from: string;
+  presentEnabled?: boolean;
+  presentText?: string;
+}
+
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
@@ -10,7 +18,7 @@ export default async function AnnouncementPage({ params }: { params: { id: strin
 
   // Example: birthday_simple template
   if (ann.type === "birthday_simple") {
-    const d = ann.data;
+    const d = (ann.data ?? {}) as BirthdaySimpleData;
     return (
       <main style={{ padding: 24, fontFamily: "system-ui" }}>
         <h1 style={{ fontSize: 40, marginBottom: 12 }}>🎂 Happy Birthday {d.to}!</h1>
