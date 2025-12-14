@@ -22,8 +22,11 @@ function isBirthdayData(x: unknown): x is BirthdayData {
   );
 }
 
-export default async function AnnouncementPage({ params }: { params: { id: string } }) {
-  const ann = await prisma.announcement.findUnique({ where: { id: params.id } });
+export default async function AnnouncementPage({ params }: { params: Promise<{ id?: string }> }) {
+  const { id } = await params;
+  if (!id) return notFound();
+
+  const ann = await prisma.announcement.findUnique({ where: { id } });
   if (!ann) return notFound();
 
   if (ann.type === "birthday_simple") {
