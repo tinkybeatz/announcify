@@ -12,7 +12,7 @@ export async function POST(req: Request) {
   const id = nanoid(10);
 
   const created = await prisma.birthdayCard.create({
-    data: { id, ...payload },
+    data: { id, ...payload, theme: payload.theme ?? undefined },
     select: { id: true },
   });
 
