@@ -7,12 +7,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Announcement {
-  id        String   @id
-  type      String
-  data      Json
-  theme     Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  expiresAt DateTime?
+model BirthdayCard {
+  id             String   @id
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  expiresAt      DateTime?
+  isPublic       Boolean  @default(true)
+  toName         String
+  fromName       String
+  message        String
+  presentEnabled Boolean  @default(false)
+  presentText    String?
+  theme          Json?
+}
+
+model ValentineCard {
+  id             String   @id
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  expiresAt      DateTime?
+  isPublic       Boolean  @default(true)
+  toName         String
+  fromName       String
+  message        String
+  presentEnabled Boolean  @default(false)
+  presentText    String?
+  theme          Json?
 }

@@ -4,7 +4,7 @@ import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-export default function CreateBirthdayPage() {
+export default function CreateValentinePage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -20,13 +20,13 @@ export default function CreateBirthdayPage() {
     const message = (formData.get("message") ?? "").toString().trim();
 
     if (!to || !from || !message) {
-      setError("Please fill every field to keep the magic personal.");
+      setError("Share the love by filling in every field.");
       setSubmitting(false);
       return;
     }
 
     try {
-      const res = await fetch("/api/birthday", {
+      const res = await fetch("/api/valentine", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -42,9 +42,9 @@ export default function CreateBirthdayPage() {
       }
 
       const body = (await res.json()) as { id?: string; url?: string };
-      const redirectTo = body.url ?? (body.id ? `/birthday/${body.id}` : null);
+      const redirectTo = body.url ?? (body.id ? `/valentine/${body.id}` : null);
       if (!redirectTo) {
-        throw new Error("Missing birthday id.");
+        throw new Error("Missing valentine id.");
       }
 
       router.push(redirectTo);
@@ -55,20 +55,20 @@ export default function CreateBirthdayPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-rose-50/60 px-4 py-12">
+    <main className="flex min-h-screen flex-col bg-pink-50/60 px-4 py-12">
       <div className="mx-auto w-full max-w-2xl rounded-3xl bg-white p-8 shadow-xl shadow-rose-100">
         <p className="text-sm font-semibold uppercase tracking-[0.3em] text-rose-400">
           announcify
         </p>
         <h1 className="mt-4 text-3xl font-semibold text-zinc-900 sm:text-4xl">
-          Create a birthday card
+          Create a valentine card
         </h1>
-        <p className="mt-2 text-zinc-600">We&apos;ll turn this into a shareable page instantly.</p>
+        <p className="mt-2 text-zinc-600">Pour your heart out and we&apos;ll package it instantly.</p>
 
         <form onSubmit={handleSubmit} className="mt-8 space-y-6">
           <div>
             <label htmlFor="to" className="block text-sm font-medium text-zinc-700">
-              Who&apos;s the celebration for?
+              Who&apos;s this valentine for?
             </label>
             <input
               id="to"

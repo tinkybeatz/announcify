@@ -5,27 +5,27 @@ import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import PresentUnwrap from "@/components/cards/PresentUnwrap";
 
-type BirthdayPageProps = {
+type ValentinePageProps = {
   params: Promise<{ id?: string }>;
 };
 
-export default async function BirthdayPage({ params }: BirthdayPageProps) {
+export default async function ValentinePage({ params }: ValentinePageProps) {
   const { id } = await params;
   if (!id) return notFound();
 
-  const card = await prisma.birthdayCard.findUnique({ where: { id } });
+  const card = await prisma.valentineCard.findUnique({ where: { id } });
   if (!card) return notFound();
   if (!card.isPublic) return notFound();
-  if (card.expiresAt && card.expiresAt.getTime() < new Date().getTime()) return notFound();
+  if (card.expiresAt && card.expiresAt.getTime() < Date.now()) return notFound();
 
   const content = (
-    <main className="bg-zinc-100 min-h-screen flex flex-col items-center text-black">
+    <main className="bg-rose-50 min-h-screen flex flex-col items-center text-rose-900">
       <div className="flex flex-1 flex-col items-center justify-center w-full px-6 py-12 lg:px-20">
-        <h1 className="text-4xl font-bold text-center">Happy Birthday {card.toName}! 🎉</h1>
-        <div className="mt-10 w-full max-w-3xl border border-zinc-600 bg-zinc-200/50 rounded-lg shadow-lg p-10">
+        <h1 className="text-4xl font-bold text-center">Happy Valentine&apos;s Day {card.toName}! 💘</h1>
+        <div className="mt-10 w-full max-w-3xl border border-rose-200 bg-white/80 rounded-lg shadow-lg p-10">
           <p className="min-h-[8rem] text-lg leading-relaxed">{card.message}</p>
           {card.presentEnabled && card.presentText ? (
-            <div className="mt-6 rounded-xl border border-rose-200 bg-white/70 p-4 text-center text-rose-600">
+            <div className="mt-6 rounded-xl border border-rose-200 bg-rose-50/70 p-4 text-center text-rose-600">
               {card.presentText}
             </div>
           ) : null}
