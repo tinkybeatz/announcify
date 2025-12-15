@@ -5,7 +5,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const { id } = await params;
   const url = new URL(req.url);
   const origin = url.origin;
-  const target = `${origin}/a/${id}`;
+  const target = `${origin}/birthday/${id}`;
 
   const png = await QRCode.toBuffer(target, { type: "png", margin: 1, width: 512 });
 

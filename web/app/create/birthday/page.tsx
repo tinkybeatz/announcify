@@ -44,7 +44,7 @@ export default function CreateBirthdayPage() {
         throw new Error("Missing announcement id.");
       }
 
-      router.push(`/a/${body.id}`);
+      router.push(`/birthday/${body.id}`);
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to create card.");
       setSubmitting(false);
