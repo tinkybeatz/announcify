@@ -3,6 +3,7 @@ export const revalidate = 0;
 
 import { notFound } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import PresentUnwrap from "./PresentUnwrap";
 
 type BirthdayData = {
   to: string;
@@ -34,19 +35,7 @@ export default async function AnnouncementPage({ params }: { params: Promise<{ i
       ? ann.data
       : { to: "friend", from: "someone", message: "" };
 
-    return (
-      <main style={{ padding: 24, fontFamily: "system-ui" }}>
-        <h1 style={{ fontSize: 40, marginBottom: 12 }}>🎂 Happy Birthday {d.to}!</h1>
-        <p style={{ fontSize: 18, opacity: 0.9, marginBottom: 16 }}>{d.message}</p>
-        <p style={{ opacity: 0.8 }}>— {d.from}</p>
-
-        {d.presentEnabled && d.presentText ? (
-          <div style={{ marginTop: 20, padding: 16, border: "1px solid #ddd", borderRadius: 12 }}>
-            <strong>🎁 Present:</strong> {d.presentText}
-          </div>
-        ) : null}
-      </main>
-    );
+    return <PresentUnwrap data={d} />
   }
 
   return (
