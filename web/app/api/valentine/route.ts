@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { nanoid } from "nanoid";
+import { Prisma } from "@prisma/client";
 import { prisma } from "@/lib/prisma";
 import { parseCardPayload } from "@/lib/cardPayload";
 
@@ -12,7 +13,7 @@ export async function POST(req: Request) {
   const id = nanoid(10);
 
   const created = await prisma.valentineCard.create({
-    data: { id, ...payload },
+    data: { id, ...payload, theme: payload.theme ?? Prisma.DbNull },
     select: { id: true },
   });
 
