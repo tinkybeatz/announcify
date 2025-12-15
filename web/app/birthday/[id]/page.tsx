@@ -23,7 +23,11 @@ function isBirthdayData(x: unknown): x is BirthdayData {
   );
 }
 
-export default async function AnnouncementPage({ params }: { params: Promise<{ id?: string }> }) {
+export default async function AnnouncementPage({
+  params,
+}: {
+  params: Promise<{ id?: string }>;
+}) {
   const { id } = await params;
   if (!id) return notFound();
 
@@ -37,10 +41,16 @@ export default async function AnnouncementPage({ params }: { params: Promise<{ i
 
     return (
       <PresentUnwrap>
-        <main className="bg-zinc-100 h-screen flex justify-center items-center p-22 text-black">
-          <h1 className="text-6xl font-bold">
-            Happy Birthday {d.to}! 🎉
-          </h1>
+        <main className="bg-zinc-100 h-screen flex flex-col items-center text-black">
+          <div className="h-1/4 flex items-center justify-center w-full">
+            <h1 className="text-4xl font-bold">Happy Birthday {d.to}! 🎉</h1>
+          </div>
+          <div className="h-3/4 w-full flex px-20 pb-20">
+            <div className="flex flex-col w-full border border-zinc-600 bg-zinc-200/50 rounded-lg shadow-lg p-10">
+              <div className="flex h-full w-full">{d.message}</div>
+              <div className="flex w-full justify-end items-end">- {d.from}</div>
+            </div>
+          </div>
         </main>
       </PresentUnwrap>
     );

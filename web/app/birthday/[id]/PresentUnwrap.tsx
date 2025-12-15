@@ -59,7 +59,7 @@ export default function PresentUnwrap({ children }: PresentUnwrapProps) {
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-full bg-yellow-300 shadow-lg"></div>
         
         {/* Horizontal Ribbon */}
-        <div className="absolute top-0 left-0 w-full h-12 bg-yellow-300 shadow-lg"></div>
+        <div className="absolute top-0 left-0 w-full h-12 bg-yellow-300"></div>
       </div>
 
       {isUnwrapped && <BirthdayConfetti />}
