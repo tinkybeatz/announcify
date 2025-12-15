@@ -1,17 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, ReactNode } from "react";
 import BirthdayConfetti from "./BirthdayConfetti";
 
-type BirthdayData = {
-  to: string;
-  from: string;
-  message: string;
-  presentEnabled?: boolean;
-  presentText?: string;
+type PresentUnwrapProps = {
+  children: ReactNode;
 };
 
-export default function PresentUnwrap({ data }: { data: BirthdayData }) {
+export default function PresentUnwrap({ children }: PresentUnwrapProps) {
   const [isUnwrapped, setIsUnwrapped] = useState(false);
 
   const handleClick = () => {
@@ -21,16 +17,12 @@ export default function PresentUnwrap({ data }: { data: BirthdayData }) {
   return (
     <>
       {/* Birthday Card (underneath) */}
-      <main className="bg-zinc-100 h-screen flex justify-center items-center p-22 text-black">
-        <h1 className="text-6xl font-bold">
-          Happy Birthday {data.to}! 🎉
-        </h1>
-      </main>
+      {children}
 
       {/* Top Half of Present */}
       <div 
         className={`fixed top-0 left-0 w-full h-1/2 bg-red-500 cursor-pointer z-50 transition-transform duration-1000 ease-in-out ${
-          isUnwrapped ? '-translate-y-full' : 'translate-y-0'
+          isUnwrapped ? '-translate-y-200' : 'translate-y-0'
         }`}
         onClick={handleClick}
       >
@@ -59,7 +51,7 @@ export default function PresentUnwrap({ data }: { data: BirthdayData }) {
       {/* Bottom Half of Present */}
       <div 
         className={`fixed bottom-0 left-0 w-full h-1/2 bg-red-500 cursor-pointer z-10 transition-transform duration-1000 ease-in-out ${
-          isUnwrapped ? 'translate-y-full' : 'translate-y-0'
+          isUnwrapped ? 'translate-y-200' : 'translate-y-0'
         }`}
         onClick={handleClick}
       >

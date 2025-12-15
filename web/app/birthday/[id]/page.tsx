@@ -35,7 +35,15 @@ export default async function AnnouncementPage({ params }: { params: Promise<{ i
       ? ann.data
       : { to: "friend", from: "someone", message: "" };
 
-    return <PresentUnwrap data={d} />
+    return (
+      <PresentUnwrap>
+        <main className="bg-zinc-100 h-screen flex justify-center items-center p-22 text-black">
+          <h1 className="text-6xl font-bold">
+            Happy Birthday {d.to}! 🎉
+          </h1>
+        </main>
+      </PresentUnwrap>
+    );
   }
 
   return (
