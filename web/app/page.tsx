@@ -3,10 +3,9 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col bg-zinc-100 text-zinc-900">
+    <main className="flex min-h-screen h-screen flex-col bg-zinc-100 text-zinc-900">
       <Navbar/>
-      <section className="max-w-3xl text-center">
-        <p className="text-sm uppercase tracking-[0.3em] text-rose-400">announcify</p>
+      <section className="text-center flex items-center justify-center flex-col w-full h-full">
         <h1 className="mt-4 text-4xl font-semibold leading-tight text-zinc-900 sm:text-5xl">
           Spin up heartfelt, data-driven celebration pages in minutes.
         </h1>

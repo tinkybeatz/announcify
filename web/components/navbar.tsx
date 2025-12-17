@@ -1,21 +1,17 @@
 import Link from "next/link";
 
-import { auth, signOut } from "@/auth";
-
-async function handleSignOut() {
-  "use server";
-  await signOut({ redirectTo: "/" });
-}
+import { auth } from "@/auth";
+import { handleSignOut } from "./actions";
 
 export async function Navbar() {
   const session = await auth();
   const userLabel = session?.user?.name ?? session?.user?.email;
 
   return (
-    <div className="h-16 border-b border-zinc-300 items-center flex w-full p-3 justify-between">
+    <div className="h-16 absolute top-0 border-b border-zinc-300 bg-zinc-100 items-center flex w-screen p-3 justify-between">
       <Link
         href="/"
-        className="flex border border-rose-500 h-full px-2 items-center rounded-md shadow-md hover:bg-rose-500/15 hover:shadow-none font-medium"
+        className="flex text-black border border-rose-500 h-full px-2 items-center rounded-md shadow-md hover:bg-rose-500/15 hover:shadow-none font-medium"
       >
         Announcify
       </Link>
@@ -31,12 +27,14 @@ export async function Navbar() {
           >
             Dashboard
           </Link>
-          <button
-            onClick={handleSignOut}
-            className="flex h-full px-3 cursor-pointer items-center rounded-md bg-rose-500 font-semibold text-white shadow-md transition hover:bg-rose-600 hover:shadow-none"
-          >
-            Sign out
-          </button>
+          <form action={handleSignOut} className="h-full">
+            <button
+              type="submit"
+              className="flex h-full px-3 cursor-pointer items-center rounded-md bg-rose-500 font-semibold text-white shadow-md transition hover:bg-rose-600 hover:shadow-none"
+            >
+              Sign out
+            </button>
+          </form>
         </div>
       ) : (
         <div className="flex gap-2 text-sm h-full">
