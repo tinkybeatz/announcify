@@ -30,7 +30,7 @@ export async function Navbar() {
           <form action={handleSignOut} className="h-full">
             <button
               type="submit"
-              className="flex h-full px-3 cursor-pointer items-center rounded-md bg-rose-500 font-semibold text-white shadow-md transition hover:bg-rose-600 hover:shadow-none"
+              className="flex h-full px-3 cursor-pointer items-center rounded-md bg-rose-500 text-white shadow-md transition hover:bg-rose-600 hover:shadow-none"
             >
               Sign out
             </button>

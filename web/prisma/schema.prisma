@@ -19,6 +19,8 @@ model BirthdayCard {
   presentEnabled Boolean  @default(false)
   presentText    String?
   theme          Json?
+  createdBy      String?
+  creator        User?    @relation("BirthdayCardsCreated", fields: [createdBy], references: [id], onDelete: SetNull)
 }
 
 model ValentineCard {
@@ -33,6 +35,8 @@ model ValentineCard {
   presentEnabled Boolean  @default(false)
   presentText    String?
   theme          Json?
+  createdBy      String?
+  creator        User?    @relation("ValentineCardsCreated", fields: [createdBy], references: [id], onDelete: SetNull)
 }
 
 model User {
@@ -48,6 +52,8 @@ model User {
   updatedAt      DateTime @updatedAt
   accounts       Account[]
   sessions       Session[]
+  birthdayCardsCreated BirthdayCard[] @relation("BirthdayCardsCreated")
+  valentineCardsCreated ValentineCard[] @relation("ValentineCardsCreated")
 }
 
 model Account {
