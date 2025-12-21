@@ -42,8 +42,10 @@ export interface RotatingTextProps
   initial?: boolean | Target | VariantLabels;
   animate?: boolean | VariantLabels | TargetAndTransition;
   exit?: Target | VariantLabels;
+
   animatePresenceMode?: "sync" | "wait" | "popLayout";
   animatePresenceInitial?: boolean;
+
   rotationInterval?: number;
   staggerDuration?: number;
   staggerFrom?: "first" | "last" | "center" | "random" | number;
@@ -51,9 +53,13 @@ export interface RotatingTextProps
   auto?: boolean;
   splitBy?: string;
   onNext?: (index: number) => void;
+
   mainClassName?: string;
   splitLevelClassName?: string;
   elementLevelClassName?: string;
+
+  /** Delay after exit completes before starting the resize (ms) */
+  resizeDelayMs?: number;
 }
 
 const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
@@ -64,8 +70,10 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       initial = { y: "100%", opacity: 0 },
       animate = { y: 0, opacity: 1 },
       exit = { y: "-120%", opacity: 0 },
+
       animatePresenceMode = "wait",
       animatePresenceInitial = false,
+
       rotationInterval = 2000,
       staggerDuration = 0,
       staggerFrom = "first",
@@ -73,19 +81,43 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       auto = true,
       splitBy = "characters",
       onNext,
+
       mainClassName,
       splitLevelClassName,
       elementLevelClassName,
+
+      resizeDelayMs = 500,
+
       ...rest
     } = props;
 
-    const [currentTextIndex, setCurrentTextIndex] = useState(0);
-    const [targetSize, setTargetSize] = useState<{ w: number; h: number } | null>(
+    // currently displayed text index
+    const [displayIndex, setDisplayIndex] = useState(0);
+
+    // whether the text is mounted (when false, current text exits)
+    const [showText, setShowText] = useState(true);
+
+    // pending next index and its measured size
+    const [pendingIndex, setPendingIndex] = useState<number | null>(null);
+    const [pendingSize, setPendingSize] = useState<{ w: number; h: number } | null>(
       null
     );
 
+    // the size currently applied to the pill
+    const [appliedSize, setAppliedSize] = useState<{ w: number; h: number } | null>(
+      null
+    );
+
+    // are we currently animating the resize?
+    const [resizeInProgress, setResizeInProgress] = useState(false);
+
     const wrapperRef = useRef<HTMLSpanElement | null>(null);
     const measureRef = useRef<HTMLSpanElement | null>(null);
+    const timeoutRef = useRef<number | null>(null);
+
+    const displayText = texts[displayIndex] ?? "";
+    const measureText =
+      pendingIndex !== null ? texts[pendingIndex] ?? "" : displayText;
 
     const splitIntoCharacters = (text: string): string[] => {
       if (typeof Intl !== "undefined" && Intl.Segmenter) {
@@ -95,9 +127,9 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       return Array.from(text);
     };
 
-    const currentText = texts[currentTextIndex] ?? "";
-
     const elements = useMemo(() => {
+      const currentText: string = displayText;
+
       if (splitBy === "characters") {
         const words = currentText.split(" ");
         return words.map((word, i) => ({
@@ -121,7 +153,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
         characters: [part],
         needsSpace: i !== arr.length - 1,
       }));
-    }, [currentText, splitBy]);
+    }, [displayText, splitBy]);
 
     const getStaggerDelay = useCallback(
       (index: number, totalChars: number): number => {
@@ -141,62 +173,21 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       [staggerFrom, staggerDuration]
     );
 
-    const handleIndexChange = useCallback(
-      (newIndex: number) => {
-        setCurrentTextIndex(newIndex);
-        onNext?.(newIndex);
-      },
-      [onNext]
-    );
+    const clearTimer = () => {
+      if (timeoutRef.current) window.clearTimeout(timeoutRef.current);
+      timeoutRef.current = null;
+    };
 
-    const next = useCallback(() => {
-      const nextIndex =
-        currentTextIndex === texts.length - 1
-          ? loop
-            ? 0
-            : currentTextIndex
-          : currentTextIndex + 1;
-
-      if (nextIndex !== currentTextIndex) handleIndexChange(nextIndex);
-    }, [currentTextIndex, texts.length, loop, handleIndexChange]);
-
-    const previous = useCallback(() => {
-      const prevIndex =
-        currentTextIndex === 0
-          ? loop
-            ? texts.length - 1
-            : currentTextIndex
-          : currentTextIndex - 1;
-
-      if (prevIndex !== currentTextIndex) handleIndexChange(prevIndex);
-    }, [currentTextIndex, texts.length, loop, handleIndexChange]);
-
-    const jumpTo = useCallback(
-      (index: number) => {
-        const validIndex = Math.max(0, Math.min(index, texts.length - 1));
-        if (validIndex !== currentTextIndex) handleIndexChange(validIndex);
-      },
-      [texts.length, currentTextIndex, handleIndexChange]
-    );
-
-    const reset = useCallback(() => {
-      if (currentTextIndex !== 0) handleIndexChange(0);
-    }, [currentTextIndex, handleIndexChange]);
-
-    useImperativeHandle(ref, () => ({ next, previous, jumpTo, reset }), [
-      next,
-      previous,
-      jumpTo,
-      reset,
-    ]);
+    const schedule = (fn: () => void, ms: number) => {
+      clearTimer();
+      timeoutRef.current = window.setTimeout(fn, ms);
+    };
 
     useEffect(() => {
-      if (!auto) return;
-      const id = setInterval(next, rotationInterval);
-      return () => clearInterval(id);
-    }, [next, rotationInterval, auto]);
+      return () => clearTimer();
+    }, []);
 
-    // ✅ Measure text + wrapper padding; animate to (text size + padding)
+    // Measure text + wrapper padding -> pendingSize (for pendingIndex)
     useLayoutEffect(() => {
       const wEl = wrapperRef.current;
       const mEl = measureRef.current;
@@ -215,58 +206,159 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       const w = Math.ceil(textRect.width + padX);
       const h = Math.ceil(textRect.height + padY);
 
-      setTargetSize({ w, h });
-    }, [currentText]);
+      // if no pending change, this is also the initial applied size
+      if (pendingIndex === null) {
+        setAppliedSize({ w, h });
+      } else {
+        setPendingSize({ w, h });
+      }
+    }, [measureText, pendingIndex]);
+
+    const requestIndexChange = useCallback(
+      (newIndex: number) => {
+        if (newIndex === displayIndex) return;
+        if (!showText || resizeInProgress) return; // ignore mid-transition
+
+        setPendingIndex(newIndex);
+        setPendingSize(null);
+
+        // start exit by unmounting current text
+        setShowText(false);
+      },
+      [displayIndex, showText, resizeInProgress]
+    );
+
+    const next = useCallback(() => {
+      const nextIndex =
+        displayIndex === texts.length - 1 ? (loop ? 0 : displayIndex) : displayIndex + 1;
+      if (nextIndex !== displayIndex) requestIndexChange(nextIndex);
+    }, [displayIndex, texts.length, loop, requestIndexChange]);
+
+    const previous = useCallback(() => {
+      const prevIndex =
+        displayIndex === 0 ? (loop ? texts.length - 1 : displayIndex) : displayIndex - 1;
+      if (prevIndex !== displayIndex) requestIndexChange(prevIndex);
+    }, [displayIndex, texts.length, loop, requestIndexChange]);
+
+    const jumpTo = useCallback(
+      (index: number) => {
+        const validIndex = Math.max(0, Math.min(index, texts.length - 1));
+        if (validIndex !== displayIndex) requestIndexChange(validIndex);
+      },
+      [texts.length, displayIndex, requestIndexChange]
+    );
+
+    const reset = useCallback(() => {
+      if (displayIndex !== 0) requestIndexChange(0);
+    }, [displayIndex, requestIndexChange]);
+
+    useImperativeHandle(ref, () => ({ next, previous, jumpTo, reset }), [
+      next,
+      previous,
+      jumpTo,
+      reset,
+    ]);
+
+    useEffect(() => {
+      if (!auto) return;
+      const id = setInterval(next, rotationInterval);
+      return () => clearInterval(id);
+    }, [next, rotationInterval, auto]);
 
     return (
       <motion.span
         {...rest}
         ref={wrapperRef}
         className={cn("text-rotate-wrapper", mainClassName)}
-        animate={targetSize ? { width: targetSize.w, height: targetSize.h } : undefined}
+        animate={appliedSize ? { width: appliedSize.w, height: appliedSize.h } : undefined}
         transition={transition}
-      >
-        <span className="text-rotate-sr-only">{currentText}</span>
+        onAnimationComplete={() => {
+          // When resize finishes, mount new text
+          if (!resizeInProgress) return;
+          if (pendingIndex === null) return;
 
-        {/* Hidden measurer (TEXT ONLY — padding is added separately) */}
+          const idx = pendingIndex;
+
+          setResizeInProgress(false);
+          setPendingIndex(null);
+          setPendingSize(null);
+
+          setDisplayIndex(idx);
+          setShowText(true);
+          onNext?.(idx);
+        }}
+      >
+        <span className="text-rotate-sr-only">{displayText}</span>
+
+        {/* Hidden measurer: measures the NEXT text (pending) */}
         <span ref={measureRef} className="text-rotate-measure">
-          {currentText}
+          {measureText}
         </span>
 
-        <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
-          <motion.span key={currentTextIndex} className="text-rotate" aria-hidden="true">
-            {elements.map((wordObj, wordIndex, array) => {
-              const previousCharsCount = array
-                .slice(0, wordIndex)
-                .reduce((sum, word) => sum + word.characters.length, 0);
+        <AnimatePresence
+          mode={animatePresenceMode}
+          initial={animatePresenceInitial}
+          onExitComplete={() => {
+            // exit finished, wait, then resize the box (but keep text hidden)
+            if (pendingIndex === null) {
+              // no pending -> show again
+              setShowText(true);
+              return;
+            }
 
-              const totalChars = array.reduce(
-                (sum, word) => sum + word.characters.length,
-                0
-              );
+            schedule(() => {
+              // apply new size and start resize animation
+              if (pendingSize) {
+                setAppliedSize(pendingSize);
+                setResizeInProgress(true);
+              } else {
+                // if not measured yet, fallback: mount immediately
+                setDisplayIndex(pendingIndex);
+                setPendingIndex(null);
+                setShowText(true);
+                onNext?.(pendingIndex);
+              }
+            }, resizeDelayMs);
+          }}
+        >
+          {showText && (
+            <motion.span key={displayIndex} className="text-rotate" aria-hidden="true">
+              {elements.map((wordObj, wordIndex, array) => {
+                const previousCharsCount = array
+                  .slice(0, wordIndex)
+                  .reduce((sum, word) => sum + word.characters.length, 0);
 
-              return (
-                <span key={wordIndex} className={cn("text-rotate-word", splitLevelClassName)}>
-                  {wordObj.characters.map((char, charIndex) => (
-                    <motion.span
-                      key={charIndex}
-                      initial={initial}
-                      animate={animate}
-                      exit={exit}
-                      transition={{
-                        ...transition,
-                        delay: getStaggerDelay(previousCharsCount + charIndex, totalChars),
-                      }}
-                      className={cn("text-rotate-element", elementLevelClassName)}
-                    >
-                      {char}
-                    </motion.span>
-                  ))}
-                  {wordObj.needsSpace && <span className="text-rotate-space"> </span>}
-                </span>
-              );
-            })}
-          </motion.span>
+                const totalChars = array.reduce(
+                  (sum, word) => sum + word.characters.length,
+                  0
+                );
+
+                return (
+                  <span
+                    key={wordIndex}
+                    className={cn("text-rotate-word", splitLevelClassName)}
+                  >
+                    {wordObj.characters.map((char, charIndex) => (
+                      <motion.span
+                        key={charIndex}
+                        initial={initial}
+                        animate={animate}
+                        exit={exit}
+                        transition={{
+                          ...transition,
+                          delay: getStaggerDelay(previousCharsCount + charIndex, totalChars),
+                        }}
+                        className={cn("text-rotate-element", elementLevelClassName)}
+                      >
+                        {char}
+                      </motion.span>
+                    ))}
+                    {wordObj.needsSpace && <span className="text-rotate-space"> </span>}
+                  </span>
+                );
+              })}
+            </motion.span>
+          )}
         </AnimatePresence>
       </motion.span>
     );

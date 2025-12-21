@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="flex flex-col bg-zinc-500 text-zinc-900">
+    <main className="flex flex-col bg-zinc-100 text-zinc-900">
       <Navbar />
       <section className="text-center flex items-center justify-center flex-col w-full h-screen">
         <HeroHeadline />
