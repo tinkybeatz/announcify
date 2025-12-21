@@ -5,7 +5,9 @@ import React, {
   useCallback,
   useEffect,
   useImperativeHandle,
+  useLayoutEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 import {
@@ -58,7 +60,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
   (props, ref) => {
     const {
       texts,
-      transition = { type: "spring", damping: 25, stiffness: 300 },
+      transition = { type: "spring", damping: 30, stiffness: 400 },
       initial = { y: "100%", opacity: 0 },
       animate = { y: 0, opacity: 1 },
       exit = { y: "-120%", opacity: 0 },
@@ -77,7 +79,13 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       ...rest
     } = props;
 
-    const [currentTextIndex, setCurrentTextIndex] = useState<number>(0);
+    const [currentTextIndex, setCurrentTextIndex] = useState(0);
+    const [targetSize, setTargetSize] = useState<{ w: number; h: number } | null>(
+      null
+    );
+
+    const wrapperRef = useRef<HTMLSpanElement | null>(null);
+    const measureRef = useRef<HTMLSpanElement | null>(null);
 
     const splitIntoCharacters = (text: string): string[] => {
       if (typeof Intl !== "undefined" && Intl.Segmenter) {
@@ -87,9 +95,9 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       return Array.from(text);
     };
 
-    const elements = useMemo(() => {
-      const currentText: string = texts[currentTextIndex];
+    const currentText = texts[currentTextIndex] ?? "";
 
+    const elements = useMemo(() => {
       if (splitBy === "characters") {
         const words = currentText.split(" ");
         return words.map((word, i) => ({
@@ -97,26 +105,23 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
           needsSpace: i !== words.length - 1,
         }));
       }
-
       if (splitBy === "words") {
         return currentText.split(" ").map((word, i, arr) => ({
           characters: [word],
           needsSpace: i !== arr.length - 1,
         }));
       }
-
       if (splitBy === "lines") {
         return currentText.split("\n").map((line, i, arr) => ({
           characters: [line],
           needsSpace: i !== arr.length - 1,
         }));
       }
-
       return currentText.split(splitBy).map((part, i, arr) => ({
         characters: [part],
         needsSpace: i !== arr.length - 1,
       }));
-    }, [texts, currentTextIndex, splitBy]);
+    }, [currentText, splitBy]);
 
     const getStaggerDelay = useCallback(
       (index: number, totalChars: number): number => {
@@ -191,22 +196,45 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
       return () => clearInterval(id);
     }, [next, rotationInterval, auto]);
 
+    // ✅ Measure text + wrapper padding; animate to (text size + padding)
+    useLayoutEffect(() => {
+      const wEl = wrapperRef.current;
+      const mEl = measureRef.current;
+      if (!wEl || !mEl) return;
+
+      const textRect = mEl.getBoundingClientRect();
+
+      const cs = window.getComputedStyle(wEl);
+      const padX =
+        (parseFloat(cs.paddingLeft || "0") || 0) +
+        (parseFloat(cs.paddingRight || "0") || 0);
+      const padY =
+        (parseFloat(cs.paddingTop || "0") || 0) +
+        (parseFloat(cs.paddingBottom || "0") || 0);
+
+      const w = Math.ceil(textRect.width + padX);
+      const h = Math.ceil(textRect.height + padY);
+
+      setTargetSize({ w, h });
+    }, [currentText]);
+
     return (
       <motion.span
         {...rest}
+        ref={wrapperRef}
         className={cn("text-rotate-wrapper", mainClassName)}
-        layout="size"
-        transition={{ layout: transition }}
+        animate={targetSize ? { width: targetSize.w, height: targetSize.h } : undefined}
+        transition={transition}
       >
-        <span className="text-rotate-sr-only">{texts[currentTextIndex]}</span>
+        <span className="text-rotate-sr-only">{currentText}</span>
+
+        {/* Hidden measurer (TEXT ONLY — padding is added separately) */}
+        <span ref={measureRef} className="text-rotate-measure">
+          {currentText}
+        </span>
 
         <AnimatePresence mode={animatePresenceMode} initial={animatePresenceInitial}>
-          <motion.span
-            key={currentTextIndex}
-            className={cn(splitBy === "lines" ? "text-rotate-lines" : "text-rotate")}
-            layout
-            aria-hidden="true"
-          >
+          <motion.span key={currentTextIndex} className="text-rotate" aria-hidden="true">
             {elements.map((wordObj, wordIndex, array) => {
               const previousCharsCount = array
                 .slice(0, wordIndex)
@@ -218,10 +246,7 @@ const RotatingText = forwardRef<RotatingTextRef, RotatingTextProps>(
               );
 
               return (
-                <span
-                  key={wordIndex}
-                  className={cn("text-rotate-word", splitLevelClassName)}
-                >
+                <span key={wordIndex} className={cn("text-rotate-word", splitLevelClassName)}>
                   {wordObj.characters.map((char, charIndex) => (
                     <motion.span
                       key={charIndex}
