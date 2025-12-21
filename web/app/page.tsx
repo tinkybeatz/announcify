@@ -1,5 +1,5 @@
 import { Navbar } from "@/components/navbar";
-import RotatingText from "@/components/shadcn/rotatingText/RotatingText";
+import HeroHeadline from "@/components/home/HeroHeadline";
 import Link from "next/link";
 
 export default function Home() {
@@ -7,26 +7,7 @@ export default function Home() {
     <main className="flex flex-col bg-zinc-100 text-zinc-900">
       <Navbar />
       <section className="text-center flex items-center justify-center flex-col w-full h-screen">
-        <div className="flex gap-4 items-center justify-center transition">
-          <h1 className="text-4xl font-accent font-semibold text-zinc-900 sm:text-5xl">
-            Create
-          </h1>
-          <RotatingText
-            texts={["christmas", "birthday", "valentine's day", "anniversary", "graduation"]}
-            mainClassName="px-2 sm:px-2 md:px-3 bg-linear-to-r from-main-yellow to-main-red text-main-white font-accent text-4xl font-bold py-0.5 sm:py-1 md:py-2 justify-center rounded-lg"
-            staggerFrom={"last"}
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "-120%" }}
-            staggerDuration={0.025}
-            splitLevelClassName=""
-            transition={{ type: "spring", damping: 30, stiffness: 400 }}
-            rotationInterval={2000}
-          />
-          <h1 className="text-4xl font-accent font-semibold leading-tight text-zinc-900 sm:text-5xl">
-            cards in minutes.
-          </h1>
-        </div>
+        <HeroHeadline />
         <p className="mt-4 text-lg text-zinc-600">
           Start with a simple birthday or valentine template and we&apos;ll
           generate a shareable announcement site based on your message.

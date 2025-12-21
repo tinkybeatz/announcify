@@ -1,10 +1,17 @@
+/* Wrapper: the pill itself (this is what should resize smoothly) */
+.text-rotate-wrapper {
+  display: inline-block; /* important: predictable layout sizing */
+  position: relative;
+}
+
+/* The animated text layout */
 .text-rotate {
   display: flex;
   flex-wrap: wrap;
   white-space: pre-wrap;
-  position: relative;
 }
 
+/* SR only */
 .text-rotate-sr-only {
   position: absolute;
   width: 1px;
