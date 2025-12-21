@@ -8,7 +8,7 @@ export async function Navbar() {
   const userLabel = session?.user?.name ?? session?.user?.email;
 
   return (
-    <div className="h-18 fixed top-0 bg-transparent items-center pt-2 justify-center flex w-full">
+    <div className="h-18 fixed top-0 z-50 bg-transparent items-center pt-2 justify-center flex w-full">
       <div className="bg-zinc-200/50 backdrop-blur-xs border border-zinc-300 flex justify-between rounded-full w-1/2 h-full p-2">
         <Link
           href="/"
