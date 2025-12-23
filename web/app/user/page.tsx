@@ -19,7 +19,7 @@ export default async function UserDashboardPage() {
   const firstName = session.user?.firstName ?? userName.split(" ")[0];
 
   return (
-    <main className="flex min-h-screen h-screen flex-col pt-16 items-center p-6 bg-zinc-100 text-zinc-900">
+    <main className="flex min-h-screen h-screen flex-col pt-22 items-center p-6 bg-zinc-100 text-zinc-900">
       <Navbar />
       <section className="grid grid-flow-row grid-rows-6 grid-cols-3 gap-6 w-full h-full mt-6">
         {/* Main section */}
