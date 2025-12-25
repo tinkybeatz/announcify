@@ -68,8 +68,27 @@ body {
   }
 }
 
+.html {
+  scroll-behavior: smooth;
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.8s ease-out;
+}
+
+@keyframes scrollIndicator {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+    background-color: var(--color-main-red);
+  }
+  50% {
+    transform: translateX(-50%) translateY(10px);
+    background-color: var(--color-main-black);
+  }
+}
+
+.animate-scrollIndicator {
+  animation: scrollIndicator 2s ease-in-out infinite;
 }
 
 .font-main {

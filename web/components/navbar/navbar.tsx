@@ -1,11 +1,12 @@
-import Link from "next/link";
+"use client";
 
-import { auth } from "@/auth";
+import Link from "next/link";
+import { useSession } from "next-auth/react";
 import { handleSignOut } from "../actions";
 import { UserDropdown } from "./UserDropdown";
 
-export async function Navbar() {
-  const session = await auth();
+export function Navbar() {
+  const { data: session } = useSession();
   const userLabel = session?.user?.name ?? session?.user?.email;
 
   return (
