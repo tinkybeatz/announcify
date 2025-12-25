@@ -28,7 +28,7 @@ export function UserCardsDisplay({ birthdayCards, valentineCards, total }: UserC
             onClick={() => setCurrentCardTab("birthday")}
             className={`cursor-pointer my-2 ml-2 mr-1 rounded flex col-span-1 items-center justify-center font-medium transition ${
               currentCardTab === "birthday"
-                ? "bg-rose-500 text-white shadow-md"
+                ? "bg-main-red text-white shadow-md"
                 : "text-zinc-600 hover:bg-zinc-200/75"
             }`}
           >
@@ -38,11 +38,11 @@ export function UserCardsDisplay({ birthdayCards, valentineCards, total }: UserC
             onClick={() => setCurrentCardTab("valentine")}
             className={`cursor-pointer my-2 ml-1 mr-2 rounded flex col-span-1 items-center justify-center font-medium transition ${
               currentCardTab === "valentine"
-                ? "bg-rose-500 text-white shadow-md"
+                ? "bg-main-red text-white shadow-md"
                 : "text-zinc-600 hover:bg-zinc-200/75"
             }`}
           >
-            Valentines cards
+            Valentine&apos;s day cards
           </button>
         </div>
 
@@ -62,7 +62,7 @@ export function UserCardsDisplay({ birthdayCards, valentineCards, total }: UserC
                           key={card.id}
                           target="_blank"
                           href={`/birthday/${card.id}`}
-                          className="block p-4 shadow-lg rounded-lg border border-zinc-200 bg-white hover:border-rose-300 hover:bg-rose-50 transition"
+                          className="block p-4 shadow-lg rounded-lg border border-zinc-200 bg-white hover:border-red-300 hover:bg-red-50 transition"
                         >
                           <div className="flex justify-between items-start">
                             <div>
@@ -91,7 +91,7 @@ export function UserCardsDisplay({ birthdayCards, valentineCards, total }: UserC
                           key={card.id}
                           target="_blank"
                           href={`/valentine/${card.id}`}
-                          className="block p-4 shadow-lg rounded-lg border border-zinc-200 bg-white hover:border-rose-300 hover:bg-rose-50 transition"
+                          className="block p-4 shadow-lg rounded-lg border border-zinc-200 bg-white hover:border-red-300 hover:bg-red-50 transition"
                         >
                           <div className="flex justify-between items-start">
                             <div>

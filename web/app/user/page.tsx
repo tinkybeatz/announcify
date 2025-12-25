@@ -31,13 +31,13 @@ export default async function UserDashboardPage() {
           <div className="flex flex-col space-y-4">
             <Link
               href="/create/birthday"
-              className="inline-flex text-sm w-full items-center justify-center rounded-lg bg-rose-500 px-5 py-3 text-white shadow-lg shadow-rose-200 transition hover:bg-rose-600 sm:w-auto"
+              className="inline-flex text-sm w-full items-center justify-center rounded-lg bg-main-red px-5 py-3 text-white shadow-lg shadow-rose-200 transition hover:bg-red-600! sm:w-auto"
             >
               Create birthday card
             </Link>
             <Link
               href="/create/valentine"
-              className="inline-flex text-sm w-full items-center justify-center rounded-lg bg-rose-500 px-5 py-3 text-white shadow-lg shadow-rose-200 transition hover:bg-rose-600 sm:w-auto"
+              className="inline-flex text-sm w-full items-center justify-center rounded-lg bg-main-red px-5 py-3 text-white shadow-lg shadow-rose-200 transition hover:bg-red-600! sm:w-auto"
             >
               Create valentine card
             </Link>
