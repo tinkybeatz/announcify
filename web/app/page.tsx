@@ -1,21 +1,24 @@
-import { Navbar } from "@/components/navbar";
+import { Navbar } from "@/components/navbar/navbar";
 import HeroHeadline from "@/components/home/HeroHeadline";
 import Link from "next/link";
 import Image from "next/image";
-// import svgCard1 from "@/assets/svg/SVG-Card-1.svg";
 import svgCard2 from "@/assets/svg/SVG-Card-2.svg";
 import { Tilt } from "@/components/tilt/tilt";
+
+import ScrollFloat from "@/components/shadcn/scrollFloat/ScrollFloat";
+import CountUp from "@/components/shadcn/countUp/CountUp";
+import DarkVeil from "@/components/shadcn/darkVeil/DarkVeil";
 
 export default function Home() {
   return (
     <main className="flex flex-col bg-main-white text-zinc-900">
       <Navbar />
-      <section className="relative text-center flex items-center justify-center flex-col w-full h-screen overflow-hidden bg-main-white">
+      <section className="relative text-center flex items-center justify-start flex-col w-full h-screen overflow-hidden bg-main-white">
         {/* <div className="cursor-default relative z-10 mb-8 py-1 px-3 font-accent font-medium rounded-full backdrop-blur-xs border border-zinc-200 bg-white/50">
           Announcify
         </div> */}
-        <div className="relative w-5/6 z-10 mb-6 grid grid-cols-2 cursor-default">
-          <div className="flex flex-col items-start space-y-4 justify-center">
+        <div className="relative w-5/6 z-10 grid grid-cols-2 cursor-default h-[70%] place-content-end">
+          <div className="flex flex-col items-start space-y-4 justify-center animate-in slide-in-from-left-20 duration-1500 fade-in">
             <p className="flex text-6xl font-accent justify-end font-bold whitespace-nowrap">
               Create
             </p>
@@ -26,7 +29,7 @@ export default function Home() {
               cards in minutes.
             </p>
           </div>
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center animate-in slide-in-from-right-20 duration-1500 fade-in">
             {/* <div className="text-xl">
               Personalize cards{" "}
               <span className="font-semibold font-accent">instantly</span> — no
@@ -48,42 +51,40 @@ export default function Home() {
             </Tilt>
           </div>
         </div>
-        {/* <div className="relative z-10 flex gap-4">
+        <div className="relative z-10 flex gap-3 mt-12 animate-in slide-in-from-bottom duration-1500 fade-in">
           <Link
             href="/create"
-            className="inline-flex items-center justify-center rounded-full bg-main-red px-6 py-3 text-lg font-medium text-white shadow-lg transition hover:bg-red-600! hover:shadow-none"
+            className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-2 font-medium text-white transition hover:bg-main-black/60!"
           >
             Get started
           </Link>
           <Link
+            className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-3 font-medium text-white transition hover:bg-main-black/60!"
             href="/more"
-            className="inline-flex items-center justify-center rounded-full border border-zinc-200 bg-main-white/50 backdrop-blur-xs px-6 py-3 text-lg font-medium text-main-black transition hover:border-zinc-300"
           >
             Learn more
           </Link>
-        </div> */}
+        </div>
       </section>
-      <section className="relative text-center flex items-center justify-center flex-col w-full h-screen overflow-hidden bg-main-white">
-        {/* <div className="cursor-default relative z-10 mb-8 py-1 px-3 font-accent font-medium rounded-full backdrop-blur-xs border border-zinc-200 bg-white/50">
-          Announcify
-        </div> */}
-        <div className="relative z-10 mb-8 cursor-default">
-          <HeroHeadline />
-        </div>
-        <div className="relative z-10 flex gap-4">
-          <Link
-            href="/create"
-            className="inline-flex items-center justify-center rounded-full bg-main-red px-6 py-3 text-lg font-medium text-white shadow-lg transition hover:bg-red-600! hover:shadow-none"
-          >
-            Get started
-          </Link>
-          <Link
-            href="/more"
-            className="inline-flex items-center justify-center rounded-full border border-zinc-200 bg-main-white/50 backdrop-blur-xs px-6 py-3 text-lg font-medium text-main-black transition hover:border-zinc-300"
-          >
-            Learn more
-          </Link>
-        </div>
+      <section className="relative text-center flex items-center justify-center font-accent flex-col w-full h-screen overflow-hidden bg-main-black text-main-white font-accent">
+        <DarkVeil />
+        <CountUp
+          from={0}
+          to={100}
+          separator=","
+          direction="up"
+          duration={1}
+          className="count-up-text text-main-white text-[100px]/5 font-bold z-10"
+        />
+        <ScrollFloat
+          animationDuration={1}
+          ease="back.inOut(2)"
+          scrollStart="center bottom+=50%"
+          scrollEnd="bottom bottom-=40%"
+          stagger={0.03}
+        >
+          cards created
+        </ScrollFloat>
       </section>
     </main>
   );

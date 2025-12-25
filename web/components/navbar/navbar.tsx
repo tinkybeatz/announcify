@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 import { auth } from "@/auth";
-import { handleSignOut } from "./actions";
+import { handleSignOut } from "../actions";
 import { UserDropdown } from "./UserDropdown";
 
 export async function Navbar() {
