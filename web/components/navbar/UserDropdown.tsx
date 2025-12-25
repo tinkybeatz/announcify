@@ -2,16 +2,15 @@
 
 import { useState, useRef, useEffect } from "react";
 import { User } from "lucide-react";
+import { signOut } from "next-auth/react";
 
 interface UserDropdownProps {
   userLabel: string | null | undefined;
-  handleSignOut: () => Promise<void>;
   userEmail: string | null | undefined;
 }
 
 export function UserDropdown({
   userLabel,
-  handleSignOut,
   userEmail,
 }: UserDropdownProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -76,20 +75,12 @@ export function UserDropdown({
             >
               Settings
             </a>
-            <a
-              onClick={handleSignOut}
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
               className="hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor] text-sm font-medium text-main-white cursor-pointer"
             >
               Sign out
-            </a>
-            {/* <form action={handleSignOut}>
-              <button
-                type="submit"
-                className="font-medium text-main-white text-sm cursor-pointer hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]"
-              >
-                Sign out
-              </button>
-            </form> */}
+            </button>
           </div>
         </div>
       )}

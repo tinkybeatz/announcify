@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { handleSignOut } from "../actions";
 import { UserDropdown } from "./UserDropdown";
 
 export function Navbar() {
@@ -35,7 +34,7 @@ export function Navbar() {
       </div>
       {session ? (
         <div className="aspect-square h-full">
-          <UserDropdown userLabel={userLabel} handleSignOut={handleSignOut} userEmail={session.user?.email} />
+          <UserDropdown userLabel={userLabel} userEmail={session.user?.email} />
         </div>
       ) : (
         <div className="bg-main-black/50 rounded-xl flex gap-5 text-sm h-full px-5">

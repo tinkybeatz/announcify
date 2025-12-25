@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
-import { nanoid } from "nanoid";
-import { Prisma } from "@prisma/client";
-import { prisma } from "@/lib/prisma";
 import { parseCardPayload } from "@/lib/cardPayload";
+import { createValentineCard } from "@/lib/valentineCards";
 import { auth } from "@/auth";
 
 export async function POST(req: Request) {
@@ -14,12 +12,7 @@ export async function POST(req: Request) {
   const session = await auth();
   const userId = session?.user?.id || null;
 
-  const id = nanoid(10);
-
-  const created = await prisma.valentineCard.create({
-    data: { id, ...payload, theme: payload.theme ?? Prisma.DbNull, createdBy: userId },
-    select: { id: true },
-  });
+  const created = await createValentineCard(payload, userId);
 
   return NextResponse.json({ id: created.id, url: `/valentine/${created.id}` });
 }

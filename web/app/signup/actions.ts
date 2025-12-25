@@ -3,12 +3,14 @@
 import bcrypt from "bcryptjs";
 import { AuthError } from "next-auth";
 import { z } from "zod";
+import { revalidatePath } from "next/cache";
 
 import { signIn } from "@/auth";
 import { prisma } from "@/lib/prisma";
 
 export type SignupFormState = {
   error?: string;
+  success?: boolean;
 };
 
 const signupSchema = z.object({
@@ -57,11 +59,11 @@ export async function signupAction(
 
   try {
     await signIn("credentials", {
-      redirectTo: "/user",
+      redirect: false,
       email,
       password: parsed.data.password,
     });
-    return {};
+    return { success: true };
   } catch (error) {
     if (error instanceof AuthError) {
       return { error: "Account created, but we could not sign you in automatically." };

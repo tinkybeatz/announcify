@@ -2,9 +2,11 @@
 
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { revalidatePath } from "next/cache";
 
 export type AuthFormState = {
   error?: string;
+  success?: boolean;
 };
 
 export async function signInAction(
@@ -20,11 +22,11 @@ export async function signInAction(
 
   try {
     await signIn("credentials", {
-      redirectTo: "/user",
+      redirect: false,
       email,
       password,
     });
-    return {};
+    return { success: true };
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {

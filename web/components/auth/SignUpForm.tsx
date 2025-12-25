@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
 import { signupAction, type SignupFormState } from "@/app/signup/actions";
 import { SubmitButton } from "@/components/form/SubmitButton";
@@ -10,6 +12,16 @@ const initialState: SignupFormState = {};
 
 export function SignUpForm() {
   const [state, formAction] = useActionState(signupAction, initialState);
+  const router = useRouter();
+  const { update } = useSession();
+
+  useEffect(() => {
+    if (state.success) {
+      update().then(() => {
+        router.push("/user");
+      });
+    }
+  }, [state, router, update]);
 
   return (
     <form action={formAction} className="w-full space-y-5 rounded-xl border border-zinc-200 bg-white p-6 shadow-lg">
