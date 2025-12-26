@@ -17,7 +17,7 @@ export function Masonry({
         // spacing between columns
         "gap-2",
         // optional: helps avoid weird balancing in some cases
-        "[column-fill:_balance]",
+        "[column-fill:balance]",
         className,
       ].join(" ")}
     >

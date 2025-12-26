@@ -2,6 +2,7 @@
 
 import { HorizontalMasonryFeatures } from "@/components/masonry/HorizontalMasonryFeatures";
 import { Navbar } from "@/components/navbar/navbar";
+import GlareHover from "@/components/shadcn/glareHover/GlareHover";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -67,9 +68,9 @@ export default function CreatePage() {
               <div
                 className={`flex border rounded-xl h-22 shadow-lg ${
                   hoveredCardIndex === key
-                    ? "w-[calc(100%-100px)] border-red-300 bg-red-50 shadow-none"
+                    ? "w-[calc(100%-88px)] border-red-300 bg-red-50 shadow-none"
                     : "w-full border-zinc-200 bg-white"
-                } py-3 justify-between transition-[width,border,color,box-shadow] duration-250 ${hoveredCardIndex !== key ? "delay-250" : ""}`}
+                } py-3 justify-between transition-[width,border,color,box-shadow] duration-300 z-20 ease-in-out`}
               >
                 <div className="flex w-4/5">
                   <div className="flex flex-col justify-center px-6">
@@ -85,17 +86,30 @@ export default function CreatePage() {
                 <div className="flex items-center justify-center pr-6 gap-6">
                   <div className="text-xs text-main-black/25 w-35 text-end">
                     * We are currently working on the missing features
-                  </div><div className="text-main-black text-end font-semibold">
+                  </div>
+                  <div className="text-main-black text-end font-semibold">
                     $0
                   </div>
                 </div>
               </div>
-              <Link
-                href={card.link}
-                className={`${hoveredCardIndex === key ? "opacity-100 delay-250" : "opacity-0"} h-22 w-22 text-center p-2 absolute flex items-center justify-center rounded-xl bg-main-black/50 text-main-white transition-opacity duration-250 hover:bg-main-black/75 right-0`}
+              <GlareHover
+                glareColor="#ffffff"
+                glareOpacity={0.5}
+                glareAngle={-45}
+                glareSize={300}
+                height="88px"
+                width="104px"
+                transitionDuration={650}
+                playOnce={false}
+                className={`absolute transition-all duration-250 pl-4 right-0 bg-main-black/50 hover:bg-main-black/75 rounded-r-xl`}
               >
-                Create card
-              </Link>
+                <Link
+                  href={card.link}
+                  className="h-22 w-22 flex items-center justify-center text-center border-none rounded-r-xl p-2 text-main-white leading-5"
+                >
+                  Create card
+                </Link>
+              </GlareHover>
             </div>
           ))}
         </div>
