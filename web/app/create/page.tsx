@@ -101,11 +101,11 @@ export default function CreatePage() {
                 width="104px"
                 transitionDuration={650}
                 playOnce={false}
-                className={`absolute transition-all duration-250 pl-4 right-0 bg-main-black/50 hover:bg-main-black/75 rounded-r-xl`}
+                className={`absolute transition-all duration-250 pl-4 right-0 bg-main-black/50 hover:bg-main-black/75 rounded-r-xl pointer-events-none`}
               >
                 <Link
                   href={card.link}
-                  className="h-22 w-22 flex items-center justify-center text-center border-none rounded-r-xl p-2 text-main-white leading-5"
+                  className="h-22 w-22 flex items-center justify-center text-center font-medium border-none rounded-r-xl p-2 text-main-white leading-5 pointer-events-auto"
                 >
                   Create card
                 </Link>

@@ -1,0 +1,54 @@
+.background-glares {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.glare {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.4;
+  animation: pulse 8s ease-in-out infinite;
+}
+
+.glare-top-left-yellow {
+  top: 0%;
+  left: -15%;
+  width: 500px;
+  height: 500px;
+}
+
+.glare-top-left-red {
+  top: -15%;
+  left: 0%;
+  width: 400px;
+  height: 400px;
+}
+
+.glare-bottom-right-yellow {
+  bottom: -0%;
+  right: -15%;
+  width: 600px;
+  height: 600px;
+}
+
+.glare-bottom-right-red {
+  bottom: -15%;
+  right: 0%;
+  width: 450px;
+  height: 450px;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+}

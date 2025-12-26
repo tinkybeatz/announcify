@@ -16,6 +16,7 @@ precision lowp float;
 uniform vec2 uResolution;
 uniform float uTime;
 uniform float uHueShift;
+uniform float uHueShift2;
 uniform float uNoise;
 uniform float uScan;
 uniform float uScanFreq;
@@ -35,6 +36,13 @@ vec3 hueShiftRGB(vec3 col,float deg){
     float cosh=cos(rad),sinh=sin(rad);
     vec3 yiqShift=vec3(yiq.x,yiq.y*cosh-yiq.z*sinh,yiq.y*sinh+yiq.z*cosh);
     return clamp(yiq2rgb*yiqShift,0.0,1.0);
+}
+
+vec3 dualHueShift(vec3 col,float hue1,float hue2,vec2 uv){
+    float gradientFactor=uv.y*0.5+0.5;
+    vec3 color1=hueShiftRGB(col,hue1);
+    vec3 color2=hueShiftRGB(col,hue2);
+    return mix(color1,color2,gradientFactor);
 }
 
 vec4 sigmoid(vec4 x){return 1./(1.+exp(-x));}
@@ -68,7 +76,8 @@ void mainImage(out vec4 fragColor,in vec2 fragCoord){
 
 void main(){
     vec4 col;mainImage(col,gl_FragCoord.xy);
-    col.rgb=hueShiftRGB(col.rgb,uHueShift);
+    vec2 uv=gl_FragCoord.xy/uResolution.xy*2.-1.;
+    col.rgb=dualHueShift(col.rgb,uHueShift,uHueShift2,uv);
     float scanline_val=sin(gl_FragCoord.y*uScanFreq)*0.5+0.5;
     col.rgb*=1.-(scanline_val*scanline_val)*uScan;
     col.rgb+=(rand(gl_FragCoord.xy+uTime)-0.5)*uNoise;
@@ -78,6 +87,7 @@ void main(){
 
 type Props = {
   hueShift?: number;
+  hueShift2?: number;
   noiseIntensity?: number;
   scanlineIntensity?: number;
   speed?: number;
@@ -88,6 +98,7 @@ type Props = {
 
 export default function DarkVeil({
   hueShift = 0,
+  hueShift2 = 0,
   noiseIntensity = 0,
   scanlineIntensity = 0,
   speed = 0.5,
@@ -115,6 +126,7 @@ export default function DarkVeil({
         uTime: { value: 0 },
         uResolution: { value: new Vec2() },
         uHueShift: { value: hueShift },
+        uHueShift2: { value: hueShift2 },
         uNoise: { value: noiseIntensity },
         uScan: { value: scanlineIntensity },
         uScanFreq: { value: scanlineFrequency },
@@ -140,6 +152,7 @@ export default function DarkVeil({
     const loop = () => {
       program.uniforms.uTime.value = ((performance.now() - start) / 1000) * speed;
       program.uniforms.uHueShift.value = hueShift;
+      program.uniforms.uHueShift2.value = hueShift2;
       program.uniforms.uNoise.value = noiseIntensity;
       program.uniforms.uScan.value = scanlineIntensity;
       program.uniforms.uScanFreq.value = scanlineFrequency;
@@ -154,6 +167,6 @@ export default function DarkVeil({
       cancelAnimationFrame(frame);
       window.removeEventListener('resize', resize);
     };
-  }, [hueShift, noiseIntensity, scanlineIntensity, speed, scanlineFrequency, warpAmount, resolutionScale]);
+  }, [hueShift, hueShift2, noiseIntensity, scanlineIntensity, speed, scanlineFrequency, warpAmount, resolutionScale]);
   return <canvas ref={ref} className="darkveil-canvas absolute" />;
 }

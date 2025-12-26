@@ -13,7 +13,7 @@ export default function HeroHeadline() {
 
         <RotatingText
           texts={["christmas", "birthday", "valentine's day", "anniversary", "graduation"]}
-          mainClassName="px-5 py-3 bg-linear-to-r from-main-yellow to-main-red text-main-white font-accent text-6xl font-bold rounded-xl"
+          mainClassName="px-5 py-3 bg-linear-to-r from-main-yellow to-main-red text-main-white font-accent text-7xl font-bold rounded-xl"
           staggerFrom="last"
           staggerDuration={0.025}
           transition={{ type: "spring", damping: 30, stiffness: 400 }}

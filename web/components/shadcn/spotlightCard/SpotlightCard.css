@@ -1,14 +1,15 @@
 .card-spotlight {
-  background-color: rgb(from var(--color-main-black) r g b / 0.5);
   --mouse-x: 50%;
   --mouse-y: 50%;
-  --spotlight-color: rgb(255, 0, 0);
+  --spotlight-color: var(--color-main-red);
+  height: 350px;
+  width: 600px;
 }
 
 .card-spotlight::before {
   content: '';
   position: absolute;
-  border-radius: 1rem;
+  border-radius: inherit;
   top: 0;
   left: 0;
   right: 0;
@@ -17,6 +18,7 @@
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
+  z-index: 10;
 }
 
 .card-spotlight:hover::before,
