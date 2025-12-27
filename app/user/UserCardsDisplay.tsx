@@ -20,10 +20,10 @@ export function UserCardsDisplay({ birthdayCards, valentineCards, total }: UserC
   const [currentCardTab, setCurrentCardTab] = useState("birthday");
 
   return (
-    <div className="row-span-6 col-span-2 w-full rounded-2xl border border-zinc-200 bg-white p-6 shadow-lg overflow-auto">
-      <h2 className="text-2xl font-semibold h-[7%]">Your cards</h2>
-      <div className="bg-zinc-100 border border-zinc-200 h-[93%] rounded-xl inset-shadow-sm p-2 flex flex-col">
-        <div className="bg-white rounded-lg h-14 shadow-lg grid grid-cols-2 w-full divide-zinc-200">
+    <div className="row-span-6 col-span-2 w-full h-full rounded-2xl border border-zinc-200 bg-white p-6 shadow-lg flex flex-col overflow-hidden">
+      <h2 className="text-2xl font-semibold mb-4 flex-shrink-0">Your cards</h2>
+      <div className="bg-zinc-100 border border-zinc-200 flex-1 rounded-xl inset-shadow-sm p-2 flex flex-col min-h-0 overflow-hidden">
+        <div className="bg-white rounded-lg h-14 shadow-lg grid grid-cols-2 w-full divide-zinc-200 flex-shrink-0">
           <button
             onClick={() => setCurrentCardTab("birthday")}
             className={`cursor-pointer my-2 ml-2 mr-1 rounded flex col-span-1 items-center justify-center font-medium transition ${
@@ -46,7 +46,7 @@ export function UserCardsDisplay({ birthdayCards, valentineCards, total }: UserC
           </button>
         </div>
 
-        <div className="flex-1 overflow-auto mt-2">
+        <div className="flex-1 overflow-auto mt-2 min-h-0">
           {total === 0 ? (
             <p className="text-zinc-500 text-center mt-8">You haven&apos;t created any cards yet.</p>
           ) : (

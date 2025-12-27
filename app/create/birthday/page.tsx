@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/navbar/navbar";
 import { CreateBirthdayForm } from "./CreateBirthdayForm";
+import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 
 export default function CreateBirthdayPage() {
   return (
@@ -10,7 +11,8 @@ export default function CreateBirthdayPage() {
 
     <div className="flex flex-col items-center justify-center h-screen bg-main-white">
       <Navbar />
-      <div className="flex flex-col gap-6 h-full w-3/4 pt-28">
+      <BackgroundGlares />
+      <div className="flex flex-col gap-6 h-full w-3/4 pt-28 z-10">
         <div className="flex flex-col gap-1 items-start justify-start">
           <h1 className="text-4xl font-bold font-accent">
             Create a birthday card

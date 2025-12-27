@@ -1,5 +1,6 @@
 "use client";
 
+import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 import { HorizontalMasonryFeatures } from "@/components/masonry/HorizontalMasonryFeatures";
 import { Navbar } from "@/components/navbar/navbar";
 import GlareHover from "@/components/shadcn/glareHover/GlareHover";
@@ -49,7 +50,8 @@ export default function CreatePage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-main-white">
       <Navbar />
-      <div className="flex flex-col gap-6 h-full w-3/4 pt-28">
+      <BackgroundGlares />
+      <div className="flex flex-col gap-6 h-full w-3/4 pt-28 z-10">
         <div className="flex flex-col gap-1 items-start justify-start">
           <h1 className="text-4xl font-bold font-accent">Create a new card</h1>
           <p className="font-main font-light text-main-black/75">

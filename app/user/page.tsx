@@ -5,6 +5,7 @@ import { auth } from "@/auth";
 import Link from "next/link";
 import { getAllUserCards } from "@/lib/userCards";
 import { UserCardsDisplay } from "./UserCardsDisplay";
+import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 
 export const dynamic = "force-dynamic";
 
@@ -21,9 +22,10 @@ export default async function UserDashboardPage() {
   const firstName = session.user?.firstName ?? userName.split(" ")[0];
 
   return (
-    <main className="flex min-h-screen h-screen flex-col pt-22 items-center p-6 bg-zinc-100 text-zinc-900">
+    <main className="flex min-h-screen h-screen flex-col pt-22 items-center p-6 bg-zinc-100 text-zinc-900 overflow-hidden">
       <Navbar initialSession={session} />
-      <section className="grid grid-flow-row grid-rows-6 grid-cols-3 gap-6 w-full h-full mt-6">
+      <BackgroundGlares />
+      <section className="grid grid-flow-row grid-rows-6 grid-cols-3 gap-6 w-full flex-1 mt-6 z-10 min-h-0">
         {/* Main section */}
         <div className="row-span-3 col-span-1 w-full rounded-2xl border border-zinc-200 space-y-4 bg-white p-6 shadow-lg">
           <div className="text-2xl font-semibold w-full text-zinc-900">
