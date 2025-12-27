@@ -9,10 +9,17 @@ export function CreateValentineForm() {
   const [submitting, setSubmitting] = useState(false);
   const [cardLink, setCardLink] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [cardCreated, setCardCreated] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
 
   async function handleCreateCard() {
+    // If card already exists, just re-open the modal
+    if (cardCreated && cardLink) {
+      setShowModal(true);
+      return;
+    }
+
     setError(null);
     setSubmitting(true);
 
@@ -51,6 +58,7 @@ export function CreateValentineForm() {
       }
       const fullUrl = `${window.location.origin}${redirectTo}`;
       setCardLink(fullUrl);
+      setCardCreated(true);
       setShowModal(true);
       setSubmitting(false);
     } catch (err) {
@@ -150,7 +158,7 @@ export function CreateValentineForm() {
             disabled={submitting}
             className="inline-flex cursor-pointer items-center justify-center text-medium rounded-lg bg-rose-500 px-6 py-3 text-white shadow-lg shadow-zinc-200 transition hover:bg-rose-600 disabled:opacity-60"
           >
-            {submitting ? "Crafting..." : "Create card"}
+            {submitting ? "Crafting..." : cardCreated ? "View Card Link" : "Create card"}
           </button>
         </div>
       </form>

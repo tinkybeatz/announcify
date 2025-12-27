@@ -102,7 +102,7 @@ export default function ShareButton({
               >
                 <div className="flex justify-between items-center mb-4">
                   <motion.h2
-                    className="text-2xl font-bold bg-gradient-to-r from-violet-600 to-fuchsia-600 bg-clip-text text-transparent"
+                    className="text-2xl font-medium bg-linear-to-r from-main-yellow to-main-red bg-clip-text text-transparent"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 }}
@@ -137,7 +137,7 @@ export default function ShareButton({
                       className={`px-4 py-3 rounded-xl font-medium transition-colors ${
                         copied
                           ? "bg-green-500 text-white"
-                          : "bg-violet-600 text-white hover:bg-violet-700"
+                          : "bg-main-red text-white hover:bg-red-600!"
                       }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -169,7 +169,7 @@ export default function ShareButton({
                       className={`px-4 py-3 rounded-xl font-medium transition-colors ${
                         opened
                           ? "bg-green-500 text-white"
-                          : "bg-violet-600 text-white hover:bg-violet-700"
+                          : "bg-main-yellow text-white hover:bg-yellow-600!"
                       }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
