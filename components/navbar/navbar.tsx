@@ -2,11 +2,27 @@
 
 import Link from "next/link";
 import { useSession } from "next-auth/react";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import { UserDropdown } from "./UserDropdown";
+import type { Session } from "next-auth";
 
-export function Navbar() {
-  const { data: session } = useSession();
-  const userLabel = session?.user?.name ?? session?.user?.email;
+interface NavbarProps {
+  initialSession?: Session | null;
+}
+
+export function Navbar({ initialSession }: NavbarProps = {}) {
+  const { data: session, update } = useSession();
+  const pathname = usePathname();
+  // Use initialSession on first render to prevent flash, then use client session
+  const currentSession = session ?? initialSession;
+  const userLabel = currentSession?.user?.name ?? currentSession?.user?.email;
+
+  useEffect(() => {
+    // Refresh session when pathname changes (e.g., after redirect)
+    update();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname]);
 
   return (
     <div className="h-22 fixed top-0 z-50 bg-transparent items-center pt-6 justify-center flex w-full gap-3">
@@ -32,9 +48,9 @@ export function Navbar() {
           </Link>
         </div>
       </div>
-      {session ? (
+      {currentSession ? (
         <div className="aspect-square h-full">
-          <UserDropdown userLabel={userLabel} userEmail={session.user?.email} />
+          <UserDropdown userLabel={userLabel} userEmail={currentSession.user?.email} />
         </div>
       ) : (
         <div className="bg-main-black/50 rounded-xl flex gap-5 text-sm h-full px-5">

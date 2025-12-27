@@ -1,9 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { useSession } from "next-auth/react";
+import { useActionState } from "react";
 
 import { signInAction, type AuthFormState } from "@/app/signin/actions";
 import { SubmitButton } from "@/components/form/SubmitButton";
@@ -12,17 +10,6 @@ const initialState: AuthFormState = {};
 
 export function SignInForm() {
   const [state, formAction] = useActionState(signInAction, initialState);
-  const router = useRouter();
-  const { update } = useSession();
-
-  useEffect(() => {
-    if (state.success) {
-      update().then(() => {
-        router.push("/user");
-        router.refresh();
-      });
-    }
-  }, [state, router, update]);
 
   return (
     <form action={formAction} className="w-full space-y-5 rounded-xl border border-zinc-200 bg-white p-6 shadow-lg">

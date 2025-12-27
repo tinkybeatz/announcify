@@ -2,6 +2,7 @@
 
 import { signIn } from "@/auth";
 import { AuthError } from "next-auth";
+import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 export type AuthFormState = {
@@ -27,7 +28,7 @@ export async function signInAction(
       password,
     });
     revalidatePath("/", "layout");
-    return { success: true };
+    redirect("/user");
   } catch (error) {
     if (error instanceof AuthError) {
       if (error.type === "CredentialsSignin") {
