@@ -3,22 +3,37 @@
 import { Navbar } from "@/components/navbar/navbar";
 import HeroHeadline from "@/components/home/HeroHeadline";
 import Link from "next/link";
-import { Tilt } from "@/components/tilt/tilt";
+// import { Tilt } from "@/components/tilt/tilt";
 
-import ScrollFloat from "@/components/shadcn/scrollFloat/ScrollFloat";
-import CountUp from "@/components/shadcn/countUp/CountUp";
-import DarkVeil from "@/components/shadcn/darkVeil/DarkVeil";
-import { useSmoothWheel } from "./useSmoothScroll";
+// import ScrollFloat from "@/components/shadcn/scrollFloat/ScrollFloat";
+// import CountUp from "@/components/shadcn/countUp/CountUp";
+// import DarkVeil from "@/components/shadcn/darkVeil/DarkVeil";
+// import { useSmoothWheel } from "./useSmoothScroll";
 import { useState, useEffect } from "react";
-import SpotlightCard from "@/components/shadcn/spotlightCard/SpotlightCard";
-import Beams from "@/components/shadcn/beams/Beams";
+// import SpotlightCard from "@/components/shadcn/spotlightCard/SpotlightCard";
+// import Beams from "@/components/shadcn/beams/Beams";
 import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
+import { useLenis } from "./useLenis";
+import { StatsParallaxSection } from "@/components/home/StatsParallaxSection";
 
 export default function Home() {
-  useSmoothWheel({ multiplier: 0.5, enabled: true });
+  useLenis(true);
+  // useSmoothWheel({ multiplier: 0.5, enabled: true });
   const [showButtons, setShowButtons] = useState(false);
   const [ctaVisible, setCtaVisible] = useState(false);
   const [totalCards, setTotalCards] = useState(0);
+  const [totalBirthdayCards, setTotalBirthdayCards] = useState(0);
+  const [totalValentinesCards, setTotalValentinesCards] = useState(0);
+
+  const statsLanding = [
+    { label: "Cards created", value: totalCards },
+    { label: "Birthday cards created", value: totalBirthdayCards},
+    { label: "Valentines cards created", value: totalValentinesCards},
+    { label: "Users", value: 1000 },
+    { label: "Cards Created", value: totalCards },
+    { label: "Templates", value: 25 },
+    { label: "Users", value: 1000 },
+  ];
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -39,6 +54,9 @@ export default function Home() {
       try {
         const response = await fetch("/api/cards");
         const data = await response.json();
+        console.log("Fetched total cards:", data);
+        setTotalBirthdayCards(data.totalBirthday);
+        setTotalValentinesCards(data.totalValentines);
         setTotalCards(data.total);
       } catch (error) {
         console.error("Error fetching total cards:", error);
@@ -127,8 +145,27 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="relative text-center flex items-center justify-center font-accent flex-col w-full h-screen overflow-hidden bg-main-black text-main-white font-accent">
+
+
+      {/* <section className="relative text-center flex items-center justify-center font-accent flex-col w-full h-screen overflow-hidden bg-main-black text-main-white font-accent">
         <DarkVeil hueShift={140} hueShift2={240} />
+        <div className="grid grid-cols-3 grid-rows-1 h-full w-full z-10">
+          <div className="flex col-start-2 col-span-2 items-center justify-center h-full w-full bg-red-400 p-28">
+            <div className="flex flex-col h-full w-full bg-green-500 gap-2">
+              {statsLanding.map((stat, key) => (
+                <div key={key} className="flex gap-4 w-full bg-blue-500">
+                  <span className="text-5xl font-bold">{stat.value}</span>
+                  <span className="text-main-white text-3xl font-medium mt-2">{stat.label}</span>
+                </div>
+              ))}
+            </div>
+            <StatsParallaxLines
+              lines={statsLanding}
+              className="h-full w-full bg-green-500"
+              lineClassName="bg-blue-500"
+            />
+          </div>
+        </div>
         <CountUp
           from={0}
           to={totalCards}
@@ -146,6 +183,62 @@ export default function Home() {
         >
           cards created
         </ScrollFloat>
+      </section> */}
+      <StatsParallaxSection lines={statsLanding} title="Site stats" />
+
+      <section className="relative text-center flex items-center justify-start flex-col w-full h-screen overflow-hidden bg-main-white">
+        <BackgroundGlares />
+        <div className="relative w-5/6 z-10 grid grid-cols-2 cursor-default h-[70%] place-content-end">
+          <div className="flex flex-col items-start space-y-4 justify-center animate-in slide-in-from-left-20 duration-1500 fade-in">
+            <p className="flex text-7xl font-accent justify-end font-bold whitespace-nowrap">
+              Create
+            </p>
+            <div className="flex justify-start">
+              <HeroHeadline />
+            </div>
+            <p className="text-7xl font-accent font-bold whitespace-nowrap">
+              cards in minutes.
+            </p>
+            <div
+              className={`relative z-10 flex gap-3 transition-all duration-1500 mt-4 w-full ${
+                showButtons
+                  ? "opacity-100 translate-y-0"
+                  : "opacity-0 translate-y-4"
+              }`}
+            >
+              <Link
+                href="/create"
+                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-2 font-medium text-white transition hover:bg-main-black/60!"
+              >
+                Get started
+              </Link>
+              <Link
+                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-3 font-medium text-white transition hover:bg-main-black/60!"
+                href="/more"
+              >
+                Learn more
+              </Link>
+            </div>
+          </div>
+          <div className="flex items-center justify-center animate-in slide-in-from-right-20 duration-1500 fade-in">
+          </div>
+        </div>
+        <div className="flex flex-[0.8] flex-col items-center justify-end absolute bottom-8">
+          <div
+            className={`flex flex-col items-center transition-all duration-500 gap-1 ${
+              ctaVisible
+                ? "translate-y-0 opacity-100"
+                : "translate-y-3 opacity-0"
+            }`}
+          >
+            <span className="font-main text-xs font-medium uppercase text-main-black/50">
+              Scroll
+            </span>
+            <div className="relative h-8 w-4 rounded-full border border-main-black/15">
+              <div className="absolute left-1/2 top-1.5 h-1.5 w-0.5 animate-scrollIndicator rounded-full" />
+            </div>
+          </div>
+        </div>
       </section>
     </main>
   );
