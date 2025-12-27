@@ -76,7 +76,7 @@ export function UserDropdown({
               Settings
             </a>
             <button
-              onClick={() => signOut({ callbackUrl: `${window.location.origin}/` })}
+              onClick={() => signOut({ callbackUrl: "/" })}
               className="hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor] text-sm font-medium text-main-white cursor-pointer"
             >
               Sign out
