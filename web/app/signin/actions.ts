@@ -26,6 +26,7 @@ export async function signInAction(
       email,
       password,
     });
+    revalidatePath("/", "layout");
     return { success: true };
   } catch (error) {
     if (error instanceof AuthError) {

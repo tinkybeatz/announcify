@@ -19,6 +19,7 @@ export function SignInForm() {
     if (state.success) {
       update().then(() => {
         router.push("/user");
+        router.refresh();
       });
     }
   }, [state, router, update]);
