@@ -16,7 +16,8 @@ export default async function ValentinePage({ params }: ValentinePageProps) {
   const card = await prisma.valentineCard.findUnique({ where: { id } });
   if (!card) return notFound();
   if (!card.isPublic) return notFound();
-  if (card.expiresAt && card.expiresAt.getTime() < Date.now()) return notFound();
+  const now = new Date();
+  if (card.expiresAt && card.expiresAt.getTime() < now.getTime()) return notFound();
 
   const content = (
     <main className="bg-rose-50 min-h-screen flex flex-col items-center text-rose-900">
@@ -24,9 +25,9 @@ export default async function ValentinePage({ params }: ValentinePageProps) {
         <h1 className="text-4xl font-bold text-center">Happy Valentine&apos;s Day {card.toName}! 💘</h1>
         <div className="mt-10 w-full max-w-3xl border border-rose-200 bg-white/80 rounded-lg shadow-lg p-10">
           <p className="min-h-[8rem] text-lg leading-relaxed">{card.message}</p>
-          {card.presentEnabled && card.presentText ? (
+          {card.gift && card.giftDescription ? (
             <div className="mt-6 rounded-xl border border-rose-200 bg-rose-50/70 p-4 text-center text-rose-600">
-              {card.presentText}
+              {card.giftDescription}
             </div>
           ) : null}
           <p className="mt-8 text-right text-lg font-semibold">- {card.fromName}</p>
@@ -35,5 +36,5 @@ export default async function ValentinePage({ params }: ValentinePageProps) {
     </main>
   );
 
-  return card.presentEnabled ? <PresentUnwrap>{content}</PresentUnwrap> : content;
+  return card.gift ? <PresentUnwrap>{content}</PresentUnwrap> : content;
 }
