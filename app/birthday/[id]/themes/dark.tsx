@@ -1,6 +1,6 @@
-export function BasicThemeBirthday(card: { toName: string; message: string; gift?: boolean; giftDescription?: string; fromName: string }) {
+export function DarkThemeBirthday(card: { toName: string; message: string; gift?: boolean; giftDescription?: string; fromName: string }) {
   return (
-    <main className="bg-zinc-100 min-h-screen flex flex-col items-center text-black">
+    <main className="bg-main-black min-h-screen flex flex-col items-center text-black">
       <div className="flex flex-1 flex-col items-center justify-center w-full px-6 py-12 lg:px-20">
         <h1 className="text-4xl font-bold text-center">
           Happy Birthday {card.toName}! 🎉

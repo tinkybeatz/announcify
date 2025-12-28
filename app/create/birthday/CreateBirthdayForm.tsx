@@ -96,6 +96,7 @@ export function CreateBirthdayForm() {
     message: "",
     giftOption: "none" as "none" | "gift",
     giftDescription: "",
+    theme: "basic" as "basic" | "dark" | "other",
   });
 
   // Pre-fill 'from' field with user's first name if logged in
@@ -188,6 +189,7 @@ export function CreateBirthdayForm() {
             formData.giftOption === "gift"
               ? formData.giftDescription
               : undefined,
+          theme: formData.theme,
         }),
       });
 
@@ -453,26 +455,28 @@ export function CreateBirthdayForm() {
               </div>
             )}
 
-            {formData.giftOption === "none" && (
-              <div className="flex items-center justify-center py-8 text-zinc-400">
-                <div className="text-center">
-                  <svg
-                    className="w-12 h-12 mx-auto mb-2 opacity-50"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M20 12H4"
-                    />
-                  </svg>
-                  <p className="text-sm">No additional options selected</p>
-                </div>
-              </div>
-            )}
+            <div className="flex-col w-full">
+              <label
+                htmlFor="theme"
+                className="block text-sm font-medium text-zinc-700"
+              >
+                Choose a theme
+              </label>
+              <select
+                id="theme"
+                name="theme"
+                value={formData.theme}
+                onChange={handleInputChange}
+                className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer"
+                disabled={submitting}
+                tabIndex={currentStep === 2 ? 0 : -1}
+              >
+                <option value="basic">Basic</option>
+                <option value="dark">Dark</option>
+              </select>
+            </div>
+
+
           </div>
         </div>
 
@@ -489,7 +493,7 @@ export function CreateBirthdayForm() {
             }
           `}
         >
-          <div className="flex flex-col w-full h-full p-6 rounded-xl space-y-4 bg-white border border-zinc-200">
+          <div className="flex flex-col w-full h-120 p-6 rounded-xl space-y-4 bg-white border border-zinc-200 overflow-auto">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
                 <svg
@@ -623,6 +627,35 @@ export function CreateBirthdayForm() {
                     </div>
                   </div>
                 )}
+              </div>
+
+              {/* Theme Section */}
+              <div className="bg-main-white rounded-lg p-4 border border-zinc-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <svg
+                    className="w-4 h-4 text-zinc-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium text-zinc-700">
+                    Theme
+                  </span>
+                </div>
+                <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
+                  <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
+                    <p className="text-xs text-main-black/80 font-medium whitespace-nowrap capitalize">
+                      {formData.theme}
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
