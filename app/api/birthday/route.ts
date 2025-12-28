@@ -6,7 +6,7 @@ import {
   getBirthdayCardForApi,
   getBirthdayCardOwner,
   updateBirthdayCard,
-} from "@/lib/birthdayCards";
+} from "@/lib/cards";
 import { auth } from "@/auth";
 
 export async function POST(req: Request) {

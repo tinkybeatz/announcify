@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useSession } from "next-auth/react";
 import ShareButton from "@/components/shareButton";
 
 type StepStatus = "completed" | "current" | "upcoming";
@@ -81,6 +81,7 @@ function StepIndicator({
 }
 
 export function CreateBirthdayForm() {
+  const { data: session } = useSession();
   const [currentStep, setCurrentStep] = useState(1);
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -97,7 +98,12 @@ export function CreateBirthdayForm() {
     giftDescription: "",
   });
 
-  const router = useRouter();
+  // Pre-fill 'from' field with user's first name if logged in
+  useEffect(() => {
+    if (session?.user?.firstName && !formData.from) {
+      setFormData((prev) => ({ ...prev, from: session.user.firstName || "" }));
+    }
+  }, [session, formData.from]);
 
   const steps = [
     { number: 1, title: "Basic Info" },
@@ -177,7 +183,7 @@ export function CreateBirthdayForm() {
           toName: formData.to,
           fromName: formData.from,
           message: formData.message,
-          presentEnabled: formData.giftOption === "gift",
+          gift: formData.giftOption === "gift",
           giftDescription:
             formData.giftOption === "gift"
               ? formData.giftDescription
@@ -206,24 +212,50 @@ export function CreateBirthdayForm() {
   }
 
   return (
-    <div className="h-full w-full flex-col mt-8">
+    <div className="h-full w-full flex-col mt-6">
       {/* Stepper Header */}
-      <div className="flex justify-center mb-8">
-        {steps.map((step, index) => (
-          <div
-            key={step.number}
-            onClick={() => handleStepClick(step.number)}
-            className={step.number < currentStep ? "cursor-pointer" : ""}
-            tabIndex={-1}
-          >
-            <StepIndicator
-              stepNumber={step.number}
-              title={step.title}
-              status={getStepStatus(step.number)}
-              isLast={index === steps.length - 1}
-            />
-          </div>
-        ))}
+      <div className="flex items-center justify-between w-full mb-6">
+        <div className="flex justify-center">
+          {steps.map((step, index) => (
+            <div
+              key={step.number}
+              onClick={() => handleStepClick(step.number)}
+              className={step.number < currentStep ? "cursor-pointer" : ""}
+              tabIndex={-1}
+            >
+              <StepIndicator
+                stepNumber={step.number}
+                title={step.title}
+                status={getStepStatus(step.number)}
+                isLast={index === steps.length - 1}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="flex items-center justify-center">
+          {/* Logged in status */}
+          {session?.user?.firstName && (
+            <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
+              <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-4 py-2">
+                <div className="flex flex-col items-center text-main-black/80 font-medium whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div>
+                    <span className="text-sm text-zinc-600">
+                      Logged in as{" "}
+                      <span className="font-semibold text-zinc-900">
+                        {session.user.firstName}{" "}
+                      </span>{" "}
+                    </span>
+                  </div>
+                  <span className="text-xs font-light text-zinc-400">
+                    This card will be saved to your account.
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
 
       {/* Step Content */}
@@ -572,9 +604,7 @@ export function CreateBirthdayForm() {
                 {formData.giftOption === "gift" ? (
                   <div className="flex items-center gap-2">
                     <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
-                      <div
-                        className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5"
-                      >
+                      <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
                         <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
                           Included
                         </p>
@@ -603,7 +633,7 @@ export function CreateBirthdayForm() {
       {error && (
         <div className="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 flex items-center gap-3">
           <svg
-            className="w-5 h-5 text-red-500 flex-shrink-0"
+            className="w-5 h-5 text-red-500 shrink-0"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"

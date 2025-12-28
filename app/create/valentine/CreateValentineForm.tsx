@@ -43,7 +43,7 @@ export function CreateValentineForm() {
           toName: to,
           fromName: from,
           message,
-          presentEnabled: true,
+          gift: true,
         }),
       });
 

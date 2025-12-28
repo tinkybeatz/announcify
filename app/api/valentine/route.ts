@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { parseCardPayload } from "@/lib/cardPayload";
-import { createValentineCard } from "@/lib/valentineCards";
+import { createValentineCard } from "@/lib/cards";
 import { auth } from "@/auth";
 
 export async function POST(req: Request) {

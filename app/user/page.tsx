@@ -3,7 +3,7 @@ import { redirect } from "next/navigation";
 import { Navbar } from "@/components/navbar/navbar";
 import { auth } from "@/auth";
 import Link from "next/link";
-import { getAllUserCards } from "@/lib/userCards";
+import { getAllUserCards } from "@/lib/cards";
 import { UserCardsDisplay } from "./UserCardsDisplay";
 import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 

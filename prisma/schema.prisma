@@ -16,8 +16,8 @@ model BirthdayCard {
   toName         String
   fromName       String
   message        String
-  presentEnabled Boolean  @default(false)
-  presentText    String?
+  gift           Boolean  @default(false)
+  giftDescription String?
   theme          Json?
   createdBy      String?
   creator        User?    @relation("BirthdayCardsCreated", fields: [createdBy], references: [id], onDelete: SetNull)
@@ -32,8 +32,8 @@ model ValentineCard {
   toName         String
   fromName       String
   message        String
-  presentEnabled Boolean  @default(false)
-  presentText    String?
+  gift           Boolean  @default(false)
+  giftDescription String?
   theme          Json?
   createdBy      String?
   creator        User?    @relation("ValentineCardsCreated", fields: [createdBy], references: [id], onDelete: SetNull)

@@ -4,8 +4,8 @@ export type ParsedCardPayload = {
   toName: string;
   fromName: string;
   message: string;
-  presentEnabled: boolean;
-  presentText: string | null;
+  gift: boolean;
+  giftDescription: string | null;
   isPublic: boolean;
   expiresAt: Date | null;
   theme: Prisma.JsonValue | null;
@@ -20,13 +20,12 @@ export function parseCardPayload(body: unknown): ParsedCardPayload | null {
   const message = typeof raw.message === "string" ? raw.message.trim() : "";
   if (!toName || !fromName || !message) return null;
 
-  const presentEnabled =
-    typeof raw.presentEnabled === "boolean" ? raw.presentEnabled : false;
-  const presentTextValue =
-    typeof raw.presentText === "string" ? raw.presentText.trim() : null;
-  const presentText =
-    presentEnabled && presentTextValue ? presentTextValue : null;
-
+  const gift =
+    typeof raw.gift === "boolean" ? raw.gift : false;
+  const giftDescriptionValue =
+    typeof raw.giftDescription === "string" ? raw.giftDescription.trim() : null;
+  const giftDescription =
+    gift && giftDescriptionValue ? giftDescriptionValue : null;
   const expiresRaw = raw.expiresAt;
   let expiresAt: Date | null = null;
   if (typeof expiresRaw === "string" && expiresRaw.trim()) {
@@ -43,8 +42,8 @@ export function parseCardPayload(body: unknown): ParsedCardPayload | null {
     toName,
     fromName,
     message,
-    presentEnabled,
-    presentText,
+    gift,
+    giftDescription,
     isPublic,
     expiresAt,
     theme,
