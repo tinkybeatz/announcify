@@ -30,6 +30,7 @@ export default function CreatePage() {
         { text: "Color picking", ok: false },
         { text: "Collaborative options", ok: false },
         { text: "Image upload", ok: false },
+        { text: "Custom signature", ok: false },
       ],
       link: "/create/birthday",
     },

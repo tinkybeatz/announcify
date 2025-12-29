@@ -8,6 +8,8 @@ interface BasicThemeBirthdayProps {
   gift?: boolean;
   giftDescription?: string;
   fromName: string;
+  customCardSignature?: string;
+  customGiftSignature?: string;
 }
 
 export function BasicThemeBirthday({
@@ -16,6 +18,8 @@ export function BasicThemeBirthday({
   gift,
   giftDescription,
   fromName,
+  customCardSignature,
+  customGiftSignature,
 }: BasicThemeBirthdayProps) {
   const [currentSlide, setCurrentSlide] = useState(0);
   const hasGift = gift && giftDescription;
@@ -122,7 +126,7 @@ export function BasicThemeBirthday({
                       </div>
                     )}
                     <div className="flex items-center gap-2">
-                      <span className="text-zinc-400">With love,</span>
+                      <span className="text-zinc-400">{customCardSignature || "With love,"}</span>
                       <div className="inline-flex items-center bg-linear-to-r from-red-500 to-yellow-500 rounded-full p-px">
                         <div className="bg-white rounded-full px-4 py-1.5">
                           <span className="font-semibold text-zinc-900">
@@ -190,7 +194,7 @@ export function BasicThemeBirthday({
                           <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
                         </svg>
                         <span className="text-sm">
-                          I hope this brings a smile to your face!
+                          {customGiftSignature || "I hope this brings a smile to your face!"}
                         </span>
                         <svg
                           className="w-5 h-5 text-red-400"

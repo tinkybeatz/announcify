@@ -50,6 +50,12 @@ export default async function BirthdayPage({ params }: BirthdayPageProps) {
               card.giftDescription ? card.giftDescription : undefined
             }
             fromName={card.fromName}
+            customCardSignature={
+              card.customCardSignature ? card.customCardSignature : undefined
+            }
+            customGiftSignature={
+              card.customGiftSignature ? card.customGiftSignature : undefined
+            }
           ></BasicThemeBirthday>
         </PresentUnwrap>
       );
@@ -64,6 +70,12 @@ export default async function BirthdayPage({ params }: BirthdayPageProps) {
               card.giftDescription ? card.giftDescription : undefined
             }
             fromName={card.fromName}
+            customCardSignature={
+              card.customCardSignature ? card.customCardSignature : undefined
+            }
+            customGiftSignature={
+              card.customGiftSignature ? card.customGiftSignature : undefined
+            }
           ></DarkThemeBirthday>
         </PresentUnwrap>
       );
@@ -78,6 +90,12 @@ export default async function BirthdayPage({ params }: BirthdayPageProps) {
               card.giftDescription ? card.giftDescription : undefined
             }
             fromName={card.fromName}
+            customCardSignature={
+              card.customCardSignature ? card.customCardSignature : undefined
+            }
+            customGiftSignature={
+              card.customGiftSignature ? card.customGiftSignature : undefined
+            }
           ></BasicThemeBirthday>
         </PresentUnwrap>
       );

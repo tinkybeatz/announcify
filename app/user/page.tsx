@@ -20,7 +20,9 @@ export default async function UserDashboardPage() {
 
   const mappedBirthdayCards = birthdayCards.map(card => ({
     ...card,
-    giftDescription: card.giftDescription ?? undefined
+    giftDescription: card.giftDescription ?? undefined,
+    customCardSignature: card.customCardSignature ?? undefined,
+    customGiftSignature: card.customGiftSignature ?? undefined
   }));
 
   const userName = session.user?.name ?? session.user.email.split("@")[0];

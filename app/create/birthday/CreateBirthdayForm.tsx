@@ -89,7 +89,8 @@ export function CreateBirthdayForm() {
   const [cardLink, setCardLink] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [cardCreated, setCardCreated] = useState(false);
-  const [shortMessageAcknowledged, setShortMessageAcknowledged] = useState(false);
+  const [shortMessageAcknowledged, setShortMessageAcknowledged] =
+    useState(false);
   const [isMounted, setIsMounted] = useState(false);
 
   // Form data state
@@ -100,6 +101,10 @@ export function CreateBirthdayForm() {
     giftOption: "none" as "none" | "gift",
     giftDescription: "",
     theme: "basic" as "basic" | "dark" | "other",
+    useCustomCardSignature: false,
+    customCardSignature: "",
+    useCustomGiftSignature: false,
+    customGiftSignature: "",
   });
 
   // Pre-fill 'from' field with user's first name if logged in
@@ -145,10 +150,12 @@ export function CreateBirthdayForm() {
         setError("Please fill every field to keep the magic personal.");
         return false;
       }
-      
+
       // Check if message is under 100 characters and not yet acknowledged
       if (formData.message.trim().length < 100 && !shortMessageAcknowledged) {
-        setError("Your message is a bit short (under 100 characters). Click Continue again if you'd like to proceed anyway, or add more to make it extra special.");
+        setError(
+          "Your message is a bit short (under 100 characters). Click Continue again if you'd like to proceed anyway, or add more to make it extra special."
+        );
         return false;
       }
     }
@@ -157,13 +164,32 @@ export function CreateBirthdayForm() {
         setError("Please describe the gift you're including.");
         return false;
       }
+      if (
+        formData.useCustomCardSignature &&
+        !formData.customCardSignature.trim()
+      ) {
+        setError("Please enter a custom card signature or disable the option.");
+        return false;
+      }
+      if (
+        formData.giftOption === "gift" &&
+        formData.useCustomGiftSignature &&
+        !formData.customGiftSignature.trim()
+      ) {
+        setError("Please enter a custom gift signature or disable the option.");
+        return false;
+      }
     }
     return true;
   };
 
   const handleNext = () => {
     // If on step 1 and message is short but not yet acknowledged
-    if (currentStep === 1 && formData.message.trim().length < 100 && !shortMessageAcknowledged) {
+    if (
+      currentStep === 1 &&
+      formData.message.trim().length < 100 &&
+      !shortMessageAcknowledged
+    ) {
       if (validateStep(currentStep)) {
         // This won't proceed, but will show the warning
         return;
@@ -172,7 +198,7 @@ export function CreateBirthdayForm() {
       setShortMessageAcknowledged(true);
       return;
     }
-    
+
     if (validateStep(currentStep)) {
       setCurrentStep((prev) => Math.min(prev + 1, 3));
       // Reset acknowledgment when moving to next step
@@ -219,6 +245,12 @@ export function CreateBirthdayForm() {
               ? formData.giftDescription
               : undefined,
           theme: formData.theme,
+          customCardSignature: formData.useCustomCardSignature
+            ? formData.customCardSignature
+            : undefined,
+          customGiftSignature: formData.useCustomGiftSignature
+            ? formData.customGiftSignature
+            : undefined,
         }),
       });
 
@@ -244,8 +276,8 @@ export function CreateBirthdayForm() {
 
   return (
     <div className="h-full w-full flex-col mt-6">
-        {/* Stepper Header */}
-        <div className="flex items-center justify-between w-full mb-6">
+      {/* Stepper Header */}
+      <div className="flex items-center justify-between w-full mb-6">
         <div className="flex justify-center">
           {steps.map((step, index) => (
             <div
@@ -294,8 +326,8 @@ export function CreateBirthdayForm() {
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-red-500"></div>
                     <span className="text-sm text-zinc-600">
-                      You are {" "}
-                      <span className="font-semibold text-zinc-900">NOT {" "}</span>
+                      You are{" "}
+                      <span className="font-semibold text-zinc-900">NOT </span>
                       logged in
                     </span>
                   </div>
@@ -436,7 +468,7 @@ export function CreateBirthdayForm() {
             }
           `}
         >
-          <div className="flex flex-col w-full h-full p-6 rounded-xl space-y-4 bg-white border border-zinc-200">
+          <div className="flex flex-col w-full h-full p-6 rounded-xl space-y-4 bg-white border border-zinc-200 max-h-120 overflow-auto">
             <div className="flex items-center gap-3">
               <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
                 <svg
@@ -460,69 +492,193 @@ export function CreateBirthdayForm() {
               Customize your card with additional options.
             </p>
 
-            <div className="flex-col w-full">
-              <label
-                htmlFor="giftOption"
-                className="block text-sm font-medium text-zinc-700"
-              >
-                Would you like to include a gift mention?
-              </label>
-              <select
-                id="giftOption"
-                name="giftOption"
-                value={formData.giftOption}
-                onChange={handleInputChange}
-                className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer"
-                disabled={submitting}
-                tabIndex={currentStep === 2 ? 0 : -1}
-              >
-                <option value="none">No gift mention</option>
-                <option value="gift">Yes, include a gift</option>
-              </select>
-            </div>
-
-            {formData.giftOption === "gift" && (
-              <div className="flex-col w-full animate-fadeIn">
+            <div className="border-t border-zinc-200 mb-4 py-4 space-y-3">
+              <h2 className="font-semibold">
+                <span className="font-bold text-main-red">1. </span>Gift
+              </h2>
+              <div className="flex-col w-full">
                 <label
-                  htmlFor="giftDescription"
+                  htmlFor="giftOption"
                   className="block text-sm font-medium text-zinc-700"
                 >
-                  Describe the gift
+                  Would you like to include a gift mention?
                 </label>
-                <input
-                  id="giftDescription"
-                  name="giftDescription"
-                  type="text"
-                  value={formData.giftDescription}
+                <select
+                  id="giftOption"
+                  name="giftOption"
+                  value={formData.giftOption}
                   onChange={handleInputChange}
-                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
-                  placeholder="A special surprise awaits..."
-                  maxLength={200}
+                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer"
                   disabled={submitting}
                   tabIndex={currentStep === 2 ? 0 : -1}
-                />
+                >
+                  <option value="none">No gift mention</option>
+                  <option value="gift">Yes, include a gift</option>
+                </select>
               </div>
-            )}
 
-            <div className="flex-col w-full">
-              <label
-                htmlFor="theme"
-                className="block text-sm font-medium text-zinc-700"
-              >
-                Choose a theme
-              </label>
-              <select
-                id="theme"
-                name="theme"
-                value={formData.theme}
-                onChange={handleInputChange}
-                className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer"
-                disabled={submitting}
-                tabIndex={currentStep === 2 ? 0 : -1}
-              >
-                <option value="basic">Basic</option>
-                <option value="dark">Dark</option>
-              </select>
+              {formData.giftOption === "gift" && (
+                <div className="flex-col w-full animate-fadeIn">
+                  <label
+                    htmlFor="giftDescription"
+                    className="block text-sm font-medium text-zinc-700"
+                  >
+                    Describe the gift
+                  </label>
+                  <input
+                    id="giftDescription"
+                    name="giftDescription"
+                    type="text"
+                    value={formData.giftDescription}
+                    onChange={handleInputChange}
+                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                    placeholder="A special surprise awaits..."
+                    maxLength={200}
+                    disabled={submitting}
+                    tabIndex={currentStep === 2 ? 0 : -1}
+                  />
+                </div>
+              )}
+            </div>
+
+            <div className="border-t border-zinc-200 mb-4 py-4 space-y-3">
+              <h2 className="font-semibold">
+                <span className="font-bold text-main-red">2. </span>Theme
+              </h2>
+              <div className="flex-col w-full">
+                <label
+                  htmlFor="theme"
+                  className="block text-sm font-medium text-zinc-700"
+                >
+                  Choose a theme
+                </label>
+                <select
+                  id="theme"
+                  name="theme"
+                  value={formData.theme}
+                  onChange={handleInputChange}
+                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer"
+                  disabled={submitting}
+                  tabIndex={currentStep === 2 ? 0 : -1}
+                >
+                  <option value="basic">Basic</option>
+                  <option value="dark">Dark</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="border-t border-zinc-200 pt-4 space-y-3">
+              <h2 className="font-semibold">
+                <span className="font-bold text-main-red">3. </span>Custom
+                signatures
+              </h2>
+
+              {/* Card Signature */}
+              <div className="space-y-3">
+                <div className="flex items-center gap-2">
+                  <input
+                    type="checkbox"
+                    id="useCustomCardSignature"
+                    checked={formData.useCustomCardSignature}
+                    onChange={(e) =>
+                      setFormData((prev) => ({
+                        ...prev,
+                        useCustomCardSignature: e.target.checked,
+                      }))
+                    }
+                    className="w-4 h-4 text-red-600 border-zinc-300 rounded focus:ring-2 focus:ring-red-100 cursor-pointer"
+                    disabled={submitting}
+                    tabIndex={currentStep === 2 ? 0 : -1}
+                  />
+                  <label
+                    htmlFor="useCustomCardSignature"
+                    className="text-sm font-medium text-zinc-700 cursor-pointer"
+                  >
+                    Use custom card signature
+                  </label>
+                </div>
+
+                {formData.useCustomCardSignature && (
+                  <div className="flex-col w-full animate-fadeIn">
+                    <label
+                      htmlFor="customCardSignature"
+                      className="block text-sm font-medium text-zinc-700"
+                    >
+                      Card signature (replaces &quot;With love,&quot;)
+                    </label>
+                    <input
+                      id="customCardSignature"
+                      name="customCardSignature"
+                      type="text"
+                      value={formData.customCardSignature}
+                      onChange={handleInputChange}
+                      className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                      placeholder="Warmest wishes from"
+                      maxLength={50}
+                      disabled={submitting}
+                      tabIndex={currentStep === 2 ? 0 : -1}
+                    />
+                    <p className="text-xs text-zinc-400 mt-1 text-right">
+                      {formData.customCardSignature.length}/50
+                    </p>
+                  </div>
+                )}
+              </div>
+
+              {/* Gift Signature - only show if gift option is selected */}
+              {formData.giftOption === "gift" && (
+                <div className="space-y-3 pt-3">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="checkbox"
+                      id="useCustomGiftSignature"
+                      checked={formData.useCustomGiftSignature}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          useCustomGiftSignature: e.target.checked,
+                        }))
+                      }
+                      className="w-4 h-4 text-red-600 border-zinc-300 rounded focus:ring-2 focus:ring-red-100 cursor-pointer"
+                      disabled={submitting}
+                      tabIndex={currentStep === 2 ? 0 : -1}
+                    />
+                    <label
+                      htmlFor="useCustomGiftSignature"
+                      className="text-sm font-medium text-zinc-700 cursor-pointer"
+                    >
+                      Use custom gift signature
+                    </label>
+                  </div>
+
+                  {formData.useCustomGiftSignature && (
+                    <div className="flex-col w-full animate-fadeIn">
+                      <label
+                        htmlFor="customGiftSignature"
+                        className="block text-sm font-medium text-zinc-700"
+                      >
+                        Gift signature (replaces &quot;I hope this brings a
+                        smile to your face!&quot;)
+                      </label>
+                      <input
+                        id="customGiftSignature"
+                        name="customGiftSignature"
+                        type="text"
+                        value={formData.customGiftSignature}
+                        onChange={handleInputChange}
+                        className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                        placeholder="Enjoy your special surprise!"
+                        maxLength={50}
+                        disabled={submitting}
+                        tabIndex={currentStep === 2 ? 0 : -1}
+                      />
+                      <p className="text-xs text-zinc-400 mt-1 text-right">
+                        {formData.customGiftSignature.length}/50
+                      </p>
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -704,6 +860,95 @@ export function CreateBirthdayForm() {
                   </div>
                 </div>
               </div>
+
+              {/* Custom Signatures Section */}
+              <div className="bg-main-white rounded-lg p-4 border border-zinc-200">
+                <div className="flex items-center gap-2 mb-3">
+                  <svg
+                    className="w-4 h-4 text-zinc-500"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                    />
+                  </svg>
+                  <span className="text-sm font-medium text-zinc-700">
+                    Card signatures
+                  </span>
+                </div>
+                <div className="space-y-3">
+                  {/* Card Signature */}
+                  <div>
+                    <p className="text-xs text-zinc-400 uppercase tracking-wide mb-1">
+                      Card Signature
+                    </p>
+                    {formData.useCustomCardSignature ? (
+                      <div className="inline-flex items-center gap-2">
+                        <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
+                          <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
+                            <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
+                              Custom
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-zinc-700 text-sm">
+                          {formData.customCardSignature}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center gap-2">
+                        <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300 to-zinc-400 rounded-full px-px py-px">
+                          <div className="bg-linear-to-r from-zinc-50 to-zinc-100 rounded-full px-1.5 py-0.5">
+                            <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
+                              Default
+                            </p>
+                          </div>
+                        </div>
+                        <p className="text-zinc-700 text-sm">With love,</p>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Gift Signature - only show if gift is included */}
+                  {formData.giftOption === "gift" && (
+                    <div>
+                      <p className="text-xs text-zinc-400 uppercase tracking-wide mb-1">
+                        Gift Signature
+                      </p>
+                      {formData.useCustomGiftSignature ? (
+                        <div className="inline-flex items-center gap-2">
+                          <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
+                            <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
+                              <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
+                                Custom
+                              </p>
+                            </div>
+                          </div>
+                          <p className="text-zinc-700 text-sm">
+                            {formData.customGiftSignature}
+                          </p>
+                        </div>
+                      ) : (
+                        <div className="inline-flex items-center gap-2">
+                          <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300 to-zinc-400 rounded-full px-px py-px">
+                            <div className="bg-linear-to-r from-zinc-50 to-zinc-100 rounded-full px-1.5 py-0.5">
+                              <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
+                                Default
+                              </p>
+                            </div>
+                          </div>
+                          <p className="text-zinc-700 text-sm">I hope this brings a smile to your face!</p>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -711,14 +956,18 @@ export function CreateBirthdayForm() {
 
       {/* Error Display */}
       {error && (
-        <div className={`mt-4 rounded-xl px-4 py-3 flex items-center gap-3 ${
-          error.includes("under 100 characters")
-            ? "bg-yellow-50 border border-yellow-200"
-            : "bg-red-50 border border-red-200"
-        }`}>
+        <div
+          className={`mt-4 rounded-xl px-4 py-3 flex items-center gap-3 ${
+            error.includes("under 100 characters")
+              ? "bg-yellow-50 border border-yellow-200"
+              : "bg-red-50 border border-red-200"
+          }`}
+        >
           <svg
             className={`w-5 h-5 shrink-0 ${
-              error.includes("under 100 characters") ? "text-yellow-500" : "text-red-500"
+              error.includes("under 100 characters")
+                ? "text-yellow-500"
+                : "text-red-500"
             }`}
             fill="none"
             stroke="currentColor"
@@ -731,9 +980,15 @@ export function CreateBirthdayForm() {
               d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className={`text-sm font-medium ${
-            error.includes("under 100 characters") ? "text-yellow-700" : "text-red-600"
-          }`}>{error}</p>
+          <p
+            className={`text-sm font-medium ${
+              error.includes("under 100 characters")
+                ? "text-yellow-700"
+                : "text-red-600"
+            }`}
+          >
+            {error}
+          </p>
         </div>
       )}
 
@@ -859,10 +1114,15 @@ export function CreateBirthdayForm() {
         )}
       </div>
 
-      {isMounted && showModal && createPortal(
-        <ShareButton shareUrl={cardLink} onClose={() => setShowModal(false)} />,
-        document.body
-      )}
+      {isMounted &&
+        showModal &&
+        createPortal(
+          <ShareButton
+            shareUrl={cardLink}
+            onClose={() => setShowModal(false)}
+          />,
+          document.body
+        )}
     </div>
   );
 }

@@ -18,6 +18,8 @@ model BirthdayCard {
   message        String
   gift           Boolean  @default(false)
   giftDescription String?
+  customCardSignature String?
+  customGiftSignature String?
   theme          Json?
   createdBy      String?
   creator        User?    @relation("BirthdayCardsCreated", fields: [createdBy], references: [id], onDelete: SetNull)

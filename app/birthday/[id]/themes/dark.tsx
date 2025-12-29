@@ -1,4 +1,12 @@
-export function DarkThemeBirthday(card: { toName: string; message: string; gift?: boolean; giftDescription?: string; fromName: string }) {
+export function DarkThemeBirthday(card: { 
+  toName: string; 
+  message: string; 
+  gift?: boolean; 
+  giftDescription?: string; 
+  fromName: string;
+  customCardSignature?: string;
+  customGiftSignature?: string;
+}) {
   return (
     <main className="bg-main-black min-h-screen flex flex-col items-center text-black">
       <div className="flex flex-1 flex-col items-center justify-center w-full px-6 py-12 lg:px-20">

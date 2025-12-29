@@ -6,6 +6,8 @@ export type ParsedCardPayload = {
   message: string;
   gift: boolean;
   giftDescription: string | null;
+  customCardSignature: string | null;
+  customGiftSignature: string | null;
   isPublic: boolean;
   expiresAt: Date | null;
   theme: Prisma.JsonValue | null;
@@ -26,6 +28,21 @@ export function parseCardPayload(body: unknown): ParsedCardPayload | null {
     typeof raw.giftDescription === "string" ? raw.giftDescription.trim() : null;
   const giftDescription =
     gift && giftDescriptionValue ? giftDescriptionValue : null;
+  
+  const customCardSignatureValue =
+    typeof raw.customCardSignature === "string" ? raw.customCardSignature.trim() : null;
+  const customCardSignature =
+    customCardSignatureValue && customCardSignatureValue.length <= 50 
+      ? customCardSignatureValue 
+      : null;
+  
+  const customGiftSignatureValue =
+    typeof raw.customGiftSignature === "string" ? raw.customGiftSignature.trim() : null;
+  const customGiftSignature =
+    customGiftSignatureValue && customGiftSignatureValue.length <= 50 
+      ? customGiftSignatureValue 
+      : null;
+  
   const expiresRaw = raw.expiresAt;
   let expiresAt: Date | null = null;
   if (typeof expiresRaw === "string" && expiresRaw.trim()) {
@@ -44,6 +61,8 @@ export function parseCardPayload(body: unknown): ParsedCardPayload | null {
     message,
     gift,
     giftDescription,
+    customCardSignature,
+    customGiftSignature,
     isPublic,
     expiresAt,
     theme,

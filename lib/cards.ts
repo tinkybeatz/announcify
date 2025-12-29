@@ -65,6 +65,8 @@ export async function getBirthdayCards() {
       createdAt: true,
       gift: true,
       giftDescription: true,
+      customCardSignature: true,
+      customGiftSignature: true,
     },
     orderBy: { createdAt: "desc" },
   });
@@ -80,6 +82,8 @@ export async function getUserBirthdayCards(userId: string) {
       createdAt: true,
       gift: true,
       giftDescription: true,
+      customCardSignature: true,
+      customGiftSignature: true,
     },
     orderBy: { createdAt: "desc" },
   });
