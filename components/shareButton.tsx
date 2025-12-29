@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ExternalLink, X, Copy, Check } from "lucide-react";
-import { ca } from "zod/locales";
 
 export default function ShareButton({
   shareUrl,
@@ -85,7 +84,7 @@ export default function ShareButton({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onClose}
-              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40"
+              className="fixed inset-0 bg-black/40 backdrop-blur-md z-[60]"
             />
 
             <motion.div
@@ -93,12 +92,12 @@ export default function ShareButton({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 50 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed inset-0 z-50 flex items-center justify-center p-4"
+              className="fixed inset-0 z-[70] flex items-center justify-center p-4 pointer-events-none"
               onClick={onClose}
             >
               <motion.div
                 onClick={(e) => e.stopPropagation()}
-                className="bg-white rounded-3xl shadow-2xl p-6 max-w-md w-full"
+                className="bg-white rounded-3xl shadow-2xl p-6 max-w-md w-full pointer-events-auto"
               >
                 <div className="flex justify-between items-center mb-4">
                   <motion.h2

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { createPortal } from "react-dom";
 import { useSession } from "next-auth/react";
 import ShareButton from "@/components/shareButton";
 
@@ -88,6 +89,8 @@ export function CreateBirthdayForm() {
   const [cardLink, setCardLink] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [cardCreated, setCardCreated] = useState(false);
+  const [shortMessageAcknowledged, setShortMessageAcknowledged] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
 
   // Form data state
   const [formData, setFormData] = useState({
@@ -100,6 +103,10 @@ export function CreateBirthdayForm() {
   });
 
   // Pre-fill 'from' field with user's first name if logged in
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
   useEffect(() => {
     if (session?.user?.firstName && !formData.from) {
       setFormData((prev) => ({ ...prev, from: session.user.firstName || "" }));
@@ -138,6 +145,12 @@ export function CreateBirthdayForm() {
         setError("Please fill every field to keep the magic personal.");
         return false;
       }
+      
+      // Check if message is under 100 characters and not yet acknowledged
+      if (formData.message.trim().length < 100 && !shortMessageAcknowledged) {
+        setError("Your message is a bit short (under 100 characters). Click Continue again if you'd like to proceed anyway, or add more to make it extra special.");
+        return false;
+      }
     }
     if (step === 2) {
       if (formData.giftOption === "gift" && !formData.giftDescription.trim()) {
@@ -149,13 +162,29 @@ export function CreateBirthdayForm() {
   };
 
   const handleNext = () => {
+    // If on step 1 and message is short but not yet acknowledged
+    if (currentStep === 1 && formData.message.trim().length < 100 && !shortMessageAcknowledged) {
+      if (validateStep(currentStep)) {
+        // This won't proceed, but will show the warning
+        return;
+      }
+      // Set acknowledged to true so next click will proceed
+      setShortMessageAcknowledged(true);
+      return;
+    }
+    
     if (validateStep(currentStep)) {
       setCurrentStep((prev) => Math.min(prev + 1, 3));
+      // Reset acknowledgment when moving to next step
+      if (currentStep === 1) {
+        setShortMessageAcknowledged(false);
+      }
     }
   };
 
   const handleBack = () => {
     setError(null);
+    setShortMessageAcknowledged(false);
     setCurrentStep((prev) => Math.max(prev - 1, 1));
   };
 
@@ -215,8 +244,8 @@ export function CreateBirthdayForm() {
 
   return (
     <div className="h-full w-full flex-col mt-6">
-      {/* Stepper Header */}
-      <div className="flex items-center justify-between w-full mb-6">
+        {/* Stepper Header */}
+        <div className="flex items-center justify-between w-full mb-6">
         <div className="flex justify-center">
           {steps.map((step, index) => (
             <div
@@ -252,6 +281,26 @@ export function CreateBirthdayForm() {
                   </div>
                   <span className="text-xs font-light text-zinc-400">
                     This card will be saved to your account.
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+          {/* NOT Logged in status */}
+          {!session?.user?.firstName && (
+            <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300 to-zinc-400 rounded-full px-px py-px">
+              <div className="bg-linear-to-r from-zinc-50 to-zinc-100 rounded-full px-4 py-2">
+                <div className="flex flex-col items-center text-main-black/80 font-medium whitespace-nowrap">
+                  <div className="flex items-center gap-2">
+                    <div className="w-2 h-2 rounded-full bg-red-500"></div>
+                    <span className="text-sm text-zinc-600">
+                      You are {" "}
+                      <span className="font-semibold text-zinc-900">NOT {" "}</span>
+                      logged in
+                    </span>
+                  </div>
+                  <span className="text-xs font-light text-zinc-400">
+                    Sign-in or create an account to save the card
                   </span>
                 </div>
               </div>
@@ -475,8 +524,6 @@ export function CreateBirthdayForm() {
                 <option value="dark">Dark</option>
               </select>
             </div>
-
-
           </div>
         </div>
 
@@ -664,9 +711,15 @@ export function CreateBirthdayForm() {
 
       {/* Error Display */}
       {error && (
-        <div className="mt-4 rounded-xl bg-red-50 border border-red-200 px-4 py-3 flex items-center gap-3">
+        <div className={`mt-4 rounded-xl px-4 py-3 flex items-center gap-3 ${
+          error.includes("under 100 characters")
+            ? "bg-yellow-50 border border-yellow-200"
+            : "bg-red-50 border border-red-200"
+        }`}>
           <svg
-            className="w-5 h-5 text-red-500 shrink-0"
+            className={`w-5 h-5 shrink-0 ${
+              error.includes("under 100 characters") ? "text-yellow-500" : "text-red-500"
+            }`}
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -678,7 +731,9 @@ export function CreateBirthdayForm() {
               d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <p className="text-sm font-medium text-red-600">{error}</p>
+          <p className={`text-sm font-medium ${
+            error.includes("under 100 characters") ? "text-yellow-700" : "text-red-600"
+          }`}>{error}</p>
         </div>
       )}
 
@@ -804,8 +859,9 @@ export function CreateBirthdayForm() {
         )}
       </div>
 
-      {showModal && (
-        <ShareButton shareUrl={cardLink} onClose={() => setShowModal(false)} />
+      {isMounted && showModal && createPortal(
+        <ShareButton shareUrl={cardLink} onClose={() => setShowModal(false)} />,
+        document.body
       )}
     </div>
   );
