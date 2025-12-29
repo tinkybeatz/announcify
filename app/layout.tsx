@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { SessionProviderWrapper } from "@/components/providers/SessionProviderWrapper";
+import { auth } from "@/auth";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -13,11 +14,13 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await auth();
+  
   return (
     <html lang="en">
       <head>
@@ -26,7 +29,7 @@ export default function RootLayout({
         <link href="https://fonts.googleapis.com/css2?family=Zalando+Sans:wght@400;500;600;700&family=Zalando+Sans+Expanded:wght@400;500;600;700&display=swap" rel="stylesheet" />
       </head>
       <body className="antialiased">
-        <SessionProviderWrapper>
+        <SessionProviderWrapper session={session}>
           {children}
         </SessionProviderWrapper>
       </body>

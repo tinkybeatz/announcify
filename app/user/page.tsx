@@ -18,6 +18,11 @@ export default async function UserDashboardPage() {
 
   const { birthdayCards, valentineCards, total } = await getAllUserCards(session.user.id);
 
+  const mappedBirthdayCards = birthdayCards.map(card => ({
+    ...card,
+    giftDescription: card.giftDescription ?? undefined
+  }));
+
   const userName = session.user?.name ?? session.user.email.split("@")[0];
   const firstName = session.user?.firstName ?? userName.split(" ")[0];
 
@@ -49,7 +54,7 @@ export default async function UserDashboardPage() {
         </div>
 
         <UserCardsDisplay
-          birthdayCards={birthdayCards}
+          birthdayCards={mappedBirthdayCards}
           valentineCards={valentineCards}
           total={total}
         />
