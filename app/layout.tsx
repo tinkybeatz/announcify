@@ -5,12 +5,12 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "🎁 announcify",
-    template: "%s | announcify",
+    default: "Announcify",
+    template: "Announcify",
   },
   description: "Create instant celebratory microsites from a simple form.",
   icons: {
-    icon: "/icon.svg",
+    icon: "/gift.webp",
   },
 };
 
