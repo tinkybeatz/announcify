@@ -1,6 +1,7 @@
 "use client";
 
 import { Navbar } from "@/components/navbar/navbar";
+import { MobileNavbar } from "@/components/navbar/MobileNavbar";
 import HeroHeadline from "@/components/home/HeroHeadline";
 import Link from "next/link";
 // import { Tilt } from "@/components/tilt/tilt";
@@ -67,22 +68,27 @@ export default function Home() {
 
   return (
     <main className="flex flex-col bg-main-white text-zinc-900">
-      <Navbar />
-      <section className="relative text-center flex items-center justify-start flex-col w-full h-screen overflow-hidden bg-main-white">
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
+      <div className="md:hidden">
+        <MobileNavbar />
+      </div>
+      <section className="relative flex min-h-svh w-full flex-col items-center justify-start overflow-hidden bg-main-white text-center md:h-screen md:text-left">
         <BackgroundGlares />
-        <div className="relative w-5/6 z-10 grid grid-cols-2 cursor-default h-[70%] place-content-end">
-          <div className="flex flex-col items-start space-y-4 justify-center animate-in slide-in-from-left-20 duration-1500 fade-in">
-            <p className="flex text-7xl font-accent justify-end font-bold whitespace-nowrap">
+        <div className="relative z-10 grid w-11/12 cursor-default grid-cols-1 place-content-center gap-6 pt-20 sm:gap-8 sm:pt-24 md:h-[70%] md:w-5/6 md:grid-cols-2 md:place-content-end md:pt-0 lg:gap-12 xl:gap-14">
+          <div className="flex flex-col items-center justify-center space-y-3 animate-in slide-in-from-left-20 duration-1500 fade-in sm:space-y-4 md:items-start lg:space-y-5">
+            <p className="flex justify-end font-accent text-4xl font-bold whitespace-normal sm:text-5xl md:text-6xl md:whitespace-nowrap lg:text-7xl xl:text-8xl">
               Create
             </p>
-            <div className="flex justify-start">
+            <div className="flex justify-center md:justify-start">
               <HeroHeadline />
             </div>
-            <p className="text-7xl font-accent font-bold whitespace-nowrap">
+            <p className="font-accent text-4xl font-bold whitespace-normal sm:text-5xl md:text-6xl md:whitespace-nowrap lg:text-7xl xl:text-8xl">
               cards in minutes.
             </p>
             <div
-              className={`relative z-10 flex gap-3 transition-all duration-1500 mt-4 w-full ${
+              className={`relative z-10 mt-4 flex w-full flex-col gap-3 transition-all duration-1500 sm:mt-5 md:mt-6 md:flex-row md:items-center ${
                 showButtons
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"
@@ -90,12 +96,12 @@ export default function Home() {
             >
               <Link
                 href="/create"
-                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-2 font-medium text-white transition hover:bg-main-black/60!"
+                className="inline-flex w-full items-center justify-center rounded-xl bg-main-black/50 px-4 py-2 font-medium text-white transition hover:bg-main-black/60! md:w-auto"
               >
                 Get started
               </Link>
               <Link
-                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-3 font-medium text-white transition hover:bg-main-black/60!"
+                className="inline-flex w-full items-center justify-center rounded-xl bg-main-black/50 px-4 py-3 font-medium text-white transition hover:bg-main-black/60! md:w-auto"
                 href="/more"
               >
                 Learn more
@@ -128,7 +134,7 @@ export default function Home() {
           </div>
         </div>
         {/* Bottom spacer with scroll indicator */}
-        <div className="flex flex-[0.8] flex-col items-center justify-end absolute bottom-8">
+        <div className="absolute bottom-6 flex flex-[0.8] flex-col items-center justify-end md:bottom-8">
           <div
             className={`flex flex-col items-center transition-all duration-500 gap-1 ${
               ctaVisible
@@ -185,61 +191,6 @@ export default function Home() {
         </ScrollFloat>
       </section> */}
       <StatsParallaxSection lines={statsLanding} title="Site stats" />
-
-      <section className="relative text-center flex items-center justify-start flex-col w-full h-screen overflow-hidden bg-main-white">
-        <BackgroundGlares />
-        <div className="relative w-5/6 z-10 grid grid-cols-2 cursor-default h-[70%] place-content-end">
-          <div className="flex flex-col items-start space-y-4 justify-center animate-in slide-in-from-left-20 duration-1500 fade-in">
-            <p className="flex text-7xl font-accent justify-end font-bold whitespace-nowrap">
-              Create
-            </p>
-            <div className="flex justify-start">
-              <HeroHeadline />
-            </div>
-            <p className="text-7xl font-accent font-bold whitespace-nowrap">
-              cards in minutes.
-            </p>
-            <div
-              className={`relative z-10 flex gap-3 transition-all duration-1500 mt-4 w-full ${
-                showButtons
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
-              <Link
-                href="/create"
-                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-2 font-medium text-white transition hover:bg-main-black/60!"
-              >
-                Get started
-              </Link>
-              <Link
-                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 px-4 py-3 font-medium text-white transition hover:bg-main-black/60!"
-                href="/more"
-              >
-                Learn more
-              </Link>
-            </div>
-          </div>
-          <div className="flex items-center justify-center animate-in slide-in-from-right-20 duration-1500 fade-in">
-          </div>
-        </div>
-        <div className="flex flex-[0.8] flex-col items-center justify-end absolute bottom-8">
-          <div
-            className={`flex flex-col items-center transition-all duration-500 gap-1 ${
-              ctaVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-3 opacity-0"
-            }`}
-          >
-            <span className="font-main text-xs font-medium uppercase text-main-black/50">
-              Scroll
-            </span>
-            <div className="relative h-8 w-4 rounded-full border border-main-black/15">
-              <div className="absolute left-1/2 top-1.5 h-1.5 w-0.5 animate-scrollIndicator rounded-full" />
-            </div>
-          </div>
-        </div>
-      </section>
     </main>
   );
 }

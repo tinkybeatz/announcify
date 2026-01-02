@@ -6,14 +6,23 @@ import RotatingText from "@/components/shadcn/rotatingText/RotatingText";
 export default function HeroHeadline() {
   return (
     <LayoutGroup>
-      <motion.div layout className="flex flex-nowrap gap-4 items-center justify-center">
+      <motion.div
+        layout
+        className="flex flex-wrap items-center justify-center gap-3 md:flex-nowrap md:gap-4"
+      >
         {/* <motion.p layout className="text-6xl font-accent font-bold whitespace-nowrap">
           Create
         </motion.p> */}
 
         <RotatingText
-          texts={["christmas", "birthday", "valentine's day", "anniversary", "graduation"]}
-          mainClassName="px-5 py-3 bg-linear-to-r from-main-yellow to-main-red text-main-white font-accent text-7xl font-bold rounded-xl"
+          texts={[
+            "christmas",
+            "birthday",
+            "valentine's day",
+            "anniversary",
+            "graduation",
+          ]}
+          mainClassName="bg-linear-to-r from-main-yellow to-main-red px-4 py-2 font-accent text-4xl font-bold text-main-white rounded-xl sm:px-5 sm:py-3 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
           staggerFrom="last"
           staggerDuration={0.025}
           transition={{ type: "spring", damping: 30, stiffness: 400 }}
