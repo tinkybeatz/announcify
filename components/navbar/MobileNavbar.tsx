@@ -46,7 +46,7 @@ export function MobileNavbar({ initialSession }: MobileNavbarProps = {}) {
     <>
       {/* Mobile Navbar Header */}
       <div className="h-22 fixed top-0 z-50 bg-transparent items-center pt-6 justify-center flex w-full gap-3 md:hidden">
-        <div className="bg-main-black/50 backdrop-blur-md flex justify-between items-center rounded-xl w-2/3 h-full px-5">
+        <div className="bg-main-black/50 backdrop-blur-md flex justify-between items-center rounded-xl w-2/3 h-full pl-6 pr-3">
           <Link
             href="/"
             className="flex text-main-white font-accent text-lg font-bold items-center"

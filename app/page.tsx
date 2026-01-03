@@ -74,21 +74,21 @@ export default function Home() {
       <div className="md:hidden">
         <MobileNavbar />
       </div>
-      <section className="relative flex min-h-svh w-full flex-col items-center justify-start overflow-hidden bg-main-white text-center md:h-screen md:text-left">
+      <section className="relative flex min-h-svh h-svh w-full flex-col items-center justify-center overflow-hidden bg-main-white text-center">
         <BackgroundGlares />
-        <div className="relative z-10 grid w-11/12 cursor-default grid-cols-1 place-content-center gap-6 pt-20 sm:gap-8 sm:pt-24 md:h-[70%] md:w-5/6 md:grid-cols-2 md:place-content-end md:pt-0 lg:gap-12 xl:gap-14">
-          <div className="flex flex-col items-center justify-center space-y-3 animate-in slide-in-from-left-20 duration-1500 fade-in sm:space-y-4 md:items-start lg:space-y-5">
-            <p className="flex justify-end font-accent text-4xl font-bold whitespace-normal sm:text-5xl md:text-6xl md:whitespace-nowrap lg:text-7xl xl:text-8xl">
+        <div className="relative md:w-11/12 sm:w-4/5 z-10 grid h-full cursor-default grid-cols-1 place-content-center gap-6 pt-20 sm:gap-8 sm:pt-24 md:h-full md:grid-cols-1 lg:gap-12 xl:gap-14">
+          <div className="flex flex-col items-start justify-center animate-in slide-in-from-left-20 duration-1500 fade-in xs:space-y-2 md:space-y-3 lg:space-y-5">
+            <p className="flex justify-end font-accent text-4xl font-bold whitespace-normal xs:text-3xl sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl xl:text-7xl">
               Create
             </p>
             <div className="flex justify-center md:justify-start">
               <HeroHeadline />
             </div>
-            <p className="font-accent text-4xl font-bold whitespace-normal sm:text-5xl md:text-6xl md:whitespace-nowrap lg:text-7xl xl:text-8xl">
+            <p className="font-accent text-4xl font-bold whitespace-normal xs:text-3xl sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl xl:text-7xl">
               cards in minutes.
             </p>
             <div
-              className={`relative z-10 mt-4 flex w-full flex-col gap-3 transition-all duration-1500 sm:mt-5 md:mt-6 md:flex-row md:items-center ${
+              className={`relative z-10 flex w-full flex-row gap-3 transition-all duration-1500 xl:mt-4 md:mt-4 xs:mt-2 md:items-center ${
                 showButtons
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"
@@ -96,20 +96,20 @@ export default function Home() {
             >
               <Link
                 href="/create"
-                className="inline-flex w-full items-center justify-center rounded-xl bg-main-black/50 px-4 py-2 font-medium text-white transition hover:bg-main-black/60! md:w-auto"
+                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 md:px-4 md:py-3 sm:py-2 sm:px-3 py-2 px-3 md:text-base sm:text-sm text-xs font-medium text-white transition hover:bg-main-black/60! w-auto"
               >
                 Get started
               </Link>
               <Link
-                className="inline-flex w-full items-center justify-center rounded-xl bg-main-black/50 px-4 py-3 font-medium text-white transition hover:bg-main-black/60! md:w-auto"
+                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 md:px-4 md:py-3 sm:py-2 sm:px-3 py-2 px-3 md:text-base sm:text-sm text-xs font-medium text-white transition hover:bg-main-black/60! w-auto"
                 href="/more"
               >
                 Learn more
               </Link>
             </div>
           </div>
-          <div className="flex items-center justify-center animate-in slide-in-from-right-20 duration-1500 fade-in">
-            {/* <Tilt className="inline-block">
+          {/* <div className="flex items-center justify-center animate-in slide-in-from-right-20 duration-1500 fade-in">
+            <Tilt className="inline-block">
               <SpotlightCard
                 className="custom-spotlight-card rounded-xl relative overflow-hidden bg-zinc-900"
                 spotlightColor="rgba(255, 255, 255, 0.3)"
@@ -130,8 +130,8 @@ export default function Home() {
                   </div>
                 </div>
               </SpotlightCard>
-            </Tilt> */}
-          </div>
+            </Tilt>
+          </div> */}
         </div>
         {/* Bottom spacer with scroll indicator */}
         <div className="absolute bottom-6 flex flex-[0.8] flex-col items-center justify-end md:bottom-8">
@@ -151,45 +151,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
-
-      {/* <section className="relative text-center flex items-center justify-center font-accent flex-col w-full h-screen overflow-hidden bg-main-black text-main-white font-accent">
-        <DarkVeil hueShift={140} hueShift2={240} />
-        <div className="grid grid-cols-3 grid-rows-1 h-full w-full z-10">
-          <div className="flex col-start-2 col-span-2 items-center justify-center h-full w-full bg-red-400 p-28">
-            <div className="flex flex-col h-full w-full bg-green-500 gap-2">
-              {statsLanding.map((stat, key) => (
-                <div key={key} className="flex gap-4 w-full bg-blue-500">
-                  <span className="text-5xl font-bold">{stat.value}</span>
-                  <span className="text-main-white text-3xl font-medium mt-2">{stat.label}</span>
-                </div>
-              ))}
-            </div>
-            <StatsParallaxLines
-              lines={statsLanding}
-              className="h-full w-full bg-green-500"
-              lineClassName="bg-blue-500"
-            />
-          </div>
-        </div>
-        <CountUp
-          from={0}
-          to={totalCards}
-          separator=","
-          direction="up"
-          duration={1}
-          className="count-up-text text-main-white text-[100px]/5 font-bold z-10"
-        />
-        <ScrollFloat
-          animationDuration={1}
-          ease="back.inOut(2)"
-          scrollStart="center bottom+=50%"
-          scrollEnd="bottom bottom-=40%"
-          stagger={0.03}
-        >
-          cards created
-        </ScrollFloat>
-      </section> */}
       <StatsParallaxSection lines={statsLanding} title="Site stats" />
     </main>
   );

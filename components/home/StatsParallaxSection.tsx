@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useScroll } from "framer-motion";
 import { ParallaxLine } from "./ParallaxLines";
 import DarkVeil from "../shadcn/darkVeil/DarkVeil";
@@ -15,13 +15,30 @@ export function StatsParallaxSection({
   title?: string;
 }) {
   const sectionRef = useRef<HTMLElement>(null);
-
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end end"],
   });
-
   const pages = lines.length + 1;
+  
+  // Responsive stack gap based on screen size
+  const [stackGap, setStackGap] = useState(72);
+
+  useEffect(() => {
+    const updateGap = () => {
+      if (window.innerWidth < 768) {
+        setStackGap(64); // mobile
+      } else if (window.innerWidth < 1024) {
+        setStackGap(64); // tablet
+      } else {
+        setStackGap(64); // lg screens and up
+      }
+    };
+
+    updateGap();
+    window.addEventListener("resize", updateGap);
+    return () => window.removeEventListener("resize", updateGap);
+  }, []);
 
   return (
     <section
@@ -33,14 +50,14 @@ export function StatsParallaxSection({
         <DarkVeil hueShift={140} hueShift2={240} />
 
         <div className="grid grid-cols-3 grid-rows-1 h-full w-full">
-          <div className="w-full col-start-2 col-span-2 p-40 z-10">
+          <div className="w-full col-start-2 col-span-2 xl:p-40 lg:py-40 lg:px-30 z-10">
             <p className="mb-10 text-sm uppercase tracking-wider text-white/50">
               {title}
             </p>
 
             <div
               className="relative z-10"
-              style={{ height: `${lines.length * 72}px` }}
+              style={{ height: `${lines.length * stackGap}px` }}
             >
               {lines.map((line, index) => (
                 <ParallaxLine
@@ -49,6 +66,7 @@ export function StatsParallaxSection({
                   index={index}
                   pages={pages}
                   scrollYProgress={scrollYProgress}
+                  stackGap={stackGap}
                 />
               ))}
             </div>

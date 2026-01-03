@@ -22,7 +22,7 @@ export default function HeroHeadline() {
             "anniversary",
             "graduation",
           ]}
-          mainClassName="bg-linear-to-r from-main-yellow to-main-red px-4 py-2 font-accent text-4xl font-bold text-main-white rounded-xl sm:px-5 sm:py-3 sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl"
+          mainClassName="bg-linear-to-r from-main-yellow to-main-red px-4 py-2 font-accent text-4xl font-bold text-main-white rounded-xl sm:px-5 sm:py-3 xs:text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl"
           staggerFrom="last"
           staggerDuration={0.025}
           transition={{ type: "spring", damping: 30, stiffness: 400 }}

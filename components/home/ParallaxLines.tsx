@@ -12,11 +12,13 @@ export function ParallaxLine({
   index,
   pages,
   scrollYProgress,
+  stackGap = 72,
 }: {
   line: { label: string; value: number | string };
   index: number;
   pages: number;
   scrollYProgress: MotionValue<number>;
+  stackGap?: number;
 }) {
   // progress in "page units"
   const progress = useTransform(scrollYProgress, (v) => v * pages);
@@ -24,8 +26,7 @@ export function ParallaxLine({
   const center = index + 1;
 
   // Final stacked slot for this line (top-aligned stack)
-  const STACK_GAP = 72; // tweak
-  const slotY = index * STACK_GAP;
+  const slotY = index * stackGap;
 
   // Move only during [center-1, center], then lock forever
   const y = useTransform(progress, (p) => {
@@ -49,9 +50,9 @@ export function ParallaxLine({
 
   return (
     <motion.div className="absolute left-0 right-0" style={{ y, opacity, scale }}>
-      <div className="flex font-accent items-baseline gap-6">
-        <span className="text-6xl font-bold tabular-nums">{line.value}</span>
-        <span className="mt-2 text-3xl font-medium text-white/90">{line.label}</span>
+      <div className="flex font-accent items-baseline xl:gap-6 lg:gap-4">
+        <span className="xl:text-6xl lg:text-4xl font-bold tabular-nums">{line.value}</span>
+        <span className="mt-2 xl:text-3xl lg:text-2xl font-medium text-white/90">{line.label}</span>
       </div>
     </motion.div>
   );
