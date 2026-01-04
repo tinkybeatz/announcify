@@ -50,9 +50,9 @@ export function ParallaxLine({
 
   return (
     <motion.div className="absolute left-0 right-0" style={{ y, opacity, scale }}>
-      <div className="flex font-accent items-baseline xl:gap-6 lg:gap-4">
+      <div className="flex font-raleway items-baseline xl:gap-6 lg:gap-4">
         <span className="xl:text-6xl lg:text-4xl font-bold tabular-nums">{line.value}</span>
-        <span className="mt-2 xl:text-3xl lg:text-2xl font-medium text-white/90">{line.label}</span>
+        <span className="mt-2 xl:text-3xl lg:text-2xl font-medium text-main-black">{line.label}</span>
       </div>
     </motion.div>
   );

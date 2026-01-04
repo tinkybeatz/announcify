@@ -4,6 +4,14 @@ import { Navbar } from "@/components/navbar/navbar";
 import { MobileNavbar } from "@/components/navbar/MobileNavbar";
 import HeroHeadline from "@/components/home/HeroHeadline";
 import Link from "next/link";
+import Image from "next/image";
+import CardSvg from "@/assets/svg/card.svg";
+import birthdayCakeSvg from "@/assets/svg/birthday-cake.svg";
+import fireworkSvg from "@/assets/svg/firework.svg";
+import giftSvg from "@/assets/svg/gift.svg";
+import graduationHatSvg from "@/assets/svg/graduation-hat.svg";
+import heartSvg from "@/assets/svg/heart.svg";
+import weddingRingSvg from "@/assets/svg/wedding-ring.svg";
 // import { Tilt } from "@/components/tilt/tilt";
 
 // import ScrollFloat from "@/components/shadcn/scrollFloat/ScrollFloat";
@@ -28,12 +36,21 @@ export default function Home() {
 
   const statsLanding = [
     { label: "Cards created", value: totalCards },
-    { label: "Birthday cards created", value: totalBirthdayCards},
-    { label: "Valentines cards created", value: totalValentinesCards},
+    { label: "Birthday cards created", value: totalBirthdayCards },
+    { label: "Valentines cards created", value: totalValentinesCards },
     { label: "Users", value: 1000 },
     { label: "Cards Created", value: totalCards },
     { label: "Templates", value: 25 },
     { label: "Users", value: 1000 },
+  ];
+
+  const CTAcards = [
+    { type: "Birthday", icon: birthdayCakeSvg, link: "/create/birthday" },
+    { type: "New Years Eve", icon: fireworkSvg, link: "/create/new-years-eve" },
+    { type: "Valentine's Day", icon: heartSvg, link: "/create/valentines" },
+    { type: "Anniversary", icon: weddingRingSvg, link: "/create/anniversary" },
+    { type: "Graduation", icon: graduationHatSvg, link: "/create/graduation" },
+    { type: "Christmas", icon: giftSvg, link: "/create/christmas" },
   ];
 
   useEffect(() => {
@@ -67,91 +84,75 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="flex flex-col bg-main-white text-zinc-900">
-      <div className="hidden md:block">
-        <Navbar />
-      </div>
-      <div className="md:hidden">
-        <MobileNavbar />
-      </div>
-      <section className="relative flex min-h-svh h-svh w-full flex-col items-center justify-center overflow-hidden bg-main-white text-center">
-        <BackgroundGlares />
-        <div className="relative md:w-11/12 sm:w-4/5 z-10 grid h-full cursor-default grid-cols-1 place-content-center gap-6 pt-20 sm:gap-8 sm:pt-24 md:h-full md:grid-cols-1 lg:gap-12 xl:gap-14">
-          <div className="flex flex-col items-start justify-center animate-in slide-in-from-left-20 duration-1500 fade-in xs:space-y-2 md:space-y-3 lg:space-y-5">
-            <p className="flex justify-end font-accent text-4xl font-bold whitespace-normal xs:text-3xl sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl xl:text-7xl">
-              Create
-            </p>
-            <div className="flex justify-center md:justify-start">
-              <HeroHeadline />
-            </div>
-            <p className="font-accent text-4xl font-bold whitespace-normal xs:text-3xl sm:text-4xl md:text-5xl md:whitespace-nowrap lg:text-6xl xl:text-7xl">
-              cards in minutes.
-            </p>
-            <div
-              className={`relative z-10 flex w-full flex-row gap-3 transition-all duration-1500 xl:mt-4 md:mt-4 xs:mt-2 md:items-center ${
-                showButtons
-                  ? "opacity-100 translate-y-0"
-                  : "opacity-0 translate-y-4"
-              }`}
-            >
-              <Link
-                href="/create"
-                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 md:px-4 md:py-3 sm:py-2 sm:px-3 py-2 px-3 md:text-base sm:text-sm text-xs font-medium text-white transition hover:bg-main-black/60! w-auto"
-              >
-                Get started
-              </Link>
-              <Link
-                className="inline-flex items-center justify-center rounded-xl bg-main-black/50 md:px-4 md:py-3 sm:py-2 sm:px-3 py-2 px-3 md:text-base sm:text-sm text-xs font-medium text-white transition hover:bg-main-black/60! w-auto"
-                href="/more"
-              >
-                Learn more
-              </Link>
-            </div>
+    <main className="flex flex-col bg-main-white text-main-black">
+      <section className="flex flex-col bg-sky-400 h-auto">
+        {/* navbar */}
+        <div className="w-full text-main-black flex h-24 items-center px-16">
+          <div className="font-rethink font-extrabold text-4xl">
+            announcify.
           </div>
-          {/* <div className="flex items-center justify-center animate-in slide-in-from-right-20 duration-1500 fade-in">
-            <Tilt className="inline-block">
-              <SpotlightCard
-                className="custom-spotlight-card rounded-xl relative overflow-hidden bg-zinc-900"
-                spotlightColor="rgba(255, 255, 255, 0.3)"
-              >
-                <Beams
-                  beamWidth={2}
-                  beamHeight={20}
-                  beamNumber={10}
-                  lightColor="#ffffff"
-                  speed={2}
-                  noiseIntensity={1.75}
-                  scale={0.2}
-                  rotation={30}
-                />
-                <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none p-10">
-                  <div className="text-white text-center text-4xl font-medium">
-                    Dear Grandma...
-                  </div>
-                </div>
-              </SpotlightCard>
-            </Tilt>
-          </div> */}
+          <div className="font-rethink font-semibold text-xl w-full items-center flex justify-center gap-10">
+            <div>test</div>
+            <div>test</div>
+            <div>test</div>
+          </div>
         </div>
-        {/* Bottom spacer with scroll indicator */}
-        <div className="absolute bottom-6 flex flex-[0.8] flex-col items-center justify-end md:bottom-8">
-          <div
-            className={`flex flex-col items-center transition-all duration-500 gap-1 ${
-              ctaVisible
-                ? "translate-y-0 opacity-100"
-                : "translate-y-3 opacity-0"
-            }`}
-          >
-            <span className="font-main text-xs font-medium uppercase text-main-black/50">
-              Scroll
-            </span>
-            <div className="relative h-8 w-4 rounded-full border border-main-black/15">
-              <div className="absolute left-1/2 top-1.5 h-1.5 w-0.5 animate-scrollIndicator rounded-full" />
-            </div>
+        <div className="bg-yellow-50 flex flex-col h-full mx-8 rounded-xl font-raleway font-extrabold text-2xl">
+          {/* hero headline */}
+          <div className="flex h-80 relative items-center justify-center text-6xl mx-70 text-center">
+            <p className="leading-18">
+              Create{" "}
+              <span className="bg-pink-300 px-6 py-1 rounded-full text-main-black">
+                meaningful
+              </span>{" "}
+              cards that last for a lifetime, in{" "}
+              <span className="bg-pink-400 px-6 py-1 rounded-full text-main-black">
+                minutes.
+              </span>
+            </p>
+          </div>
+
+          {/* card section */}
+          <div className="flex h-200 items-start justify-end text-6xl mx-35 text-center overflow-hidden">
+            <Image
+              src={CardSvg}
+              alt="Greeting card illustration"
+              className="drop-shadow-lg h-250"
+            />
           </div>
         </div>
       </section>
-      <StatsParallaxSection lines={statsLanding} title="Site stats" />
+      <section className="flex bg-sky-400 h-auto p-24 font-raleway">
+        <div className="flex items-center flex-col h-full w-full">
+          <p className="flex text-5xl font-extrabold">What sort of cards</p>
+          <p className="flex text-4xl font-extrabold">do you want to send?</p>
+          <p className="flex w-full justify-center text-xl mt-2">
+            You can choose between multiple type of cards including birthday,
+            christmas, valentine&apos;s day, wedding, etc...
+          </p>
+          <p className="flex w-full justify-center text-xl">
+            Each type of card has its own unique templates and designs to choose
+            from.
+          </p>
+          <div className="h-auto grid grid-cols-3 w-full mt-12 gap-4">
+            {CTAcards.map((card) => (
+              <Link
+                key={card.type}
+                href={card.link}
+                className={`flex items-center justify-between py-4 px-8 bg-yellow-50 rounded-xl duration-300`}
+              >
+                <p className="text-2xl font-bold">{card.type}</p>
+                <Image
+                  src={card.icon}
+                  alt={`${card.type} icon`}
+                  className="h-12 w-12"
+                />
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+      <StatsParallaxSection lines={statsLanding} />
     </main>
   );
 }

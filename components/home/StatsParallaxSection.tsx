@@ -43,15 +43,13 @@ export function StatsParallaxSection({
   return (
     <section
       ref={sectionRef}
-      className="relative w-full bg-main-black text-main-white"
+      className="relative w-full bg-yellow-50 text-main-black"
       style={{ height: `${pages * 100}vh` }}
     >
       <div className="sticky top-0 h-screen overflow-hidden z-10">
-        <DarkVeil hueShift={140} hueShift2={240} />
-
         <div className="grid grid-cols-3 grid-rows-1 h-full w-full">
           <div className="w-full col-start-2 col-span-2 xl:p-40 lg:py-40 lg:px-30 z-10">
-            <p className="mb-10 text-sm uppercase tracking-wider text-white/50">
+            <p className="mb-10 text-sm uppercase font-raleway text-main-black">
               {title}
             </p>
 
