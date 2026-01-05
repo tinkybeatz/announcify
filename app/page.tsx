@@ -3,6 +3,7 @@
 import { Navbar } from "@/components/navbar/navbar";
 import { MobileNavbar } from "@/components/navbar/MobileNavbar";
 import HeroHeadline from "@/components/home/HeroHeadline";
+import FeatureItems from "@/components/lottie/featureItems/FeatureItems";
 import Link from "next/link";
 import Image from "next/image";
 import CardSvg from "@/assets/svg/card.svg";
@@ -12,6 +13,8 @@ import giftSvg from "@/assets/svg/gift.svg";
 import graduationHatSvg from "@/assets/svg/graduation-hat.svg";
 import heartSvg from "@/assets/svg/heart.svg";
 import weddingRingSvg from "@/assets/svg/wedding-ring.svg";
+// import arrow1Svg from "@/assets/svg/arrow1.svg";
+// import arrow2Svg from "@/assets/svg/arrow2.svg";
 // import { Tilt } from "@/components/tilt/tilt";
 
 // import ScrollFloat from "@/components/shadcn/scrollFloat/ScrollFloat";
@@ -24,6 +27,8 @@ import { useState, useEffect } from "react";
 import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 import { useLenis } from "./useLenis";
 import { StatsParallaxSection } from "@/components/home/StatsParallaxSection";
+import { NavbarBlue } from "@/components/navbar/navbar-blue";
+import NavbarBlueLanding from "@/components/navbar/NavbarBlueLanding";
 
 export default function Home() {
   useLenis(true);
@@ -33,15 +38,48 @@ export default function Home() {
   const [totalCards, setTotalCards] = useState(0);
   const [totalBirthdayCards, setTotalBirthdayCards] = useState(0);
   const [totalValentinesCards, setTotalValentinesCards] = useState(0);
+  const [showNavbarBlue, setShowNavbarBlue] = useState(false);
 
-  const statsLanding = [
-    { label: "Cards created", value: totalCards },
+  // Show/hide NavbarBlue based on scroll position
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY;
+      setShowNavbarBlue(scrollY > 96);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    // Check initial scroll position
+    handleScroll();
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const statsLandingNew = [
+    { label: "Users", value: 1000 },
+    { label: "Templates", value: 25 },
     { label: "Birthday cards created", value: totalBirthdayCards },
     { label: "Valentines cards created", value: totalValentinesCards },
-    { label: "Users", value: 1000 },
-    { label: "Cards Created", value: totalCards },
-    { label: "Templates", value: 25 },
-    { label: "Users", value: 1000 },
+  ];
+  
+  // const statsLanding = [
+  //   { label: "Cards created", value: totalCards },
+  //   { label: "Birthday cards created", value: totalBirthdayCards },
+  //   { label: "Valentines cards created", value: totalValentinesCards },
+  //   { label: "Users", value: 1000 },
+  //   { label: "Cards Created", value: totalCards },
+  //   { label: "Templates", value: 25 },
+  //   { label: "Users", value: 1000 },
+  // ];
+
+  const featuresTexts = [
+    "Choose from multiple themes",
+    "Customize every detail",
+    "Save all your cards",
+    "Edit cards anytime",
+    "Use ready-made cards for free",
+    "Share cards with one link",
+    "No design skills needed",
+    "Fast and easy process",
   ];
 
   const CTAcards = [
@@ -53,10 +91,29 @@ export default function Home() {
     { type: "Christmas", icon: giftSvg, link: "/create/christmas" },
   ];
 
+  const [CTAhoveredIndex, setCTAHoveredIndex] = useState<number | null>(null);
+  const [shouldPlayTicks, setShouldPlayTicks] = useState(false);
+
+  const onCTAHover = (index: number) => {
+    setCTAHoveredIndex(index);
+  };
+
+  const onCTALeave = () => {
+    setCTAHoveredIndex(null);
+  };
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowButtons(true);
     }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Start Lottie animations after 1 second
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShouldPlayTicks(true);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -85,47 +142,78 @@ export default function Home() {
 
   return (
     <main className="flex flex-col bg-main-white text-main-black">
+      <div
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+          showNavbarBlue
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-full pointer-events-none"
+        }`}
+      >
+        <NavbarBlue />
+      </div>
       <section className="flex flex-col bg-sky-400 h-auto">
-        {/* navbar */}
-        <div className="w-full text-main-black flex h-24 items-center px-16">
-          <div className="font-rethink font-extrabold text-4xl">
-            announcify.
-          </div>
-          <div className="font-rethink font-semibold text-xl w-full items-center flex justify-center gap-10">
-            <div>test</div>
-            <div>test</div>
-            <div>test</div>
-          </div>
-        </div>
+        <NavbarBlueLanding />
         <div className="bg-yellow-50 flex flex-col h-full mx-8 rounded-xl font-raleway font-extrabold text-2xl">
           {/* hero headline */}
           <div className="flex h-80 relative items-center justify-center text-6xl mx-70 text-center">
-            <p className="leading-18">
+            <h1 className="leading-18">
               Create{" "}
-              <span className="bg-pink-300 px-6 py-1 rounded-full text-main-black">
+              <span className="bg-pink-300 drop-shadow-lg px-6 py-1 rounded-full text-main-black">
                 meaningful
               </span>{" "}
               cards that last for a lifetime, in{" "}
-              <span className="bg-pink-400 px-6 py-1 rounded-full text-main-black">
+              <span className="bg-pink-400 drop-shadow-lg px-6 py-1 rounded-full text-main-black">
                 minutes.
               </span>
-            </p>
+            </h1>
           </div>
 
           {/* card section */}
-          <div className="flex h-200 items-start justify-end text-6xl mx-35 text-center overflow-hidden">
-            <Image
-              src={CardSvg}
-              alt="Greeting card illustration"
-              className="drop-shadow-lg h-250"
+          <div className="relative h-200 mx-28">
+            {/* arrows & features (can overflow) */}
+            {/* <Image
+              src={arrow1Svg}
+              alt="Arrow 1"
+              className="absolute z-10 -left-10 -top-25 scale-25"
             />
+            <Image
+              src={arrow2Svg}
+              alt="Arrow 2"
+              className="absolute z-10 left-130 -top-40 scale-25"
+            /> */}
+            {/* card container (clips overflow) */}
+            <div className="absolute inset-0 overflow-hidden">
+              <Image
+                src={CardSvg}
+                alt="Greeting card illustration"
+                className="absolute right-0 top-0 drop-shadow-lg h-250"
+              />
+            </div>
+            {/* features text */}
+            <div className="absolute z-10 top-0 left-0 w-160">
+              {featuresTexts.map((text, index) => (
+                <FeatureItems
+                  key={index}
+                  text={text}
+                  index={index}
+                  shouldPlay={shouldPlayTicks}
+                />
+              ))}
+              <Link href="/create" className="mt-6 bg-main-black text-yellow-50 font-medium px-6 py-3 rounded-full text-lg hover:scale-105 transition-transform duration-300 inline-block font-rethink">
+                Try now
+              </Link>
+            </div>
           </div>
         </div>
       </section>
-      <section className="flex bg-sky-400 h-auto p-24 font-raleway">
+      <section className="flex bg-sky-400 h-auto p-24 font-rethink">
         <div className="flex items-center flex-col h-full w-full">
-          <p className="flex text-5xl font-extrabold">What sort of cards</p>
-          <p className="flex text-4xl font-extrabold">do you want to send?</p>
+          <h2 className="flex text-5xl font-extrabold font-raleway">
+            What sort of cards
+          </h2>
+          <h3 className="flex text-4xl font-extrabold font-raleway">
+            do you want to send?
+          </h3>
           <p className="flex w-full justify-center text-xl mt-2">
             You can choose between multiple type of cards including birthday,
             christmas, valentine&apos;s day, wedding, etc...
@@ -135,24 +223,91 @@ export default function Home() {
             from.
           </p>
           <div className="h-auto grid grid-cols-3 w-full mt-12 gap-4">
-            {CTAcards.map((card) => (
+            {CTAcards.map((card, key) => (
               <Link
-                key={card.type}
+                onMouseEnter={() => onCTAHover(key)}
+                onMouseLeave={() => onCTALeave()}
+                key={key}
                 href={card.link}
-                className={`flex items-center justify-between py-4 px-8 bg-yellow-50 rounded-xl duration-300`}
+                className={`flex items-center justify-between py-4 px-8 bg-yellow-50 rounded-xl duration-300 ${
+                  CTAhoveredIndex === key ? "ring-3 ring-sky-500" : ""
+                }`}
               >
-                <p className="text-2xl font-bold">{card.type}</p>
-                <Image
-                  src={card.icon}
-                  alt={`${card.type} icon`}
-                  className="h-12 w-12"
-                />
+                <p className="text-xl font-semibold">{card.type}</p>
+                <div className="flex justify-center items-center gap-2">
+                  <Image
+                    src={card.icon}
+                    alt={`${card.type} icon`}
+                    className={`h-12 w-12 duration-300 ${
+                      CTAhoveredIndex === key ? "scale-90 rotate-10" : ""
+                    }`}
+                  />
+                  <svg
+                    className={`h-6 w-6 duration-300 ${
+                      CTAhoveredIndex === key ? "translate-x-2" : ""
+                    }`}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M9 18l6-6-6-6"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </div>
               </Link>
             ))}
           </div>
         </div>
       </section>
-      <StatsParallaxSection lines={statsLanding} />
+      {/* Stats */}
+      <section className="bg-yellow-50 h-screen p-28">
+        <div className="bg-sky-400 rounded-xl h-full w-full items-center drop-shadow-lg flex flex-col">
+          <div className="h-3/10 flex w-full items-center justify-center">
+            <div className="font-rethink bg-yellow-50 rounded-full px-6 py-3 text-xl font-semibold drop-shadow-lg">
+              {totalCards} cards created so far
+            </div>
+          </div>
+          <div className="flex flex-col relative w-full h-4/10 items-center justify-center">
+            <h2 className="text-7xl font-extrabold font-raleway">Join our community</h2>
+            <h3 className="text-2xl font-semibold font-rethink">Create your first card for free</h3>
+            <Link
+              href="/create"
+              className="mt-6 bg-main-black text-yellow-50 font-medium px-6 py-3 rounded-full text-lg hover:scale-105 transition-transform duration-300"
+            >
+              Create a card
+            </Link>
+            <Image src={giftSvg} alt="Gift icon" className="drop-shadow-lg absolute right-60 top-0 w-20 h-20 animate-wiggle"/>
+            <Image src={birthdayCakeSvg} alt="Birthday cake icon" className="drop-shadow-lg absolute left-60 top-0 w-20 h-20 animate-wiggle" style={{ animationDelay: '-0.5s' }}/>
+            <Image src={fireworkSvg} alt="Firework icon" className="drop-shadow-lg absolute left-100 bottom-0 w-20 h-20 animate-wiggle" style={{ animationDelay: '-1s' }}/>
+            <Image src={graduationHatSvg} alt="Graduation hat icon" className="drop-shadow-lg absolute right-100 bottom-0 w-20 h-20 animate-wiggle" style={{ animationDelay: '-1.5s' }}/>
+          </div>
+          <div className="h-3/10 grid grid-cols-4 w-full">
+            {statsLandingNew.map((stat, index) => (
+              <div
+                key={index}
+                className="flex flex-col items-center justify-center"
+              >
+                <div className="text-5xl font-extrabold font-raleway">
+                  {stat.value}
+                </div>
+                <div className="text-xl font-medium font-rethink">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      {/* FAQ */}
+      <section className="bg-sky-400 h-screen">
+
+      </section>
+      {/* <StatsParallaxSection lines={statsLanding} /> */}
     </main>
   );
 }

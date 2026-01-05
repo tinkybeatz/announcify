@@ -3,7 +3,7 @@
 import { useRef, useState, useEffect } from "react";
 import { useScroll } from "framer-motion";
 import { ParallaxLine } from "./ParallaxLines";
-import DarkVeil from "../shadcn/darkVeil/DarkVeil";
+// import DarkVeil from "../shadcn/darkVeil/DarkVeil";
 
 type StatLine = { label: string; value: number | string };
 

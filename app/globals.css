@@ -2,6 +2,19 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(-10deg);
+  }
+}
+
+.animate-wiggle {
+  animation: wiggle 2s ease-in-out infinite;
+}
+
 @font-face {
   font-family: "Raleway";
   src: url("/fonts/Raleway-VariableFont_wght.ttf") format("truetype");
