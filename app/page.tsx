@@ -29,6 +29,7 @@ import { useLenis } from "./useLenis";
 import { StatsParallaxSection } from "@/components/home/StatsParallaxSection";
 import { NavbarBlue } from "@/components/navbar/navbar-blue";
 import NavbarBlueLanding from "@/components/navbar/NavbarBlueLanding";
+import { BorderBeam } from "@/components/shadcn/borderBeam/border-beam";
 
 export default function Home() {
   useLenis(true);
@@ -60,7 +61,7 @@ export default function Home() {
     { label: "Birthday cards created", value: totalBirthdayCards },
     { label: "Valentines cards created", value: totalValentinesCards },
   ];
-  
+
   // const statsLanding = [
   //   { label: "Cards created", value: totalCards },
   //   { label: "Birthday cards created", value: totalBirthdayCards },
@@ -199,7 +200,10 @@ export default function Home() {
                   shouldPlay={shouldPlayTicks}
                 />
               ))}
-              <Link href="/create" className="mt-6 bg-main-black text-yellow-50 font-medium px-6 py-3 rounded-full text-lg hover:scale-105 transition-transform duration-300 inline-block font-rethink">
+              <Link
+                href="/create"
+                className="mt-6 bg-main-black text-yellow-50 font-medium px-6 py-3 rounded-full text-lg hover:scale-105 transition-transform duration-300 inline-block font-rethink"
+              >
                 Try now
               </Link>
             </div>
@@ -266,31 +270,68 @@ export default function Home() {
       </section>
       {/* Stats */}
       <section className="bg-yellow-50 h-screen p-28">
-        <div className="bg-sky-400 rounded-xl h-full w-full items-center drop-shadow-lg flex flex-col">
-          <div className="h-3/10 flex w-full items-center justify-center">
-            <div className="font-rethink bg-yellow-50 rounded-full px-6 py-3 text-xl font-semibold drop-shadow-lg">
-              {totalCards} cards created so far
+        <div className="relative rounded-xl h-full w-full items-center drop-shadow-lg flex flex-col overflow-hidden">
+          {/* Background image */}
+          <Image
+            src="/images/hero-background.png"
+            alt="Stats background"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* Sky overlay */}
+          <div className="absolute inset-0 bg-sky-400/75" />
+          {/* Content */}
+          <div className="relative z-10 h-3/10 flex w-full items-center justify-center">
+            <div className="drop-shadow-lg font-rethink bg-yellow-50 rounded-full px-6 py-3 text-2xl font-semibold">
+              <span className="text-transparent bg-clip-text font-extrabold bg-linear-to-r from-sky-400 to-pink-400">
+                {totalCards}
+              </span>{" "}
+              cards created
             </div>
           </div>
-          <div className="flex flex-col relative w-full h-4/10 items-center justify-center">
-            <h2 className="text-7xl font-extrabold font-raleway">Join our community</h2>
-            <h3 className="text-2xl font-semibold font-rethink">Create your first card for free</h3>
+          <div className="relative z-10 flex flex-col w-full h-4/10 items-center justify-center">
+            <h2 className="text-7xl font-extrabold font-raleway text-yellow-50 drop-shadow-lg">
+              Join our community
+            </h2>
+            <h3 className="text-2xl font-semibold font-rethink text-yellow-50 drop-shadow-lg">
+              Create your first card for free
+            </h3>
             <Link
               href="/create"
               className="mt-6 bg-main-black text-yellow-50 font-medium px-6 py-3 rounded-full text-lg hover:scale-105 transition-transform duration-300"
             >
               Create a card
             </Link>
-            <Image src={giftSvg} alt="Gift icon" className="drop-shadow-lg absolute right-60 top-0 w-20 h-20 animate-wiggle"/>
-            <Image src={birthdayCakeSvg} alt="Birthday cake icon" className="drop-shadow-lg absolute left-60 top-0 w-20 h-20 animate-wiggle" style={{ animationDelay: '-0.5s' }}/>
-            <Image src={fireworkSvg} alt="Firework icon" className="drop-shadow-lg absolute left-100 bottom-0 w-20 h-20 animate-wiggle" style={{ animationDelay: '-1s' }}/>
-            <Image src={graduationHatSvg} alt="Graduation hat icon" className="drop-shadow-lg absolute right-100 bottom-0 w-20 h-20 animate-wiggle" style={{ animationDelay: '-1.5s' }}/>
+            <Image
+              src={giftSvg}
+              alt="Gift icon"
+              className="drop-shadow-lg absolute right-50 -top-20 w-22 h-22 animate-wiggle"
+            />
+            <Image
+              src={birthdayCakeSvg}
+              alt="Birthday cake icon"
+              className="drop-shadow-lg absolute left-50 -top-20 w-22 h-22 animate-wiggle"
+              style={{ animationDelay: "-0.5s" }}
+            />
+            <Image
+              src={fireworkSvg}
+              alt="Firework icon"
+              className="drop-shadow-lg absolute left-70 bottom-0 w-22 h-22 animate-wiggle"
+              style={{ animationDelay: "-1s" }}
+            />
+            <Image
+              src={heartSvg}
+              alt="Heart icon"
+              className="drop-shadow-lg absolute right-70 bottom-0 w-22 h-22 animate-wiggle"
+              style={{ animationDelay: "-1.5s" }}
+            />
           </div>
-          <div className="h-3/10 grid grid-cols-4 w-full">
+          <div className="relative z-10 h-3/10 grid grid-cols-4 w-5/6">
             {statsLandingNew.map((stat, index) => (
               <div
                 key={index}
-                className="flex flex-col items-center justify-center"
+                className="flex flex-col items-center justify-center text-yellow-50 drop-shadow-lg"
               >
                 <div className="text-5xl font-extrabold font-raleway">
                   {stat.value}
@@ -304,9 +345,7 @@ export default function Home() {
         </div>
       </section>
       {/* FAQ */}
-      <section className="bg-sky-400 h-screen">
-
-      </section>
+      <section className="bg-sky-400 h-screen"></section>
       {/* <StatsParallaxSection lines={statsLanding} /> */}
     </main>
   );
