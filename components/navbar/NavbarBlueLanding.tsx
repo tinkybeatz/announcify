@@ -29,26 +29,26 @@ export default function NavbarBlueLanding({ initialSession }: NavbarProps = {}) 
         announcify.
       </Link>
       <div className="font-rethink font-semibold text-xl items-center flex justify-center gap-10 h-full">
-        <Link href="/create">Create a card</Link>
-        <Link href="/more">Learn more</Link>
+        <Link href="/create" className="hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]">Create a card</Link>
+        <Link href="/more" className="hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]">Learn more</Link>
         {currentSession ? (
-          <div className="aspect-square h-full">
+          <div className="h-full">
             <UserDropdownBlueLanding
               userLabel={userLabel}
               userEmail={currentSession.user?.email}
             />
           </div>
         ) : (
-          <div className="bg-sky-400/50 rounded-xl flex gap-5 text-sm h-full px-5">
+          <div className="flex gap-10 text-pink-600 text-xl">
             <Link
               href="/signin"
-              className="flex items-center font-medium text-main-white cursor-pointer hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]"
+              className="flex items-center font-medium cursor-pointer hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]"
             >
               Log in
             </Link>
             <Link
               href="/signup"
-              className="flex items-center font-medium text-main-white cursor-pointer hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]"
+              className="flex items-center font-medium cursor-pointer hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]"
             >
               Sign up
             </Link>

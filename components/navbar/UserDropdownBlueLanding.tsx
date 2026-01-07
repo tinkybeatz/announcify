@@ -31,12 +31,12 @@ export function UserDropdownBlueLanding({
   }, []);
 
   return (
-    <div className="relative flex items-center h-full" ref={dropdownRef}>
+    <div className="relative flex h-full items-center w-auto" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="bg-sky-500/50 backdrop-blur-md flex items-center text-main-black font-bold justify-center w-full rounded-xl p-6"
+        className="cursor-pointer flex items-center text-pink-600 font-bold justify-center rounded-xl hover:filter-[drop-shadow(0_0_0.5px_#db2777)_drop-shadow(0_0_0.5px_#db2777)]"
       >
-        <User className="w-5 h-5" />
+        <User className="w-5 h-5 text-pink-600" />
         <svg
           className={`w-4 h-4 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""

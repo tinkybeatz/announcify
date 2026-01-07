@@ -30,6 +30,8 @@ import { StatsParallaxSection } from "@/components/home/StatsParallaxSection";
 import { NavbarBlue } from "@/components/navbar/navbar-blue";
 import NavbarBlueLanding from "@/components/navbar/NavbarBlueLanding";
 import { BorderBeam } from "@/components/shadcn/borderBeam/border-beam";
+import FAQSection from "@/components/FAQ/FAQSection";
+import Footer from "@/components/footer/Footer";
 
 export default function Home() {
   useLenis(true);
@@ -345,8 +347,11 @@ export default function Home() {
         </div>
       </section>
       {/* FAQ */}
-      <section className="bg-sky-400 h-screen"></section>
+      <section className="bg-sky-400 h-auto">
+        <FAQSection />
+      </section>
       {/* <StatsParallaxSection lines={statsLanding} /> */}
+      <Footer />
     </main>
   );
 }
