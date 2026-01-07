@@ -2,7 +2,8 @@
 
 import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 import { HorizontalMasonryFeatures } from "@/components/masonry/HorizontalMasonryFeatures";
-import { Navbar } from "@/components/navbar/navbar";
+import { Navbar } from "@/components/navbar/Navbar";
+import { NavbarBlue } from "@/components/navbar/NavbarBlue";
 import GlareHover from "@/components/shadcn/glareHover/GlareHover";
 import Link from "next/link";
 import { useState } from "react";
@@ -49,13 +50,15 @@ export default function CreatePage() {
     },
   ];
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-main-white">
-      <Navbar />
-      <BackgroundGlares />
-      <div className="flex flex-col gap-6 h-full w-3/4 pt-28 z-10">
+    <div className="flex flex-col items-center justify-center h-screen bg-yellow-50">
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <NavbarBlue />
+      </div>
+      {/* <BackgroundGlares /> */}
+      <div className="flex flex-col font-rethink gap-6 h-full w-3/4 pt-28 z-10">
         <div className="flex flex-col gap-1 items-start justify-start">
-          <h1 className="text-4xl font-bold font-accent">Create a new card</h1>
-          <p className="font-main font-light text-main-black/75">
+          <h1 className="text-4xl font-extrabold font-raleway">Create a new card</h1>
+          <p className="font-light text-main-black/75">
             Create meaningful cards for your loved ones. Choose between a
             selection of card types below.
           </p>
@@ -69,11 +72,11 @@ export default function CreatePage() {
               className="w-full flex relative"
             >
               <div
-                className={`flex border rounded-xl h-22 shadow-lg ${
+                className={`flex border rounded-xl h-22 cursor-default ${
                   hoveredCardIndex === key
-                    ? "w-[calc(100%-88px)] border-red-300 bg-red-50 shadow-none"
-                    : "w-full border-zinc-200 bg-white"
-                } py-3 justify-between transition-[width,border,color,box-shadow] duration-300 z-20 ease-in-out`}
+                    ? "w-[calc(100%-88px)] border-pink-300 bg-pink-100"
+                    : "w-full border-main-black/20 bg-sky-100"
+                } py-3 justify-between transition-[width,border,background-color,box-shadow] duration-300 z-20 ease-in-out`}
               >
                 <div className="flex w-4/5">
                   <div className="flex flex-col justify-center px-6">

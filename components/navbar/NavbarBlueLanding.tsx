@@ -24,11 +24,11 @@ export default function NavbarBlueLanding({ initialSession }: NavbarProps = {}) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
   return (
-    <div className="w-full text-main-black flex h-24 items-center justify-between px-16">
+    <div className="w-full text-main-black flex h-24 flex-shrink-0 items-center justify-between px-16">
       <Link href="/" className="font-rethink font-extrabold text-4xl">
         announcify.
       </Link>
-      <div className="font-rethink font-semibold text-xl items-center flex justify-center gap-10 h-full">
+      <div className="font-rethink font-semibold text-lg items-center flex justify-center gap-10 h-full">
         <Link href="/create" className="hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]">Create a card</Link>
         <Link href="/more" className="hover:[text-shadow:0_0_0.5px_currentColor,0_0_0.5px_currentColor]">Learn more</Link>
         {currentSession ? (

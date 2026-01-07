@@ -1,6 +1,5 @@
 "use client";
 
-import { Navbar } from "@/components/navbar/navbar";
 import { MobileNavbar } from "@/components/navbar/MobileNavbar";
 import HeroHeadline from "@/components/home/HeroHeadline";
 import FeatureItems from "@/components/lottie/featureItems/FeatureItems";
@@ -27,7 +26,7 @@ import { useState, useEffect } from "react";
 import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 import { useLenis } from "./useLenis";
 import { StatsParallaxSection } from "@/components/home/StatsParallaxSection";
-import { NavbarBlue } from "@/components/navbar/navbar-blue";
+import { NavbarBlue } from "@/components/navbar/NavbarBlue";
 import NavbarBlueLanding from "@/components/navbar/NavbarBlueLanding";
 import { BorderBeam } from "@/components/shadcn/borderBeam/border-beam";
 import FAQSection from "@/components/FAQ/FAQSection";
@@ -146,13 +145,13 @@ export default function Home() {
   return (
     <main className="flex flex-col bg-main-white text-main-black">
       <div
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-out ${
+        className={`fixed top-0 left-0 right-0 z-50 transition-transform duration-500 ease-out ${
           showNavbarBlue
-            ? "opacity-100 translate-y-0"
-            : "opacity-0 translate-y-full pointer-events-none"
+            ? "translate-y-0"
+            : "-translate-y-full pointer-events-none"
         }`}
       >
-        <NavbarBlue />
+        <NavbarBlue isVisible={showNavbarBlue} />
       </div>
       <section className="flex flex-col bg-sky-400 h-auto">
         <NavbarBlueLanding />
@@ -172,7 +171,7 @@ export default function Home() {
           </div>
 
           {/* card section */}
-          <div className="relative h-200 mx-28">
+          <div className="relative h-150 mx-28">
             {/* arrows & features (can overflow) */}
             {/* <Image
               src={arrow1Svg}
@@ -189,7 +188,7 @@ export default function Home() {
               <Image
                 src={CardSvg}
                 alt="Greeting card illustration"
-                className="absolute right-0 top-0 drop-shadow-lg h-250"
+                className="absolute right-0 top-0 drop-shadow-lg h-200"
               />
             </div>
             {/* features text */}

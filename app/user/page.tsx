@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 
-import { Navbar } from "@/components/navbar/navbar";
+import { Navbar } from "@/components/navbar/Navbar";
 import { auth } from "@/auth";
 import Link from "next/link";
 import { getAllUserCards } from "@/lib/cards";

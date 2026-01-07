@@ -30,12 +30,12 @@ function FeaturePill({ feature }: { feature: Feature }) {
   return (
     <div
       className={`inline-flex w-fit items-center bg-linear-to-r ${
-        feature.ok ? "from-main-red to-main-yellow" : "from-zinc-300 to-zinc-400"
+        feature.ok ? "from-pink-400 to-sky-400" : "from-zinc-300 to-zinc-400"
       } rounded-full px-px py-px`}
     >
       <div
         className={`bg-linear-to-r ${
-          feature.ok ? "from-red-50 to-yellow-50" : "from-zinc-50 to-zinc-100"
+          feature.ok ? "from-pink-50 to-sky-50" : "from-zinc-50 to-zinc-100"
         } rounded-full px-1.5 py-0.5`}
       >
         <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">

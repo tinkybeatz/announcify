@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/navbar/navbar";
+import { Navbar } from "@/components/navbar/Navbar";
 import { CreateBirthdayForm } from "./CreateBirthdayForm";
 import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 

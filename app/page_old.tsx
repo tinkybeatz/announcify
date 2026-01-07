@@ -1,6 +1,6 @@
 "use client";
 
-import { Navbar } from "@/components/navbar/navbar";
+import { Navbar } from "@/components/navbar/Navbar";
 import { MobileNavbar } from "@/components/navbar/MobileNavbar";
 import HeroHeadline from "@/components/home/HeroHeadline";
 import Link from "next/link";

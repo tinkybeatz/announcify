@@ -1,4 +1,4 @@
-import { Navbar } from "@/components/navbar/navbar";
+import { Navbar } from "@/components/navbar/Navbar";
 import { SignUpForm } from "@/components/auth/SignUpForm";
 
 export default function SignUpPage() {

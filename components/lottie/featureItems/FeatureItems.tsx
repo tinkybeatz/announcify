@@ -27,13 +27,13 @@ export default function FeatureItems({
   }, [shouldPlay, index]);
 
   return (
-    <div className="flex items-center gap-2 text-4xl font-rethink font-bold h-20">
+    <div className="flex items-center gap-2 text-3xl font-rethink font-bold h-14">
       <Lottie
         lottieRef={lottieRef}
         animationData={tickAnimation}
         loop={false}
         autoplay={false}
-        className="w-16 h-16"
+        className="w-12 h-12"
       />
       <p>{text}</p>
     </div>
