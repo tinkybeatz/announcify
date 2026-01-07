@@ -212,8 +212,8 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section className="flex bg-sky-400 h-auto p-24 font-rethink">
-        <div className="flex items-center flex-col h-full w-full">
+      <section className="flex bg-sky-400 h-auto p-28 font-rethink">
+        <div className="flex items-center flex-col h-full w-full text-main-black">
           <h2 className="flex text-5xl font-extrabold font-raleway">
             What sort of cards
           </h2>
@@ -228,7 +228,7 @@ export default function Home() {
             Each type of card has its own unique templates and designs to choose
             from.
           </p>
-          <div className="h-auto grid grid-cols-3 w-full mt-12 gap-4">
+          <div className="h-auto grid grid-cols-3 w-full mt-12 gap-4 text-main-black">
             {CTAcards.map((card, key) => (
               <Link
                 onMouseEnter={() => onCTAHover(key)}

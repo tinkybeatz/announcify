@@ -36,10 +36,10 @@ export default function Footer() {
 
   return (
     <footer className="bg-sky-400 font-rethink">
-      <div className="border-y flex border-main-black/20 h-80 items-center justify-center text-main-black text-[200px] font-extrabold">
+      <div className="border-y flex border-main-black/20 items-center justify-center text-main-black text-[200px] font-extrabold">
         announcify.
       </div>
-      <div className="max-w-7xl mx-auto py-16">
+      <div className="px-56 mx-auto py-28">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
           {/* Left Column - Brand & Links */}
           <div className="flex flex-col">
@@ -170,7 +170,7 @@ export default function Footer() {
       <div className="border-t border-main-black/20">
         <div className="max-w-7xl mx-auto px-8 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <p className="text-main-black/60 text-sm">
-            © {new Date().getFullYear()} YourBrand. All rights reserved.
+            © {new Date().getFullYear()} announcify. All rights reserved.
           </p>
           <div className="flex gap-6">
             {legalLinks.map((link, index) => (

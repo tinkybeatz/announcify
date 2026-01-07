@@ -107,8 +107,8 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="bg-sky-400 py-24 px-8 font-rethink">
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
+    <section className="bg-sky-400 py-28 px-56 font-rethink">
+      <div className="mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24">
         {/* Left Column - Introduction */}
         <div className="flex flex-col">
           <span className="text-pink-500 font-semibold text-sm">
