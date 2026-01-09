@@ -84,7 +84,7 @@ export default function ShareButton({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={onClose}
-              className="fixed inset-0 bg-black/40 backdrop-blur-md z-[60]"
+              className="fixed inset-0 bg-black/40 backdrop-blur-md z-60"
             />
 
             <motion.div
@@ -92,7 +92,7 @@ export default function ShareButton({
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.8, y: 50 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
-              className="fixed inset-0 z-[70] flex items-center justify-center p-4 pointer-events-none"
+              className="fixed inset-0 z-70 flex items-center justify-center p-4 pointer-events-none"
               onClick={onClose}
             >
               <motion.div
@@ -101,16 +101,16 @@ export default function ShareButton({
               >
                 <div className="flex justify-between items-center mb-4">
                   <motion.h2
-                    className="text-2xl font-medium bg-linear-to-r from-main-yellow to-main-red bg-clip-text text-transparent"
+                    className="text-2xl font-extrabold font-raleway bg-linear-to-r from-sky-500 to-pink-500 bg-clip-text text-transparent"
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.1 }}
                   >
-                    Partager
+                    Share your card
                   </motion.h2>
                   <motion.button
                     onClick={onClose}
-                    className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                    className="p-2 hover:bg-gray-100 cursor-pointer rounded-full transition-colors"
                     whileHover={{ rotate: 90 }}
                     whileTap={{ scale: 0.9 }}
                   >
@@ -133,10 +133,10 @@ export default function ShareButton({
                     />
                     <motion.button
                       onClick={handleCopy}
-                      className={`px-4 py-3 rounded-xl font-medium transition-colors ${
+                      className={`px-4 py-3 cursor-pointer rounded-xl font-medium transition-colors ${
                         copied
                           ? "bg-green-500 text-white"
-                          : "bg-main-red text-white hover:bg-red-600!"
+                          : "bg-sky-400 text-white hover:bg-sky-500"
                       }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
@@ -165,10 +165,10 @@ export default function ShareButton({
                     </motion.button>
                     <motion.button
                       onClick={handleOpen}
-                      className={`px-4 py-3 rounded-xl font-medium transition-colors ${
+                      className={`px-4 py-3 rounded-xl font-medium cursor-pointer transition-colors ${
                         opened
                           ? "bg-green-500 text-white"
-                          : "bg-main-yellow text-white hover:bg-yellow-600!"
+                          : "bg-pink-400 text-white hover:bg-pink-500"
                       }`}
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}

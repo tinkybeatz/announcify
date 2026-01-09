@@ -29,10 +29,10 @@ function StepIndicator({
             transition-all duration-300 ease-in-out
             ${
               status === "completed"
-                ? "bg-main-red text-white"
+                ? "bg-sky-500 text-white"
                 : status === "current"
-                ? "bg-main-red text-white ring-4 ring-red-100"
-                : "bg-white text-zinc-500"
+                ? "bg-sky-400 text-white ring-4 ring-sky-100"
+                : "bg-sky-100 text-zinc-500"
             }
           `}
         >
@@ -59,7 +59,7 @@ function StepIndicator({
             mt-2 text-xs font-medium transition-colors duration-300
             ${
               status === "current"
-                ? "text-red-600"
+                ? "text-sky-600"
                 : status === "completed"
                 ? "text-zinc-700"
                 : "text-zinc-400"
@@ -73,7 +73,7 @@ function StepIndicator({
         <div
           className={`
             w-24 h-0.5 mx-3 mb-6 transition-colors duration-300
-            ${status === "completed" ? "bg-main-red" : "bg-zinc-200"}
+            ${status === "completed" ? "bg-sky-500" : "bg-zinc-200"}
           `}
         />
       )}
@@ -299,8 +299,8 @@ export function CreateBirthdayForm() {
         <div className="flex items-center justify-center">
           {/* Logged in status */}
           {session?.user?.firstName && (
-            <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
-              <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-4 py-2">
+            <div className="inline-flex w-fit items-center bg-linear-to-r from-sky-500 to-pink-500 rounded-full px-0.5 py-0.5">
+              <div className="bg-linear-to-r from-sky-100 to-pink-100 rounded-full px-4 py-2">
                 <div className="flex flex-col items-center text-main-black/80 font-medium whitespace-nowrap">
                   <div className="flex items-center gap-2">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div>
@@ -320,7 +320,7 @@ export function CreateBirthdayForm() {
           )}
           {/* NOT Logged in status */}
           {!session?.user?.firstName && (
-            <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300 to-zinc-400 rounded-full px-px py-px">
+            <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300/75 to-zinc-300 rounded-full px-0.5 py-0.5">
               <div className="bg-linear-to-r from-zinc-50 to-zinc-100 rounded-full px-4 py-2">
                 <div className="flex flex-col items-center text-main-black/80 font-medium whitespace-nowrap">
                   <div className="flex items-center gap-2">
@@ -346,11 +346,11 @@ export function CreateBirthdayForm() {
         {/* Step 1: Basic Information */}
         {currentStep === 1 && (
           <div className="animate-fadeIn">
-            <div className="flex flex-col w-full h-full p-6 rounded-xl space-y-4 bg-white border border-zinc-200">
+            <div className="flex flex-col w-full h-full p-6 rounded-xl space-y-4 bg-white border border-sky-400/25">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center">
                   <svg
-                    className="w-4 h-4 text-red-600"
+                    className="w-4 h-4 text-sky-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -386,7 +386,7 @@ export function CreateBirthdayForm() {
                     type="text"
                     value={formData.to}
                     onChange={handleInputChange}
-                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all"
                     placeholder="Jamie"
                     maxLength={80}
                     disabled={submitting}
@@ -408,7 +408,7 @@ export function CreateBirthdayForm() {
                     type="text"
                     value={formData.from}
                     onChange={handleInputChange}
-                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all"
                     placeholder="Avery"
                     maxLength={80}
                     disabled={submitting}
@@ -431,7 +431,7 @@ export function CreateBirthdayForm() {
                   rows={4}
                   value={formData.message}
                   onChange={handleInputChange}
-                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all resize-none"
+                  className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all resize-none"
                   placeholder="Write something heartfelt..."
                   maxLength={500}
                   disabled={submitting}
@@ -449,11 +449,11 @@ export function CreateBirthdayForm() {
         {/* Step 2: Options */}
         {currentStep === 2 && (
           <div className="animate-fadeIn">
-            <div className="flex flex-col w-full h-full p-6 rounded-xl space-y-4 bg-white border border-zinc-200 max-h-110 overflow-auto">
+            <div className="flex flex-col w-full h-full p-6 rounded-xl space-y-4 bg-white border border-sky-400/25 max-h-110 overflow-auto">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center">
                   <svg
-                    className="w-4 h-4 text-red-600"
+                    className="w-4 h-4 text-sky-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -475,7 +475,7 @@ export function CreateBirthdayForm() {
 
               <div className="border-t border-zinc-200 mb-4 py-4 space-y-3">
                 <h2 className="font-semibold">
-                  <span className="font-bold text-main-red">1. </span>Gift
+                  <span className="font-bold text-pink-400">1. </span>Gift
                 </h2>
                 <div className="flex-col w-full">
                   <label
@@ -489,7 +489,7 @@ export function CreateBirthdayForm() {
                     name="giftOption"
                     value={formData.giftOption}
                     onChange={handleInputChange}
-                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer"
+                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all cursor-pointer"
                     disabled={submitting}
                     tabIndex={currentStep === 2 ? 0 : -1}
                   >
@@ -512,7 +512,7 @@ export function CreateBirthdayForm() {
                       type="text"
                       value={formData.giftDescription}
                       onChange={handleInputChange}
-                      className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                      className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all"
                       placeholder="A special surprise awaits..."
                       maxLength={200}
                       disabled={submitting}
@@ -524,7 +524,7 @@ export function CreateBirthdayForm() {
 
               <div className="border-t border-zinc-200 mb-4 py-4 space-y-3">
                 <h2 className="font-semibold">
-                  <span className="font-bold text-main-red">2. </span>Theme
+                  <span className="font-bold text-pink-400">2. </span>Theme
                 </h2>
                 <div className="flex-col w-full">
                   <label
@@ -538,7 +538,7 @@ export function CreateBirthdayForm() {
                     name="theme"
                     value={formData.theme}
                     onChange={handleInputChange}
-                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all cursor-pointer"
+                    className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all cursor-pointer"
                     disabled={submitting}
                     tabIndex={currentStep === 2 ? 0 : -1}
                   >
@@ -550,7 +550,7 @@ export function CreateBirthdayForm() {
 
               <div className="border-t border-zinc-200 pt-4 space-y-3">
                 <h2 className="font-semibold">
-                  <span className="font-bold text-main-red">3. </span>Custom
+                  <span className="font-bold text-pink-400">3. </span>Custom
                   signatures
                 </h2>
 
@@ -567,7 +567,7 @@ export function CreateBirthdayForm() {
                           useCustomCardSignature: e.target.checked,
                         }))
                       }
-                      className="w-4 h-4 text-red-600 border-zinc-300 rounded focus:ring-2 focus:ring-red-100 cursor-pointer"
+                      className="w-4 h-4 text-red-600 border-zinc-300 rounded focus:ring-2 focus:ring-sky-100 cursor-pointer"
                       disabled={submitting}
                       tabIndex={currentStep === 2 ? 0 : -1}
                     />
@@ -593,7 +593,7 @@ export function CreateBirthdayForm() {
                         type="text"
                         value={formData.customCardSignature}
                         onChange={handleInputChange}
-                        className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                        className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all"
                         placeholder="Warmest wishes from"
                         maxLength={50}
                         disabled={submitting}
@@ -620,7 +620,7 @@ export function CreateBirthdayForm() {
                             useCustomGiftSignature: e.target.checked,
                           }))
                         }
-                        className="w-4 h-4 text-red-600 border-zinc-300 rounded focus:ring-2 focus:ring-red-100 cursor-pointer"
+                        className="w-4 h-4 text-red-600 border-zinc-300 rounded focus:ring-2 focus:ring-sky-100 cursor-pointer"
                         disabled={submitting}
                         tabIndex={currentStep === 2 ? 0 : -1}
                       />
@@ -647,7 +647,7 @@ export function CreateBirthdayForm() {
                           type="text"
                           value={formData.customGiftSignature}
                           onChange={handleInputChange}
-                          className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-red-300 focus:ring-2 focus:ring-red-100 transition-all"
+                          className="mt-2 w-full rounded-lg border border-zinc-200 bg-main-white px-4 py-3 text-base text-zinc-900 outline-none focus:border-sky-300 focus:ring-2 focus:ring-sky-100 transition-all"
                           placeholder="Enjoy your special surprise!"
                           maxLength={50}
                           disabled={submitting}
@@ -670,9 +670,9 @@ export function CreateBirthdayForm() {
           <div className="animate-fadeIn">
             <div className="flex flex-col w-full h-120 p-6 rounded-xl space-y-4 bg-white border border-zinc-200 overflow-auto">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-lg bg-red-100 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-lg bg-sky-100 flex items-center justify-center">
                   <svg
-                    className="w-4 h-4 text-red-600"
+                    className="w-4 h-4 text-sky-600"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -697,23 +697,28 @@ export function CreateBirthdayForm() {
               <div className="space-y-4">
                 {/* Recipients Section */}
                 <div className="bg-main-white rounded-lg p-4 border border-zinc-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg
-                      className="w-4 h-4 text-zinc-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="w-4 h-4 text-zinc-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
                         strokeWidth={2}
                         d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"
                       />
-                    </svg>
-                    <span className="text-sm font-medium text-zinc-700">
-                      Recipients
-                    </span>
+                      </svg>
+                      <span className="text-sm font-medium text-zinc-700">
+                        Recipients
+                      </span>
+                    </div>
+                    <div className="text-sm font-semibold text-zinc-700">
+                      0$
+                    </div>
                   </div>
                   <div className="grid grid-cols-2 gap-4">
                     <div>
@@ -737,23 +742,28 @@ export function CreateBirthdayForm() {
 
                 {/* Message Section */}
                 <div className="bg-main-white rounded-lg p-4 border border-zinc-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg
-                      className="w-4 h-4 text-zinc-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium text-zinc-700">
-                      Message
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="w-4 h-4 text-zinc-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                        />
+                      </svg>
+                      <span className="text-sm font-medium text-zinc-700">
+                        Message
+                      </span>
+                    </div>
+                    <div className="text-sm font-semibold text-zinc-700">
+                      0$
+                    </div>
                   </div>
                   <p className="text-zinc-700 text-sm leading-relaxed whitespace-pre-wrap">
                     {formData.message || "—"}
@@ -762,28 +772,33 @@ export function CreateBirthdayForm() {
 
                 {/* Gift Section */}
                 <div className="bg-main-white rounded-lg p-4 border border-zinc-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg
-                      className="w-4 h-4 text-zinc-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium text-zinc-700">
-                      Gift
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="w-4 h-4 text-zinc-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7"
+                        />
+                      </svg>
+                      <span className="text-sm font-medium text-zinc-700">
+                        Gift
+                      </span>
+                    </div>
+                    <div className="text-sm font-semibold text-zinc-700">
+                      0$
+                    </div>
                   </div>
                   {formData.giftOption === "gift" ? (
                     <div className="flex items-center gap-2">
-                      <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
-                        <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
+                      <div className="inline-flex w-fit items-center bg-linear-to-r from-sky-500 to-pink-500 rounded-full px-px py-px">
+                        <div className="bg-linear-to-r from-sky-100 to-pink-100 rounded-full px-1.5 py-0.5">
                           <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
                             Included
                           </p>
@@ -806,26 +821,31 @@ export function CreateBirthdayForm() {
 
                 {/* Theme Section */}
                 <div className="bg-main-white rounded-lg p-4 border border-zinc-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg
-                      className="w-4 h-4 text-zinc-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium text-zinc-700">
-                      Theme
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="w-4 h-4 text-zinc-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+                        />
+                      </svg>
+                      <span className="text-sm font-medium text-zinc-700">
+                        Theme
+                      </span>
+                    </div>
+                    <div className="text-sm font-semibold text-zinc-700">
+                      0$
+                    </div>
                   </div>
-                  <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
-                    <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
+                  <div className="inline-flex w-fit items-center bg-linear-to-r from-sky-500 to-pink-500 rounded-full px-px py-px">
+                    <div className="bg-linear-to-r from-sky-100 to-pink-100 rounded-full px-1.5 py-0.5">
                       <p className="text-xs text-main-black/80 font-medium whitespace-nowrap capitalize">
                         {formData.theme}
                       </p>
@@ -835,23 +855,28 @@ export function CreateBirthdayForm() {
 
                 {/* Custom Signatures Section */}
                 <div className="bg-main-white rounded-lg p-4 border border-zinc-200">
-                  <div className="flex items-center gap-2 mb-3">
-                    <svg
-                      className="w-4 h-4 text-zinc-500"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
-                      />
-                    </svg>
-                    <span className="text-sm font-medium text-zinc-700">
-                      Card signatures
-                    </span>
+                  <div className="flex items-center justify-between gap-2 mb-3">
+                    <div className="flex items-center gap-2">
+                      <svg
+                        className="w-4 h-4 text-zinc-500"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"
+                        />
+                      </svg>
+                      <span className="text-sm font-medium text-zinc-700">
+                        Card signatures
+                      </span>
+                    </div>
+                    <div className="text-sm font-semibold text-zinc-700">
+                      0$
+                    </div>
                   </div>
                   <div className="space-y-3">
                     {/* Card Signature */}
@@ -861,8 +886,8 @@ export function CreateBirthdayForm() {
                       </p>
                       {formData.useCustomCardSignature ? (
                         <div className="inline-flex items-center gap-2">
-                          <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
-                            <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
+                          <div className="inline-flex w-fit items-center bg-linear-to-r from-sky-500 to-pink-500 rounded-full px-px py-px">
+                            <div className="bg-linear-to-r from-sky-100 to-pink-100 rounded-full px-1.5 py-0.5">
                               <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
                                 Custom
                               </p>
@@ -874,7 +899,7 @@ export function CreateBirthdayForm() {
                         </div>
                       ) : (
                         <div className="inline-flex items-center gap-2">
-                          <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300 to-zinc-400 rounded-full px-px py-px">
+                          <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300/75 to-zinc-300 rounded-full px-px py-px">
                             <div className="bg-linear-to-r from-zinc-50 to-zinc-100 rounded-full px-1.5 py-0.5">
                               <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
                                 Default
@@ -894,8 +919,8 @@ export function CreateBirthdayForm() {
                         </p>
                         {formData.useCustomGiftSignature ? (
                           <div className="inline-flex items-center gap-2">
-                            <div className="inline-flex w-fit items-center bg-linear-to-r from-main-red to-main-yellow rounded-full px-px py-px">
-                              <div className="bg-linear-to-r from-red-50 to-yellow-50 rounded-full px-1.5 py-0.5">
+                            <div className="inline-flex w-fit items-center bg-linear-to-r from-sky-500 to-pink-500 rounded-full px-px py-px">
+                              <div className="bg-linear-to-r from-sky-100 to-pink-100 rounded-full px-1.5 py-0.5">
                                 <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
                                   Custom
                                 </p>
@@ -907,7 +932,7 @@ export function CreateBirthdayForm() {
                           </div>
                         ) : (
                           <div className="inline-flex items-center gap-2">
-                            <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300 to-zinc-400 rounded-full px-px py-px">
+                            <div className="inline-flex w-fit items-center bg-linear-to-r from-zinc-300/75 to-zinc-300 rounded-full px-px py-px">
                               <div className="bg-linear-to-r from-zinc-50 to-zinc-100 rounded-full px-1.5 py-0.5">
                                 <p className="text-xs text-main-black/80 font-medium whitespace-nowrap">
                                   Default
@@ -921,6 +946,34 @@ export function CreateBirthdayForm() {
                         )}
                       </div>
                     )}
+                  </div>
+                </div>
+
+                <div className="bg-linear-to-r from-sky-500 to-pink-500 rounded-lg px-0.5 py-0.5">
+                  <div className="bg-linear-to-r from-sky-100 to-pink-100 rounded-[8px] p-4">
+                    <div className="flex items-center w-full justify-between gap-2">
+                      <div className="flex items-center gap-2">
+                        <svg
+                          className="w-4 h-4 text-sky-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M5 3h14v18H5V3zM8 7h8M8 11h4m4 0h2M8 16h8"
+                          />
+                        </svg>
+                        <span className="text-sm font-semibold text-zinc-700">
+                          Total
+                        </span>
+                      </div>
+                      <div className="text-sm font-semibold text-zinc-700">
+                        0$
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1003,7 +1056,7 @@ export function CreateBirthdayForm() {
             type="button"
             onClick={handleNext}
             disabled={submitting}
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-main-red px-6 py-3 text-sm font-medium text-white shadow-lg transition-all hover:bg-red-600 hover:shadow-xl disabled:opacity-60"
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-sky-400 px-6 py-3 text-sm font-medium text-white shadow-lg transition-all hover:bg-sky-500 hover:shadow-xl disabled:opacity-60"
           >
             Continue
             <svg
@@ -1025,7 +1078,7 @@ export function CreateBirthdayForm() {
             type="button"
             onClick={handleCreateCard}
             disabled={submitting}
-            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-main-red px-6 py-3 text-sm font-medium text-white shadow-lg transition-all hover:bg-red-600 hover:shadow-xl disabled:opacity-60"
+            className="inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg bg-sky-400 px-6 py-3 text-sm font-medium text-white shadow-lg transition-all hover:bg-sky-500 hover:shadow-xl disabled:opacity-60"
           >
             {submitting ? (
               <>
