@@ -31,7 +31,7 @@ export function UserDropdownBlueLanding({
   }, []);
 
   return (
-    <div className="relative flex h-full items-center w-auto" ref={dropdownRef}>
+    <div className="relative flex h-full items-center w-auto z-50" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer flex items-center text-pink-600 font-bold justify-center rounded-xl hover:filter-[drop-shadow(0_0_0.5px_#db2777)_drop-shadow(0_0_0.5px_#db2777)]"
@@ -54,11 +54,11 @@ export function UserDropdownBlueLanding({
         </svg>
       </button>
       {isOpen && (
-        <div className="absolute top-full font-rethink -right-5 mt-3 bg-sky-400 backdrop-blur-md rounded-xl overflow-hidden w-52">
+        <div className="absolute top-full font-rethink -right-5 mt-3 bg-pink-400 backdrop-blur-md rounded-xl overflow-hidden w-52">
           <div className="text-main-black cursor-default text-xs w-full h-14 flex items-center justify-center pt-1.5 px-1.5">
             <div className="w-full h-full rounded-lg bg-sky-700/10 items-center justify-center flex flex-col">
-              <div>{userLabel}</div>
-              <div className="text-main-black/50">{userEmail}</div>
+              <div className="text-yellow-50">{userLabel}</div>
+              <div className="text-yellow-50/50">{userEmail}</div>
             </div>
           </div>
           <div className="flex flex-col h-26 justify-evenly items-center">

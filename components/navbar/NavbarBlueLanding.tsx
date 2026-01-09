@@ -24,7 +24,7 @@ export default function NavbarBlueLanding({ initialSession }: NavbarProps = {}) 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
   return (
-    <div className="w-full text-main-black flex h-24 flex-shrink-0 items-center justify-between px-16">
+    <div className="w-full text-main-black flex h-24 shrink-0 items-center justify-between px-16">
       <Link href="/" className="font-rethink font-extrabold text-4xl">
         announcify.
       </Link>
