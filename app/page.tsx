@@ -12,23 +12,10 @@ import giftSvg from "@/assets/svg/gift.svg";
 import graduationHatSvg from "@/assets/svg/graduation-hat.svg";
 import heartSvg from "@/assets/svg/heart.svg";
 import weddingRingSvg from "@/assets/svg/wedding-ring.svg";
-// import arrow1Svg from "@/assets/svg/arrow1.svg";
-// import arrow2Svg from "@/assets/svg/arrow2.svg";
-// import { Tilt } from "@/components/tilt/tilt";
-
-// import ScrollFloat from "@/components/shadcn/scrollFloat/ScrollFloat";
-// import CountUp from "@/components/shadcn/countUp/CountUp";
-// import DarkVeil from "@/components/shadcn/darkVeil/DarkVeil";
-// import { useSmoothWheel } from "./useSmoothScroll";
 import { useState, useEffect } from "react";
-// import SpotlightCard from "@/components/shadcn/spotlightCard/SpotlightCard";
-// import Beams from "@/components/shadcn/beams/Beams";
-import BackgroundGlares from "@/components/customBackgrounds/backgroundGlares/BackgroundGlares";
 import { useLenis } from "./useLenis";
-import { StatsParallaxSection } from "@/components/home/StatsParallaxSection";
 import { NavbarBlue } from "@/components/navbar/NavbarBlue";
 import NavbarBlueLanding from "@/components/navbar/NavbarBlueLanding";
-import { BorderBeam } from "@/components/shadcn/borderBeam/border-beam";
 import FAQSection from "@/components/FAQ/FAQSection";
 import Footer from "@/components/footer/Footer";
 
@@ -38,9 +25,11 @@ export default function Home() {
   const [showButtons, setShowButtons] = useState(false);
   const [ctaVisible, setCtaVisible] = useState(false);
   const [totalCards, setTotalCards] = useState(0);
+  const [totalUsers, setTotalUsers] = useState(0);
   const [totalBirthdayCards, setTotalBirthdayCards] = useState(0);
   const [totalValentinesCards, setTotalValentinesCards] = useState(0);
   const [showNavbarBlue, setShowNavbarBlue] = useState(false);
+  const [themeCount, setThemeCount] = useState(0);
 
   // Show/hide NavbarBlue based on scroll position
   useEffect(() => {
@@ -56,9 +45,24 @@ export default function Home() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Fetch theme count from API
+  useEffect(() => {
+    async function fetchThemeCount() {
+      try {
+        const response = await fetch("/api/themes");
+        const data = await response.json();
+        setThemeCount(data.count);
+        console.log("Theme count:", data.count);
+      } catch (error) {
+        console.error("Error fetching theme count:", error);
+      }
+    }
+    fetchThemeCount();
+  }, []);
+
   const statsLandingNew = [
-    { label: "Users", value: 1000 },
-    { label: "Templates", value: 25 },
+    { label: "Users", value: totalUsers },
+    { label: "Templates", value: themeCount },
     { label: "Birthday cards created", value: totalBirthdayCards },
     { label: "Valentines cards created", value: totalValentinesCards },
   ];
@@ -127,11 +131,23 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    async function fetchTotalUsers() {
+      try {
+        const response = await fetch("/api/users");
+        const data = await response.json();
+        setTotalUsers(data.totalUsers);
+      } catch (error) {
+        console.error("Error fetching total users:", error);
+      }
+    }
+    fetchTotalUsers();
+  }, []);
+
+  useEffect(() => {
     async function fetchTotalCards() {
       try {
         const response = await fetch("/api/cards");
         const data = await response.json();
-        console.log("Fetched total cards:", data);
         setTotalBirthdayCards(data.totalBirthday);
         setTotalValentinesCards(data.totalValentines);
         setTotalCards(data.total);
